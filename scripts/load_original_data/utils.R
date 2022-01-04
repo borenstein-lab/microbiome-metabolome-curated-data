@@ -134,6 +134,7 @@ get.genus.level <- function(species, species.mapping) {
   #  Some are viruses/phages, so we skip their mappings.
   tmp$Genus[tmp$OTU == "Eubacterium_infirmum"] <- "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Eubacteriaceae|g__Eubacterium"
   tmp$Genus[tmp$OTU == "Morganella_morganii"] <- "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Morganella"
+  tmp$Genus[tmp$OTU == "Tropheryma_whipplei"] <- "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Microbacteriaceae|g__Tropheryma"
   
   # Unclassified genera (bacteria only) are labeled "unclassified"
   tmp$Genus[is.na(tmp$Genus)] <- 'Unclassified'
