@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Metaphlan files
+parsed_marker_gene_info.tab
+
+# MetaboAnalyst automatic files
+master_compound_db.qs
+master_syn_nms.qs
+name_map.csv
+
