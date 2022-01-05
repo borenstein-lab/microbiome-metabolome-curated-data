@@ -87,8 +87,8 @@ mtb.map$Compound.Name <- gsub("(^C\\d{5}_)|(^_)|(^\\-_)","",
 # Use MetaboAnalyst to retrieve HMDB ID's. 
 # We will search by name but validate against  
 #  the already available KEGG ID's
-cmpds.to.serach <- mtb.map$Compound.Name
-MA.matches <- map.compound.names.MetaboAnalyst(cmpds.to.serach)
+cmpds.to.search <- mtb.map$Compound.Name
+MA.matches <- map.compound.names.MetaboAnalyst(cmpds.to.search)
 MA.matches <- MA.matches %>% rename(KEGG.from.MA = KEGG) 
 
 # Merge with the names in our data

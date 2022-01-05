@@ -1,15 +1,15 @@
-map.compound.names.MetaboAnalyst <- function(cmpds.to.serach) {
+map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name") {
   require(MetaboAnalystR)
   
   # Create a MetaboAnalyst object
   MA.obj <- InitDataObjects(data.type = "NA", 
                             anal.type = "utils")
   MA.obj <- Setup.MapData(mSetObj = MA.obj, 
-                          qvec = cmpds.to.serach)
+                          qvec = cmpds.to.search)
   
   # Map compound names to references
   MA.obj <- CrossReferencing(mSetObj = MA.obj, 
-                             q.type = "name", 
+                             q.type = search.by, 
                              hmdb = T,
                              metlin = F, 
                              pubchem = F, 

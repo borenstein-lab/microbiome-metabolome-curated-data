@@ -124,9 +124,9 @@ mtb.map$m.z <- as.numeric(mtb.map$m.z)
 mtb.map$High.Confidence <- as.logical(mtb.map$High.Confidence)
 
 # Get mapping to KEGG/other compound ID's, using MetaboAnalyst 
-cmpds.to.serach <- mtb.map$Compound.Name[!is.na(mtb.map$Compound.Name)]
-cmpds.to.serach <- unique(cmpds.to.serach)
-MA.matches <- map.compound.names.MetaboAnalyst(cmpds.to.serach)
+cmpds.to.search <- mtb.map$Compound.Name[!is.na(mtb.map$Compound.Name)]
+cmpds.to.search <- unique(cmpds.to.search)
+MA.matches <- map.compound.names.MetaboAnalyst(cmpds.to.search)
 
 # Merge with the names in our data
 mtb.map <- merge(mtb.map, MA.matches, 
