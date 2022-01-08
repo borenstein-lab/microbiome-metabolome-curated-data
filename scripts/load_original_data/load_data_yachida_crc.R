@@ -178,20 +178,23 @@ mtb.map[mtb.map$Compound.Name == "Ophthalmate",'HMDB'] <- 'HMDB0005765'
 # Clean mapping table
 mtb.map$Compound.Name <- NULL
 mtb.map$KEGG.new <- NULL
+mtb.map$MA.Name.Match <- NULL
 
 # Mark duplicated kegg/hmdb identifiers
 #  table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1]
 #  table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1]
 mtb.map <- mtb.map %>%
   group_by(KEGG) %>%
-  mutate(High.Confidence.Annotation = ifelse(!is.na(KEGG) & n() > 1,
-                                             FALSE,
-                                             High.Confidence.Annotation)) %>%
+  mutate(High.Confidence.Annotation = 
+           ifelse(!is.na(KEGG) & n() > 1,
+                  FALSE,
+                  High.Confidence.Annotation)) %>%
   ungroup() %>%
   group_by(HMDB) %>%
-  mutate(High.Confidence.Annotation = ifelse(!is.na(HMDB) & n() > 1,
-                                             FALSE,
-                                             High.Confidence.Annotation)) %>%
+  mutate(High.Confidence.Annotation = 
+           ifelse(!is.na(HMDB) & n() > 1,
+                  FALSE,
+                  High.Confidence.Annotation)) %>%
   ungroup()
   
 # --------------------------------

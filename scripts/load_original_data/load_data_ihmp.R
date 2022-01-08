@@ -1,0 +1,176 @@
+# ----------------------------------------------------------------
+# The following script loads and processes data from:
+# 
+# Lloyd-Price, Jason, et al. "Multi-omics of the gut microbial 
+#  ecosystem in inflammatory bowel diseases." 
+#  Nature 569.7758 (2019): 655-662.
+# 
+# The output tables are:
+# 1) metadata - subject metadata
+# 2) genera - taxonomic profiles per subject (genus-level)
+# 3) species - taxonomic profiles per subject (species-level)
+# 4) mtb - metabolomic profiles per subject       
+# 5) mtb.map - additional details per metabolite 
+# ----------------------------------------------------------------
+
+require(readr)
+require(dplyr)
+require(MetaboAnalystR)
+
+source("load_original_data/utils.R")
+
+# --------------------------------
+# Required files & info
+# --------------------------------
+
+# For details about the source of each file below see: <COMPLETE>
+METADATA_FILE <- "~/MICROBIOME_METABOLOME/iHMP_IBDMDB/hmp2_metadata.csv"
+TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/iHMP_IBDMDB/Metagenomics/taxonomic_profiles.tsv"
+METABOLOMICS_FILE <- "~/MICROBIOME_METABOLOME/iHMP_IBDMDB/Metabolomics/iHMP_metabolomics.csv"
+
+PUBLICATION_NAME <- 'Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases'
+DOI <- '10.1038/s41586-019-1237-9'
+DATASET_NAME <- 'iHMP_IBDMDB_2019'
+
+# --------------------------------
+# Load metadata
+# --------------------------------
+
+metadata <- read_csv(METADATA_FILE, guess_max = 7000)
+
+# Keep only metagenomics+metabolomics samples
+metadata <- metadata[metadata$data_type %in% c('metabolomics','metagenomics'),]
+
+# Organize column names & order
+metadata <- metadata %>%
+  select(`External ID`,`Participant ID`,
+         site_sub_coll, ProjectSpecificID,
+         week_num, date_of_receipt,
+         interval_days, visit_num, site_name,
+         `Age at diagnosis`, consent_age,
+         diagnosis, Antibiotics, Weight, BMI,
+         Height, Weight.1, is_inflamed, race,
+         sex, `smoking status`, stool_id, 
+         fecalcal, fecalcal_ng_ml,
+         Disease_course) %>%
+  distinct() %>%
+  rename(Sample = `External ID`) %>%
+  rename(Subject = `Participant ID`) %>%
+  rename(Study.Group = diagnosis) %>%
+  mutate(Age.Units = "Years") %>%
+  rename(Gender = sex) %>%
+  # Add publication info
+  mutate(Dataset = DATASET_NAME) %>%
+  mutate(DOI = DOI) %>%
+  mutate(Publication.Name = PUBLICATION_NAME) %>%
+  # Reorder
+  relocate(c(Dataset, Sample, Subject, Study.Group, Gender, BMI, DOI, Publication.Name)) 
+
+
+# --------------------------------
+# Load taxonomic profiles 
+# --------------------------------
+
+mtg <- read_delim(TAXONOMY_FILE, "\t", 
+                  escape_double = FALSE, trim_ws = TRUE)
+names(mtg)[1] <- 'OTU'
+
+# Note that this metaphlan output includes all taxonomic levels.
+# We extract species-only and genus-only levels
+
+# Keep only species-level OTU's 
+species <- mtg[grepl("s__",mtg$OTU),] # contains species
+species <- species[!grepl("t__",species$OTU),] # does not contain strain
+# Sanity (abundances sum to ~1): hist(colSums(species[,2:ncol(species)]), breaks = 20)
+
+# Remove samples where species-level annotations (by Metaphlan2) account for 
+#  less than 50% of reads (--> 7 samples total) (arbitrary choice)
+species <- species[,!names(species) %in% names(which(colSums(species[,2:ncol(species)])<0.5))]
+names(species)[1] <- 'Species'
+
+# We now create a genus-level profile in a similar way
+genera <- mtg[grepl("g__",mtg$OTU),] # contains genera
+genera <- genera[!grepl("s__",genera$OTU),] # does not contain species
+# Sanity (abundances sum to ~1): hist(colSums(genera[,2:ncol(genera)]), breaks = 20)
+genera <- genera[,!names(genera) %in% names(which(colSums(genera[,2:ncol(genera)])<0.5))]
+names(genera)[1] <- 'Genus'
+
+# --------------------------------
+# Load metabolomic profiles
+# --------------------------------
+
+mtb <- read_csv(METABOLOMICS_FILE)
+mtb$Compound <- paste(mtb$Compound, mtb$Metabolite, sep = "__")
+
+mtb.map <- data.frame(Compound = mtb$Compound,
+                      HMDB = mtb$`HMDB (*Representative ID)`,
+                      m.z = mtb$`m/z`,
+                      Method = mtb$Method,
+                      Compound.Name = mtb$Metabolite,
+                      High.Confidence.Annotation = TRUE,
+                      stringsAsFactors = FALSE)
+
+# Use representative HMDB ID's as final ID's, but mark them with low confidence... (erase stars and non-HMDB ID's)
+mtb.map$High.Confidence.Annotation[grepl("\\*",mtb.map$HMDB)] <- FALSE
+mtb.map$HMDB <- gsub("\\*","",mtb.map$HMDB)
+mtb.map$HMDB <- gsub("HMDB","HMDB00",mtb.map$HMDB)
+mtb.map$HMDB[!is.na(mtb.map$HMDB) & mtb.map$HMDB == "redundant ion"] <- NA
+
+# Keep only compound name and data in main mtb table
+mtb <- mtb[,7:ncol(mtb)]
+
+# We'll now use MetaboAnalyst to also get kegg id's. 
+# (we will search by hmdb id)
+cmpds.to.search <- mtb.map$HMDB
+cmpds.to.search <- cmpds.to.search[!is.na(cmpds.to.search)]
+cmpds.to.search <- unique(cmpds.to.search)
+
+MA.matches <- map.compound.names.MetaboAnalyst(cmpds.to.search, search.by = "hmdb")
+
+# Some HMDB ID's weren't matched by MetaboAnalyst for some reason: View(MA.matches[is.na(MA.matches$MA.Name.Match),])
+# For some, this is because their HMDB ID was updated. We add them manually:
+MA.matches[MA.matches$Query == "HMDB0062548","HMDB"] <- "HMDB0031057"
+MA.matches[MA.matches$Query == "HMDB0062548","MA.Name.Match"] <- "2-Hydroxyhexadecanoic acid"
+MA.matches[MA.matches$Query == "HMDB0062781","HMDB"] <- "HMDB0000208"
+MA.matches[MA.matches$Query == "HMDB0059655","KEGG"] <- "C00026"
+MA.matches[MA.matches$Query == "HMDB0062781","MA.Name.Match"] <- "alpha-Ketoglutaric acid"
+MA.matches[MA.matches$Query == "HMDB0041876","HMDB"] <- "HMDB0002172" 
+MA.matches[MA.matches$Query == "HMDB0041876","KEGG"] <- "C03413"
+MA.matches[MA.matches$Query == "HMDB0041876","MA.Name.Match"] <- "N1,N12-Diacetylspermine"
+MA.matches[MA.matches$Query == "HMDB0061710","HMDB"] <- "HMDB0037397"
+MA.matches[MA.matches$Query == "HMDB0061710","MA.Name.Match"] <- "17-Methyloctadecanoic acid"
+
+# Additional manual mappings:
+MA.matches[MA.matches$HMDB == "HMDB0000208","KEGG"] <- "C00026"
+MA.matches[MA.matches$HMDB == "HMDB0000651","KEGG"] <- "C03299"
+MA.matches[MA.matches$HMDB == "HMDB0000688","KEGG"] <- "C20826"
+
+# We now merge the MetaboAnalyst mappings with the main mtb.map table
+# (the final HMDB will be taken from MA.matches$HMDB and not original data, as some HMDB ID's are not updated)
+names(mtb.map)[2] <- "Query" 
+mtb.map <- merge(mtb.map, MA.matches, by = "Query", all = T)
+mtb.map <- mtb.map %>%
+  select(-Query, -Compound.Name) %>%
+  rename(Compound.Name = MA.Name.Match)
+
+# --------------------------------
+# Keep only samples with all data
+# --------------------------------
+
+sample.intersect <- Reduce(intersect, list(names(mtb)[-1], names(species)[-1], names(genera)[-1], metadata$Sample))
+message(paste(length(sample.intersect),"samples have all data types"))
+
+mtb <- mtb[,c("Compound",sample.intersect)]
+species <- species[,c("Species",sample.intersect)]
+genera <- genera[,c("Genus",sample.intersect)]
+metadata <- metadata[metadata$Sample %in% sample.intersect,]
+
+
+# --------------------------------
+# Save to files + R objects
+# --------------------------------
+
+save.to.files(DATASET_NAME, metadata, mtb, mtb.map, genera, species)
+save.to.rdata(DATASET_NAME, metadata, mtb, mtb.map, genera, species)
+rm(list = ls())
+

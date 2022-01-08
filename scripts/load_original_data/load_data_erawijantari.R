@@ -164,6 +164,7 @@ mtb.map[mtb.map$Compound.Name == "Ophthalmate",'HMDB'] <- 'HMDB0005765'
 
 # Remove unneeded columns
 mtb.map <- mtb.map %>%
+  mutate(KEGG = coalesce(KEGG, KEGG.from.MA)) %>%
   select(-Compound.Name, -KEGG.from.MA, -MA.Name.Match)
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
