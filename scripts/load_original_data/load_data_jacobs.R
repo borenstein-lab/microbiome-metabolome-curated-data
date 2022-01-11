@@ -98,14 +98,57 @@ mtb <- mtb %>%
   select(-POS.NEG, -m.z..r.t)
 
 # Reorganize mtb.map table
-mtb.map <- mtb.map[,c("Compound","Validated.ID","m.z","KEGG.identification","HMDB.identification")]
-names(mtb.map)[2] <- "Compound.Name"
+mtb.map <- mtb.map %>%
+  relocate(Compound) %>%
+  rename(Compound.Name = Validated.ID)
 mtb.map <- mtb.map[match(mtb$Compound, mtb.map$Compound),] # Reorder mapping file according to mtb - just for convenience
 
+# Map the few (~50) validated IDs to their KEGG/HMDB IDs - using MetaboAnalyst
+cmpds <- mtb.map$Compound.Name
+cmpds <- cmpds[!is.na(cmpds)]
+cmpds <- unique(cmpds)
+MA.matches <- map.compound.names.MetaboAnalyst(cmpds)
 
+# Merge with the names in our data
+mtb.map <- merge(mtb.map, MA.matches, 
+                 by.x = "Compound.Name", 
+                 by.y = "Query", all = T)
+mtb.map$MA.Name.Match <- NULL
+mtb.map <- mtb.map %>% relocate(Compound)
+mtb.map$High.Confidence.Annotation <- TRUE
 
+# Manual completions 
+# (mark those with different masses/retention times 
+#  in same pos/neg mode as lower confidence, 
+#  or those with ambiguous match to hmdb/kegg)
+# View(mtb.map %>% select(Compound.Name, MA.Name.Match, HMDB.identification, KEGG.identification, HMDB, KEGG, m.z))
+mtb.map$HMDB[which(mtb.map$Compound.Name == "11-Oxo-androsterone [glucuronide]")] <- "HMDB0010338"
+mtb.map$KEGG[which(mtb.map$Compound.Name == "5-aminosalicylic acid")] <- "C07138"
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "5-aminosalicylic acid")] <- FALSE
+mtb.map$KEGG[which(mtb.map$Compound.Name == "Acetyl-glutamic acid")] <- "C00624"
+mtb.map$HMDB[which(mtb.map$Compound.Name == "Acetyl-glutamic acid")] <- "HMDB0001138"
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Gamma-Glu-isoLeu")] <- FALSE
+mtb.map$HMDB[which(mtb.map$Compound.Name == "Gamma-Glu-isoLeu")] <- "HMDB0011170"
+mtb.map$KEGG[which(mtb.map$Compound.Name == "Gamma-Glu-isoLeu")] <- "C18135"
+mtb.map$KEGG[which(mtb.map$Compound.Name == "Azaleic acid")] <- "C08261"
+mtb.map$HMDB[which(mtb.map$Compound.Name == "Azaleic acid")] <- "HMDB0000784"
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Serinyl tryptophan")] <- FALSE
+mtb.map$HMDB[which(mtb.map$Compound.Name == "Serinyl tryptophan")] <- "HMDB0029050"
+mtb.map$HMDB[which(mtb.map$Compound.Name == "N-acetyl-ornithine")] <- "HMDB0003357"
+mtb.map$KEGG[which(mtb.map$Compound.Name == "N-acetyl-ornithine")] <- "C00437"
 
-High.Confidence.Annotation
+# Some discrepancy in retention time/m.z...
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "7-Ketodeoxycholic acid")] <- FALSE
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Chenodeoxycholic acid sulfate")] <- FALSE
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "N-Acetylcadaverine")] <- FALSE
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Taurochenodeoxycholate")] <- FALSE
+mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Taurine")] <- FALSE
+
+# Mark cases of duplicated HMDN/KEGG ID as lower confidence
+kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
+hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
+mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
+mtb.map$High.Confidence.Annotation[mtb.map$HMDB %in% hmdb.dups] <- FALSE
 
 # --------------------------------
 # Keep only samples with all data
@@ -122,57 +165,7 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, metadata, mtb, mtb.map, genera///, species)
-save.to.rdata(DATASET_NAME, metadata, mtb, mtb.map, genera///, species)
+save.to.files(DATASET_NAME, metadata, mtb, mtb.map, genera)
+save.to.rdata(DATASET_NAME, metadata, mtb, mtb.map, genera)
 rm(list = ls())
-
-
-
-
-
-
-
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Previous code
-
-
-# Map the few (~50) validated IDs to their KEGG/HMDB IDs - using MetaboAnalyst
-mSet <- InitDataObjects("NA", "utils", FALSE) # ignore warning
-cmpds <- mtb.map[,"Compound.Name"]
-cmpds <- cmpds[!is.na(cmpds)]
-cmpds <- unique(cmpds) # The validated metabolites are non-unique...
-mSet <- Setup.MapData(mSet, cmpds)
-mSet <- CrossReferencing(mSet, "name", metlin = F, pubchem = F, chebi = F)
-mSet <- CreateMappingResultTable(mSet)
-match.table <- data.table(mSet$dataSet$map.table)
-rm(mSet, cmpds)
-match.table <- match.table[,c("Query","HMDB","KEGG")]
-match.table[match.table== "NA"] <- NA
-match.table[match.table== ""] <- NA
-
-# Add mappings to mtb.map
-mtb.map <- merge(mtb.map, match.table, by.x = "Compound.Name", by.y = "Query", all = T)
-mtb.map$High.Confidence <- TRUE
-
-# Manual completions (mark those with different masses/retention times in same pos/neg mode as lower confidence, or those with unclear match to hmdb/kegg)
-# View(mtb.map[,c("Compound.Name","Compound","KEGG.identification","KEGG")])
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "5-aminosalicylic acid","KEGG"] <- 'C07138'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "5-aminosalicylic acid","High.Confidence"] <- FALSE
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Acetyl-glutamic acid","KEGG"] <- 'C00624'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Acetyl-glutamic acid","HMDB"] <- 'HMDB0001138'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Azaleic acid","KEGG"] <- 'C08261'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Azaleic acid","HMDB"] <- 'HMDB0000784'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Gamma-Glu-isoLeu","HMDB"] <- 'HMDB0011170'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Gamma-Glu-isoLeu","High.Confidence"] <- FALSE
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "N-acetyl-ornithine","KEGG"] <- 'C00437'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "N-acetyl-ornithine","HMDB"] <- 'HMDB0003357'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Serinyl tryptophan","HMDB"] <- 'HMDB0029050'
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Serinyl tryptophan","High.Confidence"] <- FALSE # Mass doesn't match, name does
-# Same mode different retention times
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "7-Ketodeoxycholic acid","High.Confidence"] <- FALSE
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Chenodeoxycholic acid sulfate","High.Confidence"] <- FALSE
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "N-Acetylcadaverine","High.Confidence"] <- FALSE
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Taurochenodeoxycholate","High.Confidence"] <- FALSE
-mtb.map[!is.na(mtb.map$Compound.Name) & mtb.map$Compound.Name == "Taurine","High.Confidence"] <- FALSE
-
 

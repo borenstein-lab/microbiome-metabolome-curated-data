@@ -52,7 +52,8 @@ metadata <- metadata %>%
          Antibiotic_in_the_past_month._1_no_2_yes, Antibiotic_used,
          X_probiotic_in_the_past_2_weeks_1_no_2_yes, Probiotic_used,
          unique_id) %>%
-  rename(Sample = SampleID, Subject = study_id) %>%
+  rename(Sample = SampleID) %>%
+  rename(Subject = study_id) %>%
   rename(Study.Group = Cohort) %>%
   mutate(Gender = ifelse(Gender == "F", "Female", "Male")) %>%
   mutate(Age.Units = "Years") %>%
@@ -120,7 +121,7 @@ mtb1 <- mtb1 %>%
          -Diagnosis, -Group) 
   
 # Sanity: sum(mtb1$Sample %in% metadata$Sample) == nrow(mtb1)
-mtb1_t <- data.frame(t(tibble::column_to_rownames(mtb1, "Sample"))) %>%
+mtb1_t <- data.frame(t(tibble::column_to_rownames(mtb1, "Sample")), check.names = FALSE) %>%
   tibble::rownames_to_column("Compound") %>%
   mutate(Method = "NMR")
 
@@ -135,7 +136,7 @@ mtb2 <- mtb2 %>%
   select(-BIOME_ID_nr,-Cohort,-SubjectID,-time_point,-alt_name,-ID_on_tube)
 
 # Sanity: sum(mtb2$Sample %in% metadata$Sample) == nrow(mtb2)
-mtb2_t <- data.frame(t(tibble::column_to_rownames(mtb2, "Sample"))) %>%
+mtb2_t <- data.frame(t(tibble::column_to_rownames(mtb2, "Sample")), check.names = FALSE) %>%
   tibble::rownames_to_column("Compound") %>%
   mutate(Method = "Tryptophan_Metabolites")
 
@@ -150,7 +151,7 @@ mtb3 <- mtb3 %>%
   select(-ID_on_tube,-`Time point`,-Flare,-Group,-Age,-BMI,-Gender)
 
 # Sanity: sum(mtb3$Sample %in% metadata$Sample) == nrow(mtb3)
-mtb3_t <- data.frame(t(tibble::column_to_rownames(mtb3, "Sample"))) %>%
+mtb3_t <- data.frame(t(tibble::column_to_rownames(mtb3, "Sample")), check.names = FALSE) %>%
   tibble::rownames_to_column("Compound") %>%
   mutate(Method = "BA_Metabolites")
 
@@ -251,9 +252,11 @@ mtb.map[mtb.map$Compound.Name == "Ursodeoxycholic acid",'KEGG'] <- 'C07880'
 mtb.map[mtb.map$Compound.Name == "Taurodeoxycholic acid",'HMDB'] <- 'HMDB0000896'
 mtb.map[mtb.map$Compound.Name == "Taurodeoxycholic acid",'KEGG'] <- 'C05463'
 
-# Sanity: any duplicated ID's? they should be makred as low confidence
-# table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1]
-# table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1]
+# Mark cases of duplicated HMDN/KEGG ID as lower confidence
+kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
+hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
+mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
+mtb.map$High.Confidence.Annotation[mtb.map$HMDB %in% hmdb.dups] <- FALSE
 
 # --------------------------------
 # Keep only samples with all data

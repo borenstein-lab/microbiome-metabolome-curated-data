@@ -159,6 +159,12 @@ names(mtb)[names(mtb) == "EP.51.2"] <- "EP.51.2a"
 names(mtb)[names(mtb) == "BP.4.3"] <- "BP.4.3b"
 names(mtb)[names(mtb) == "BP.40.3"] <- "BF.40.3b"
 
+# Mark cases of duplicated HMDN/KEGG ID as lower confidence
+kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
+hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
+mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
+mtb.map$High.Confidence.Annotation[mtb.map$HMDB %in% hmdb.dups] <- FALSE
+
 # --------------------------------
 # Keep only samples with all data
 # --------------------------------

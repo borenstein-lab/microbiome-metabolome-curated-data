@@ -14,7 +14,6 @@
 
 require(gdata)
 require(readr)
-require(plyr)
 require(dplyr)
 require(MetaboAnalystR)
 source("load_original_data/utils.R")

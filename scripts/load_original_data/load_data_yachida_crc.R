@@ -36,7 +36,6 @@ DATASET_NAME <- 'YACHIDA_CRC_2019'
 # Load metadata
 # --------------------------------
 
-
 metadata <- read_delim(METADATA_FILE, 
                        "\t", 
                        escape_double = FALSE, 
@@ -55,7 +54,6 @@ metadata <- metadata %>%
   mutate(Publication.Name = PUBLICATION_NAME) %>%
   # Reorder
   relocate(c(Dataset, Sample, Subject, Study.Group, Age, Age.Units, Gender, BMI, DOI, Publication.Name)) 
-
 
 # --------------------------------
 # Load taxonomic profiles (species)

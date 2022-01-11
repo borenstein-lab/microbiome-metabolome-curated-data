@@ -153,6 +153,12 @@ mtb.map <- mtb.map %>%
   select(-Query, -Compound.Name) %>%
   rename(Compound.Name = MA.Name.Match)
 
+# Mark cases of duplicated HMDN/KEGG ID as lower confidence
+kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
+hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
+mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
+mtb.map$High.Confidence.Annotation[mtb.map$HMDB %in% hmdb.dups] <- FALSE
+
 # --------------------------------
 # Keep only samples with all data
 # --------------------------------
@@ -164,7 +170,6 @@ mtb <- mtb[,c("Compound",sample.intersect)]
 species <- species[,c("Species",sample.intersect)]
 genera <- genera[,c("Genus",sample.intersect)]
 metadata <- metadata[metadata$Sample %in% sample.intersect,]
-
 
 # --------------------------------
 # Save to files + R objects

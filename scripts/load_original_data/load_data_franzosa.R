@@ -15,7 +15,6 @@
 
 require(gdata)
 require(readr)
-require(plyr)
 require(dplyr)
 
 source("load_original_data/utils.R")
@@ -128,9 +127,9 @@ MA.matches <- map.compound.names.MetaboAnalyst(cmpds.to.search)
 mtb.map <- merge(mtb.map, MA.matches, 
                  by.x = "Compound.Name", 
                  by.y = "Query", all = T)
-mtb.map$MA.Name.Match <- NULL
 
-# Sanity: should not return anything: MA.matches$Query[!MA.matches$Query %in% mtb.map$Compound.Name]
+# Sanity - should not return anything: 
+#  MA.matches$Query[!MA.matches$Query %in% mtb.map$Compound.Name]
 
 # Reorder columns
 mtb.map <- mtb.map %>%
@@ -183,6 +182,12 @@ mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0069: succite','KEGG'] <- 'C00042
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0069: succite','High.Confidence.Annotation'] <- FALSE
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_2093: urobilin*','HMDB'] <- 'HMDB0004160'	
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_2093: urobilin*','KEGG'] <- 'C05793'	
+
+# Mark cases of duplicated HMDN/KEGG ID as lower confidence
+kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
+hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
+mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
+mtb.map$High.Confidence.Annotation[mtb.map$HMDB %in% hmdb.dups] <- FALSE
 
 # --------------------------------
 # Keep only samples with all data

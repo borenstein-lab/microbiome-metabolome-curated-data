@@ -159,33 +159,31 @@ get.genus.level <- function(species, species.mapping) {
 }
 
 save.to.files <- function(save_to_folder, 
-                          metadata, 
-                          mtb, 
-                          mtb.map, 
-                          genera, 
+                          metadata = NULL, 
+                          mtb = NULL, 
+                          mtb.map = NULL, 
+                          genera = NULL, 
                           species = NULL) {
   require(readr)
   
-  full.folder.path <- file.path("../data", save_to_folder)
+  full.folder.path <- file.path("../data/processed_data", save_to_folder)
   dir.create(full.folder.path, showWarnings = FALSE)
   
-  write_delim(metadata, 
-              file.path(full.folder.path, "metadata.tsv"),
-              delim = "\t")
-  write_delim(mtb, 
-              file.path(full.folder.path, "mtb.tsv"),
-              delim = "\t")
-  write_delim(mtb.map, 
-              file.path(full.folder.path, "mtb.map.tsv"),
-              delim = "\t")
-  write_delim(genera, 
-              file.path(full.folder.path, "genera.tsv"),
-              delim = "\t")
-  if (!is.null(species)) {
-    write_delim(species, 
-                file.path(full.folder.path, "species.tsv"),
-                delim = "\t")
-  }
+  if (!is.null(metadata)) write_delim(metadata, 
+                                      file.path(full.folder.path, "metadata.tsv"),
+                                      delim = "\t")
+  if (!is.null(mtb))      write_delim(mtb, 
+                                      file.path(full.folder.path, "mtb.tsv"),
+                                      delim = "\t")
+  if (!is.null(mtb.map))  write_delim(mtb.map, 
+                                      file.path(full.folder.path, "mtb.map.tsv"),
+                                      delim = "\t")
+  if (!is.null(genera))   write_delim(genera, 
+                                      file.path(full.folder.path, "genera.tsv"),
+                                      delim = "\t")
+  if (!is.null(species))  write_delim(species, 
+                                      file.path(full.folder.path, "species.tsv"),
+                                      delim = "\t")
   message("Wrote data to text files")
 }
 
@@ -195,7 +193,7 @@ save.to.rdata <- function(save_to_folder,
                           mtb.map, 
                           genera, 
                           species = NULL) {
-  full.folder.path <- file.path("../data", save_to_folder)
+  full.folder.path <- file.path("../data/processed_data", save_to_folder)
   dir.create(full.folder.path, showWarnings = FALSE)
   
   files.to.save <- c("metadata","mtb","mtb.map","genera")
