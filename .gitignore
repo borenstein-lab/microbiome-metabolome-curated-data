@@ -2,6 +2,7 @@
 .Rhistory
 .Ruserdata
 *.Rproj
+*.nb.html
 
 # Metaphlan files
 parsed_marker_gene_info.tab
