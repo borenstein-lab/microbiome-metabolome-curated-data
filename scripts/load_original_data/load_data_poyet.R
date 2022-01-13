@@ -23,13 +23,13 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/RAW_DATA/41591_2019_559_MOESM3_ESM.xlsx"
-METADATA_FILE2 <- "~/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/RAW_DATA/SraRunTable.txt"
-TAXONOMY_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/POYET_BIO_ML_2019_QIIME/6_Taxonomy/taxa_genus_table_exported/feature-table.tsv"
-METABOLOMICS_FILE1 <- "~/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/RAW_DATA/HILIC_NEG_ION_MODE.txt"
-METABOLOMICS_FILE2 <- "~/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/RAW_DATA/HILIC_POS_ION_MODE.txt"
-METABOLOMICS_FILE3 <- "~/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/RAW_DATA/Rev_Phase_NEG_ION_MODE.txt"
-METABOLOMICS_FILE4 <- "~/MICROBIOME_METABOLOME/POYET_BIO_ML_2019/RAW_DATA/Rev_Phase_POS_ION_MODE.txt"
+METADATA_FILE <- "../data/original_data/POYET_BIO_ML_2019/41591_2019_559_MOESM3_ESM.xlsx"
+METADATA_FILE2 <- "../data/original_data/POYET_BIO_ML_2019/SraRunTable.txt"
+TAXONOMY_FILE <- "../data/original_data/POYET_BIO_ML_2019/feature-table.tsv"
+METABOLOMICS_FILE1 <- "../data/original_data/POYET_BIO_ML_2019/HILIC_NEG_ION_MODE.txt"
+METABOLOMICS_FILE2 <- "../data/original_data/POYET_BIO_ML_2019/HILIC_POS_ION_MODE.txt"
+METABOLOMICS_FILE3 <- "../data/original_data/POYET_BIO_ML_2019/Rev_Phase_NEG_ION_MODE.txt"
+METABOLOMICS_FILE4 <- "../data/original_data/POYET_BIO_ML_2019/Rev_Phase_POS_ION_MODE.txt"
 
 PUBLICATION_NAME <- 'A library of human gut bacterial isolates paired with longitudinal multiomics data enables mechanistic microbiome research'
 DOI <- '10.1038/s41591-019-0559-3'

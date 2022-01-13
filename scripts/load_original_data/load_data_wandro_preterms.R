@@ -22,8 +22,8 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-RDATA_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/WANDRO_PRETERMS_2018/preterm_infant_analysis-r code for analysis in paper/.RData"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/WANDRO_PRETERMS_2018/WANDRO_PRETERMS_2018__QIIME/6_Taxonomy/taxa_genus_table_exported/feature-table.tsv"
+RDATA_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/.RData"
+TAXONOMY_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/feature-table.tsv"
 
 PUBLICATION_NAME <- 'The Microbiome and Metabolome of Preterm Infant Stool Are Personalized and Not Driven by Health Outcomes, Including Necrotizing Enterocolitis and Late-Onset Sepsis'
 DOI <- '10.1128/mSphere.00104-18'

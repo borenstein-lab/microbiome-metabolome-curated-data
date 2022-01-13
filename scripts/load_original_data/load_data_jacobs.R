@@ -24,11 +24,11 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "~/MICROBIOME_METABOLOME/JACOBS_IBD_FAMILIES_2016/RAW_DATA/Pediatric_family_cohort_map.txt"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/JACOBS_IBD_FAMILIES_2016/JACOBS_IBD_FAMILIES_2016_QIIME/6_Taxonomy/taxa_genus_table_exported/feature-table.tsv"
-METABOLOMICS_FILE1 <- "~/MICROBIOME_METABOLOME/JACOBS_IBD_FAMILIES_2016/RAW_DATA/Metabolites_normalized_POS.txt"
-METABOLOMICS_FILE2 <- "~/MICROBIOME_METABOLOME/JACOBS_IBD_FAMILIES_2016/RAW_DATA/Metabolites_normalized_NEG.txt"
-METABOLOMICS_INFO <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/JACOBS_IBD_FAMILIES_2016/RAW_DATA/Data file S1.xlsx"
+METADATA_FILE <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Pediatric_family_cohort_map.txt"
+TAXONOMY_FILE <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/feature-table.tsv"
+METABOLOMICS_FILE1 <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Metabolites_normalized_POS.txt"
+METABOLOMICS_FILE2 <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Metabolites_normalized_NEG.txt"
+METABOLOMICS_INFO <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Data file S1.xlsx"
 
 PUBLICATION_NAME <- 'A Disease-Associated Microbial and Metabolomics State in Relatives of Pediatric Inflammatory Bowel Disease Patients'
 DOI <- '10.1016/j.jcmgh.2016.06.004'

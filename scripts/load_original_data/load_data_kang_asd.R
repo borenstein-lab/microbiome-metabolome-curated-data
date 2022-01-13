@@ -22,9 +22,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "~/MICROBIOME_METABOLOME/KANG_AUTISM_2017/KANG_AUTISM_2017_QIIME/combined.metadata.tsv"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/KANG_AUTISM_2017/KANG_AUTISM_2017_QIIME/6_Taxonomy/taxa_genus_table_exported/feature-table.tsv"
-METABOLOMICS_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/KANG_AUTISM_2017/RAW_DATA/1-s2.0-S1075996417302305-mmc2.xlsx"
+METADATA_FILE <- "../data/original_data/KANG_AUTISM_2017/combined.metadata.tsv"
+TAXONOMY_FILE <- "../data/original_data/KANG_AUTISM_2017/feature-table.tsv"
+METABOLOMICS_FILE <- "../data/original_data/KANG_AUTISM_2017/1-s2.0-S1075996417302305-mmc2.xlsx"
 
 PUBLICATION_NAME <- 'Differences in fecal microbial metabolites and microbiota of children with autism spectrum disorders'
 DOI <- '10.1016/j.anaerobe.2017.12.007'

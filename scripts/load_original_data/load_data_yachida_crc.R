@@ -24,9 +24,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "~/MICROBIOME_METABOLOME/YACHIDA_CRC_2019/RAW_DATA/Table_S2-1_Metadata.tsv" # I read the metadata table from S2-1 which is the metadata of subjects for which a metagenome sample was taken. 
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/YACHIDA_CRC_2019/RAW_DATA/Table_S9_Metaphlan_Profiles.tsv"
-METABOLOMICS_FILE <- "~/MICROBIOME_METABOLOME/YACHIDA_CRC_2019/RAW_DATA/Table_S13_MS_Profiles.tsv"
+METADATA_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S2-1_Metadata.tsv" # I read the metadata table from S2-1 which is the metadata of subjects for which a metagenome sample was taken. 
+TAXONOMY_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S9_Metaphlan_Profiles.tsv"
+METABOLOMICS_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S13_MS_Profiles.tsv"
 
 PUBLICATION_NAME <- 'Metagenomic and metabolomic analyses reveal distinct stage-specific phenotypes of the gut microbiota in colorectal cancer'
 DOI <- '10.1038/s41591-019-0458-7'

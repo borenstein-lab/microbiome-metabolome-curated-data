@@ -22,10 +22,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "~/MICROBIOME_METABOLOME/SINHA_CRC_2016/RAW_DATA/journal.pone.0152126.s004.CSV"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/SINHA_CRC_2016/RAW_DATA/journal.pone.0152126.s003.CSV"
-METABOLOMICS_FILE <- "~/MICROBIOME_METABOLOME/SINHA_CRC_2016/RAW_DATA/journal.pone.0152126.s002.CSV"
-METABOLOMICS_INFO <- ''
+METADATA_FILE <- "../data/original_data/SINHA_CRC_2016/journal.pone.0152126.s004.CSV"
+TAXONOMY_FILE <- "../data/original_data/SINHA_CRC_2016/journal.pone.0152126.s003.CSV"
+METABOLOMICS_FILE <- "../data/original_data/SINHA_CRC_2016/journal.pone.0152126.s002.CSV"
 
 PUBLICATION_NAME <- 'Fecal Microbiota, Fecal Metabolome, and Colorectal Cancer Interrelations'
 DOI <- '10.1371/journal.pone.0152126'

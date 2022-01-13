@@ -25,9 +25,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- '~/MICROBIOME_METABOLOME/ERAWIJANTARI_GASTRIC_CANCER_2020/RAW_DATA/metadata.txt'  
-TAXONOMY_FILE <- '~/MICROBIOME_METABOLOME/ERAWIJANTARI_GASTRIC_CANCER_2020/RAW_DATA/Raw_MetaPlhan2.tsv'
-METABOLOMICS_FILE <- '~/MICROBIOME_METABOLOME/ERAWIJANTARI_GASTRIC_CANCER_2020/RAW_DATA/Raw_Metabolome.tsv'
+METADATA_FILE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/metadata.txt'  
+TAXONOMY_FILE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/Raw_MetaPlhan2.tsv'
+METABOLOMICS_FILE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/Raw_Metabolome.tsv'
 
 PUBLICATION_NAME <- 'Influence of gastrectomy for gastric cancer treatment on faecal microbiome and metabolome profiles.'
 DOI <- '10.1136/gutjnl-2019-319188'

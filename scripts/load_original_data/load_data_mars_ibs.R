@@ -24,11 +24,11 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/MARS_IBS_2020/RAW_DATA/1-s2.0-S0092867420309983-mmc1.xlsx"
-TAXONOMY_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/MARS_IBS_2020/RAW_DATA/Supplementary data I Microbiome data tables stool and biopsy - tab 1 only.xlsx"
-METABOLOMICS_FILE_1 <- "~/MICROBIOME_METABOLOME/MARS_IBS_2020/RAW_DATA/Supplementary data II source data NMR metabolomics.xlsx"
-METABOLOMICS_FILE_2 <- "~/MICROBIOME_METABOLOME/MARS_IBS_2020/RAW_DATA/Supplementary data IV source data Tryptophan metabolomics.xlsx"
-METABOLOMICS_FILE_3 <- "~/MICROBIOME_METABOLOME/MARS_IBS_2020/RAW_DATA/Supplementary data V source data bile acid metabolomics.xlsx"
+METADATA_FILE <- "../data/original_data/MARS_IBS_2020/1-s2.0-S0092867420309983-mmc1.xlsx"
+TAXONOMY_FILE <- "../data/original_data/MARS_IBS_2020/Supplementary data I Microbiome data tables stool and biopsy - tab 1 only.xlsx"
+METABOLOMICS_FILE_1 <- "../data/original_data/MARS_IBS_2020/Supplementary data II source data NMR metabolomics.xlsx"
+METABOLOMICS_FILE_2 <- "../data/original_data/MARS_IBS_2020/Supplementary data IV source data Tryptophan metabolomics.xlsx"
+METABOLOMICS_FILE_3 <- "../data/original_data/MARS_IBS_2020/Supplementary data V source data bile acid metabolomics.xlsx"
 
 PUBLICATION_NAME <- 'Longitudinal Multi-omics Reveals Subset-Specific Mechanisms Underlying Irritable Bowel Syndrome'
 DOI <- '10.1016/j.cell.2020.08.007'

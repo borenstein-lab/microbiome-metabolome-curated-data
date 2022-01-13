@@ -24,9 +24,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "~/MICROBIOME_METABOLOME/iHMP_IBDMDB/hmp2_metadata.csv"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/iHMP_IBDMDB/Metagenomics/taxonomic_profiles.tsv"
-METABOLOMICS_FILE <- "~/MICROBIOME_METABOLOME/iHMP_IBDMDB/Metabolomics/iHMP_metabolomics.csv"
+METADATA_FILE <- "../data/original_data/iHMP_IBDMDB_2019/hmp2_metadata.csv"
+TAXONOMY_FILE <- "../data/original_data/iHMP_IBDMDB_2019/taxonomic_profiles.tsv"
+METABOLOMICS_FILE <- "../data/original_data/iHMP_IBDMDB_2019/iHMP_metabolomics.csv"
 
 PUBLICATION_NAME <- 'Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases'
 DOI <- '10.1038/s41586-019-1237-9'

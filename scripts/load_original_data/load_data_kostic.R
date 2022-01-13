@@ -23,10 +23,10 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/KOSTIC_INFANTS_DIABETES_2015/RAW_DATA/diabimmune_t1d_16s_metadata.xlsx"
-METADATA_FILE2 <-"~/MICROBIOME_METABOLOME/KOSTIC_INFANTS_DIABETES_2015/RAW_DATA/diabimmune_sample_id_mapping.txt"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/KOSTIC_INFANTS_DIABETES_2015/KOSTIC_INFANTS_DIABETES_2015_QIIME/6_Taxonomy/taxa_genus_table_exported/feature-table.tsv"
-METABOLOMICS_FILE <- "C:/Users/efrat/Documents/MICROBIOME_METABOLOME/KOSTIC_INFANTS_DIABETES_2015/RAW_DATA/MxP_DIABIMMUNE.xlsx"
+METADATA_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/diabimmune_t1d_16s_metadata.xlsx"
+METADATA_FILE2 <-"../data/original_data/KOSTIC_INFANTS_DIABETES_2015/diabimmune_sample_id_mapping.txt"
+TAXONOMY_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/feature-table.tsv"
+METABOLOMICS_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/MxP_DIABIMMUNE.xlsx"
 
 PUBLICATION_NAME <- 'The Dynamics of the Human Infant Gut Microbiome in Development and in Progression towards Type 1 Diabetes'
 DOI <- '10.1016/j.chom.2015.01.001'

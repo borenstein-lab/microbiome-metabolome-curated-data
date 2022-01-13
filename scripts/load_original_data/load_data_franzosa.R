@@ -24,10 +24,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- 'C:/Users/efrat/Documents/MICROBIOME_METABOLOME/FRANZOSA_IBD_2019/RAW_DATA/Metobolites.xlsx'  
-TAXONOMY_FILE <- 'C:/Users/efrat/Documents/MICROBIOME_METABOLOME/FRANZOSA_IBD_2019/RAW_DATA/Microbial_species_relative_abundances.xlsx'
-# METABOLOMICS_FILE 
-METABOLOMICS_INFO <- 'C:/Users/efrat/Documents/MICROBIOME_METABOLOME/FRANZOSA_IBD_2019/RAW_DATA/Metabolites_metadata.xlsx'
+METADATA_FILE <- '../data/original_data/FRANZOSA_IBD_2019/Metobolites.xlsx'  
+TAXONOMY_FILE <- '../data/original_data/FRANZOSA_IBD_2019/Microbial_species_relative_abundances.xlsx'
+METABOLOMICS_INFO <- '../data/original_data/FRANZOSA_IBD_2019/Metabolites_metadata.xlsx'
 
 PUBLICATION_NAME <- 'Gut microbiome structure and metabolic activity in inflammatory bowel disease'
 DOI <- '10.1038/s41564-018-0306-4'

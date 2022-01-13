@@ -22,10 +22,9 @@ source("load_original_data/utils.R")
 # --------------------------------
 
 # For details about the source of each file below see: <COMPLETE>
-METADATA_FILE <- "~/MICROBIOME_METABOLOME/HE_INFANTS_MFGM_2019/RAW_DATA/mapping_files/63189_mapping_file__small.txt"
-TAXONOMY_FILE <- "~/MICROBIOME_METABOLOME/HE_INFANTS_MFGM_2019/HE_INFANTS_MFGM_2019_QIIME/6_Taxonomy/taxa_genus_table_exported/feature-table.tsv"
-METABOLOMICS_FILE <- "~/MICROBIOME_METABOLOME/HE_INFANTS_MFGM_2019/RAW_DATA/Tumme stool concentration 4.11.2017 final uM.csv"
-METABOLOMICS_INFO <- ''
+METADATA_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/63189_mapping_file__small.txt"
+TAXONOMY_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/feature-table.tsv"
+METABOLOMICS_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/Tumme stool concentration 4.11.2017 final uM.csv"
 
 PUBLICATION_NAME <- 'Fecal microbiome and metabolome of infants fed bovine MFGM supplemented formula or standard formula with breast-fed infants as reference: a randomized controlled trial'
 DOI <- '10.1038/s41598-019-47953-4'
