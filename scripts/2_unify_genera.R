@@ -64,7 +64,8 @@ for (dataset in datasets) {
   new.names <- gsub(";D_5__","\\|g__",new.names)
   new.names <- gsub(";Ambiguous_taxa","\\|__",new.names)
   new.names <- gsub("\\|Ambiguous_taxa","\\|__",new.names)
-  # Other versions:
+  
+  # Other adaptations:
   new.names <- gsub(";p__","\\|p__",new.names)
   new.names <- gsub(";c__","\\|c__",new.names)
   new.names <- gsub(";o__","\\|o__",new.names)
@@ -99,6 +100,13 @@ for (dataset in datasets) {
   new.names <- gsub("\\|f__.*_noname\\|__$","\\|__\\|__",new.names)
   new.names <- gsub("\\|o__.*_noname\\|__\\|__$","\\|__\\|__\\|__",new.names)
   new.names <- gsub("\\|c__.*_noname\\|__\\|__\\|__$","\\|__\\|__\\|__\\|__",new.names)
+  
+  # For a few cases where some phylogeny levels are consistently missing:
+  new.names <- gsub("\\|__\\|o__Nostocales\\|","\\|c__Cyanophyceae\\|o__Nostocales\\|",new.names)
+  new.names <- gsub("\\|__\\|o__Oscillatoriales\\|","\\|c__Cyanophyceae\\|o__Oscillatoriales\\|",new.names)
+  new.names <- gsub("\\|__\\|o__Pleurocapsales\\|","\\|c__Cyanophyceae\\|o__Pleurocapsales\\|",new.names)
+  new.names <- gsub("\\|__\\|o__Synechococcales\\|","\\|c__Cyanophyceae\\|o__Synechococcales\\|",new.names)
+  new.names <- gsub("\\|__\\|f__Leptospiraceae\\|","\\|o__Leptospirales\\|f__Leptospiraceae\\|",new.names)
   
   message(paste(dataset, "- reformatted",
                 sum(new.names != genera.new[[dataset]]$Genus),
@@ -285,6 +293,7 @@ strings.to.correct$Tyzzerella <-
 strings.to.correct$Azospirillum <- 
   list(new.string = "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|f__Rhodospirillaceae|g__Azospirillum",
        old.strings = c("k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|f__Rhodospirillaceae|g__Azospirillum",
+                       "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|__|g__Azospirillum sp. 47_25",
                        "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|f__uncultured|g__Azospirillum sp. 47_25"))
 
 strings.to.correct$Hafnia <- 
@@ -373,10 +382,83 @@ strings.to.correct$Rikenella <-
        old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Rikenellaceae|g__Rikenella",
                        "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Rikenellaceae|g__uncultured Rikenella sp."))
 
-# strings.to.correct$xxx <- 
-#   list(new.string = "xxx",
-#        old.strings = c("xxx",
-#                        "xxx"))
+strings.to.correct$Thermobaculum <- 
+  list(new.string = "k__Bacteria|p__Chloroflexi|__|__|__|g__Thermobaculum",
+      old.strings = c("k__Bacteria|__|__|__|__|g__Thermobaculum"))
+
+strings.to.correct$Haloplasma <- 
+  list(new.string = "k__Bacteria|p__Tenericutes|c__Mollicutes|o__Haloplasmatales|f__Haloplasmataceae|g__Haloplasma",
+       old.strings = c("k__Bacteria|__|__|o__Haloplasmatales|f__Haloplasmataceae|g__Haloplasma"))
+
+strings.to.correct$Pyrinomonas <-
+  list(new.string = "k__Bacteria|p__Acidobacteria|c__Blastocatellia|o__Blastocatellales|f__Pyrinomonadaceae|g__Pyrinomonas",
+       old.strings = c("k__Bacteria|p__Acidobacteria|c__Blastocatellia|__|__|g__Pyrinomonas"))
+
+strings.to.correct$Tropheryma <-
+  list(new.string = "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Microbacteriaceae|g__Tropheryma",
+       old.strings = c("k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Micrococcales|__|g__Tropheryma",
+                       "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Microbacteriaceae|g__Tropheryma"))
+
+strings.to.correct$Phocaeicola <-
+  list(new.string = "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Bacteroidaceae|g__Phocaeicola",
+       old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|__|g__Phocaeicola"))
+
+strings.to.correct$Dehalogenimonas <-
+  list(new.string = "k__Bacteria|p__Chloroflexi|c__Dehalococcoidia|o__Dehalococcoidales|f__Dehalococcoidaceae|g__Dehalogenimonas",
+       old.strings = c("k__Bacteria|p__Chloroflexi|c__Dehalococcoidia|__|__|g__Dehalogenimonas"))
+
+strings.to.correct$Microcystis <-
+  list(new.string = "k__Bacteria|p__Cyanobacteria|c__Cyanophyceae|o__Chroococcales|f__Microcystaceae|g__Microcystis",
+       old.strings = c("k__Bacteria|p__Cyanobacteria|__|o__Chroococcales|f__Microcystaceae|g__Microcystis"))
+
+strings.to.correct$Chroococcidiopsis <-
+  list(new.string = "k__Bacteria|p__Cyanobacteria|c__Cyanophyceae|o__Chroococcidiopsidales|f__Chroococcidiopsidaceae|g__Chroococcidiopsis",
+       old.strings = c("k__Bacteria|p__Cyanobacteria|__|o__Chroococcidiopsidales|f__Chroococcidiopsidaceae|g__Chroococcidiopsis"))
+
+strings.to.correct$Gottschalkia <-
+  list(new.string = "k__Bacteria|p__Firmicutes|c__Tissierellia|o__Tissierellales|f__Gottschalkiaceae|g__Gottschalkia",
+       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|__|g__Gottschalkia"))
+
+strings.to.correct$Methyloceanibacter <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Hyphomicrobiales|f__Hyphomicrobiaceae|g__Methyloceanibacter",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhizobiales|__|g__Methyloceanibacter"))
+
+strings.to.correct$Ideonella <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Ideonella",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Ideonella"))
+
+strings.to.correct$Paucibacter <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Paucibacter",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Paucibacter"))
+
+strings.to.correct$Roseateles <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Roseateles",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Roseateles"))
+
+strings.to.correct$Rhizobacter <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Pseudomonadales|f__Pseudomonadaceae|g__Rhizobacter",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Rhizobacter"))
+
+strings.to.correct$Rubrivivax <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Rubrivivax",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Rubrivivax"))
+
+strings.to.correct$Sphaerotilus <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Sphaerotilus",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Sphaerotilus"))
+
+strings.to.correct$Tepidimonas <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Tepidimonas",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Tepidimonas"))
+
+strings.to.correct$Thiomonas <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Thiomonas",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Burkholderiales_noname|g__Thiomonas",
+                       "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Thiomonas"))
+
+strings.to.correct$Plesiomonas <-
+  list(new.string = "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacterales|f__Enterobacteriaceae|g__Plesiomonas",
+       old.strings = c("k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacterales|__|g__Plesiomonas"))
 
 debug.unify.genera <- data.frame()
 
