@@ -1,0 +1,243 @@
+---
+title: "Dataset statistics"
+output:
+  html_document:
+    df_print: paged
+---
+
+### Load data
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(gt)
+source("load_all_datasets.R")
+datasets <- basename(data.dirs)
+options(scipen = 999)
+```
+
+### Get statistics
+
+```{r}
+# Collect statistics
+data.summary <- sapply(datasets, function(x) {
+  num.samples <- nrow(metadata[[x]])
+  num.subjects <- n_distinct(metadata[[x]]$Subject)
+  num.genera <- ncol(genera[[x]]) - 1
+  num.metab.orig <- ncol(mtb[[x]]) - 1
+  num.hmdb <- n_distinct(mtb.map[[x]] %>% filter(!is.na(HMDB)) %>% pull(HMDB))
+  num.kegg <- n_distinct(mtb.map[[x]] %>% filter(!is.na(KEGG)) %>% pull(KEGG))
+  return(c("dataset" = x,
+           "num_samples" = num.samples,
+           "num_subjects" = num.subjects,
+           "is_longitudinal" = num.samples > num.subjects,
+           "num_genera" = num.genera,
+           "num_original_compounds" = num.metab.orig,
+           "num_hmdb_compounds" = num.hmdb,
+           "num_kegg_compounds" = num.kegg))
+})
+data.summary <- data.frame(t(data.summary)) %>% 
+  tibble::remove_rownames() %>%
+  mutate(num_samples = as.numeric(num_samples)) %>%
+  mutate(num_subjects = as.numeric(num_subjects)) 
+
+# Display
+data.summary %>% 
+  gt() %>%
+  tab_header(title = "Dataset statistics") %>%
+  tab_options(
+    table.font.size = "smaller",
+    data_row.padding = px(3)
+  ) %>%
+  tab_style(
+    style = list(cell_fill(color = "#F9E3D6")),
+    locations = cells_body(columns = dataset)
+  ) %>%
+  tab_style(
+    style = list(cell_fill(color = "lightgrey")),
+    locations = cells_column_labels()
+  ) %>%
+  cols_label(
+    dataset = "Dataset",
+    num_samples = "No.\nsamples",
+    num_subjects = "No.\nsubjects",
+    is_longitudinal = "Longitudinal?",
+    num_genera = "No.\ngenera",
+    num_original_compounds = "No.\noriginal\ncompounds",
+    num_hmdb_compounds = "No.\nHMDB",
+    num_kegg_compounds = "No.\nKEGG"
+  )
+  
+```
+
+#### Overview statistics
+
+```{r}
+message("This collection includes:")
+message(paste("-",nrow(data.summary),"datasets"))
+message(paste("-",sum(data.summary$num_subjects),"subjects"))
+message(paste("-",sum(data.summary$num_samples),"samples"))
+```
+
+
+### Shared features
+
+#### Shared genera
+
+```{r fig.width=4.5, fig.height=3}
+# Initialize table for genera statistics 
+genera.dataset.stats <- 
+  data.frame(Taxon = character(0),
+             Dataset = character(0),
+             Dataset.N = integer(0),
+             Taxon.Mean.Abundance = numeric(0),
+             Taxon.Var.Abundance = numeric(0),
+             Taxon.Perc.of.Non.Zeros = numeric(0))
+
+# We iterate over each dataset and record a few basic stats 
+#  per each genus in each dataset
+for (dataset in datasets) {
+  tmp <- genera[[dataset]] %>% select(-Sample)
+  tmp.genera <- colnames(tmp)
+  tmp.means <- unname(apply(tmp, MARGIN = 2, mean))
+  tmp.vars <- unname(apply(tmp, MARGIN = 2, var))
+  tmp.non.zero.perc <- unname(apply(tmp, MARGIN = 2, 
+                                    function(v) {100*sum(v>0)/length(v)}))
+  genera.dataset.stats <- 
+    bind_rows(genera.dataset.stats, 
+              data.frame(Taxon = tmp.genera, 
+                         Dataset = dataset,
+                         Dataset.N = nrow(tmp),
+                         Taxon.Mean.Abundance = tmp.means,
+                         Taxon.Var.Abundance = tmp.vars,
+                         Taxon.Perc.of.Non.Zeros = tmp.non.zero.perc))
+}
+
+# We further summarize these stats to get basic statistics 
+#  at the genus level (average over datasets)
+genera.stats <- genera.dataset.stats %>%
+  group_by(Taxon) %>%
+  summarise(Taxon.Overall.Mean.Abundance = 
+              weighted.mean(x = Taxon.Mean.Abundance, w = Dataset.N),
+            Taxon.Overall.Perc.Non.Zero = 
+              weighted.mean(x = Taxon.Perc.of.Non.Zeros, w = Dataset.N),
+            N.Datasets.Including.Taxon = n(),
+            .groups = "drop") %>%
+  mutate(Genus.Only = gsub(".*\\|g__","g__", Taxon))
+
+# Print/plot statistics
+message(paste(nrow(genera.stats), "unique genera (or higher-level clades) were found across all datasets"))
+
+tmp <- genera.stats %>%
+  group_by(N.Datasets.Including.Taxon) %>%
+  summarise(N = n(), .groups = "drop") %>%
+  arrange(-N.Datasets.Including.Taxon) %>%
+  mutate(cum.N = cumsum(N))
+
+label1.x <- unlist(tmp[tmp$N.Datasets.Including.Taxon == 3, "cum.N"])
+label2.x <- unlist(tmp[tmp$N.Datasets.Including.Taxon == 10, "cum.N"])
+label1 <- paste(label1.x,"genera are present\nin at least 3 datasets")
+label2 <- paste(label2.x,"genera are present\nin at least 10 datasets")
+label.y <- max(tmp$cum.N)
+
+ggplot(tmp, aes(x = N.Datasets.Including.Taxon, y = cum.N)) +
+  geom_bar(stat="identity", color='black', 
+           fill='#F3DE8A') +
+  theme_classic() +
+  ggtitle("How common are genera among datasets?") +
+  ylab("No. of genera") +
+  xlab("No. of datasets") +
+  scale_x_continuous(breaks=c(2,4,6,8,10,12,14)) +
+  annotate(geom = "curve", 
+           x = c(3,10), y = c(label1.x,label2.x)+100, 
+           xend = c(3,10)+0.5, yend = c(0.8*label.y, 0.6*label.y), 
+           color = "#7E7F9A",
+           curvature = -.3, 
+           arrow = arrow(length = unit(2, "mm"))) +
+  annotate("text", 
+           x = c(3,10), y = c(0.8*label.y, 0.6*label.y)+100, 
+           label = c(label1, label2), 
+           color = "#272838", 
+           size = 3, hjust = 0.2) +
+  annotate(geom = "point",
+           x = c(3,10), y = c(label1.x,label2.x)+100,
+           color = "#7E7F9A", size = 2) +
+  geom_text(aes(label=cum.N), vjust = -0.5, size = 2.6) +
+  scale_y_continuous(limits = c(0, max(tmp$cum.N) + 7)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
+        axis.title = element_text(size = 10)) 
+
+# Clean up 
+rm(dataset, tmp.genera, tmp.means, tmp.vars, tmp.non.zero.perc, tmp)
+```
+
+
+#### Shared HMDB-identified metabolites
+
+```{r fig.width=4.5, fig.height=3}
+metabolites.per.dataset <- data.frame(stringsAsFactors = F)
+
+for (dataset in datasets) {
+  tmp <- mtb.map[[dataset]] %>%
+    select(KEGG, HMDB) %>%
+    tidyr::pivot_longer(cols = c("KEGG","HMDB"), names_to = "Type", values_to = "Compound", values_drop_na = TRUE) %>%
+    mutate(Dataset = dataset) 
+  metabolites.per.dataset <- bind_rows(metabolites.per.dataset, tmp)
+}
+
+# Count for each metabolite how many datasets have it
+metabolites.stats <- metabolites.per.dataset %>%
+  group_by(Type, Compound) %>%
+  summarise(N = n(), N.Datasets.Including.Compound = n_distinct(Dataset), .groups = "drop")
+
+# Print statistics 
+print(paste(n_distinct(metabolites.stats$Compound[metabolites.stats$Type == "HMDB"]),
+            "unique HMDB compound IDs were found across all datasets"))
+print(paste(n_distinct(metabolites.stats$Compound[metabolites.stats$Type == "KEGG"]),
+            "unique KEGG compound IDs were found across all datasets"))
+
+tmp <- metabolites.stats %>%
+  group_by(Type, N.Datasets.Including.Compound) %>%
+  summarise(N = n(), .groups = "drop") %>%
+  group_by(Type) %>%
+  arrange(-N.Datasets.Including.Compound) %>%
+  mutate(cum.N = cumsum(N))
+
+# Focus on HMDB
+tmp <- tmp %>% filter(Type == "HMDB")
+
+label1.x <- unlist(tmp[tmp$N.Datasets.Including.Compound == 3, "cum.N"])
+label2.x <- unlist(tmp[tmp$N.Datasets.Including.Compound == 10, "cum.N"])
+label1 <- paste(label1.x,"compounds (HMDB) are\npresent in at least 3 datasets")
+label2 <- paste(label2.x,"compounds (HMDB) are\npresent in at least 10 datasets")
+label.y <- max(tmp$cum.N)
+
+ggplot(tmp, aes(x = N.Datasets.Including.Compound, y = cum.N)) +
+  geom_bar(stat="identity", color='black', 
+           fill='#73C2BE') +
+  theme_classic() +
+  ggtitle("How common are HMDB-compounds among datasets?") +
+  ylab("No. of compounds") +
+  xlab("No. of datasets") +
+  scale_x_continuous(breaks=c(2,4,6,8,10,12,14)) +
+  annotate(geom = "curve", 
+           x = c(3,10), y = c(label1.x,label2.x)+120, 
+           xend = c(3,10)+0.5, yend = c(0.8*label.y, 0.6*label.y), 
+           color = "#7E7F9A",
+           curvature = -.3, 
+           arrow = arrow(length = unit(2, "mm"))) +
+  annotate("text", 
+           x = c(3,9.3), y = c(0.8*label.y, 0.6*label.y)+120, 
+           label = c(label1, label2), 
+           color = "#272838", 
+           size = 3, hjust = 0.2) +
+  annotate(geom = "point",
+           x = c(3,10), y = c(label1.x,label2.x)+120,
+           color = "#7E7F9A", size = 2) +
+  geom_text(aes(label=cum.N), vjust = -0.5, size = 2.6) +
+  scale_y_continuous(limits = c(0, max(tmp$cum.N) + 15)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 11),
+        axis.title = element_text(size = 10)) 
+```
+
+
