@@ -505,7 +505,8 @@ rm(old.strings, new.string, fix.genus)
 # xx <- xx %>% filter(gsub(".*\\|g__","",G1) != gsub(".*\\|g__","",G2))
 # write.table(xx, "tmp.tsv", sep="\t", row.names = F)
 
-# --------------
+
+# 3.4. Reference database discrepancies
 
 # In some cases, same genera are labeled with different order/class/family names
 #  (due to discrepancies between annotation methods/databases).
