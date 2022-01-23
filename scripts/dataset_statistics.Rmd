@@ -12,6 +12,7 @@ library(ggplot2)
 library(dplyr)
 library(gt)
 source("load_all_datasets.R")
+source("utils.R")
 datasets <- basename(data.dirs)
 options(scipen = 999)
 ```
@@ -85,33 +86,7 @@ message(paste("-",sum(data.summary$num_samples),"samples"))
 #### Shared genera
 
 ```{r fig.width=4.5, fig.height=3}
-# Initialize table for genera statistics 
-genera.dataset.stats <- 
-  data.frame(Taxon = character(0),
-             Dataset = character(0),
-             Dataset.N = integer(0),
-             Taxon.Mean.Abundance = numeric(0),
-             Taxon.Var.Abundance = numeric(0),
-             Taxon.Perc.of.Non.Zeros = numeric(0))
-
-# We iterate over each dataset and record a few basic stats 
-#  per each genus in each dataset
-for (dataset in datasets) {
-  tmp <- genera[[dataset]] %>% select(-Sample)
-  tmp.genera <- colnames(tmp)
-  tmp.means <- unname(apply(tmp, MARGIN = 2, mean))
-  tmp.vars <- unname(apply(tmp, MARGIN = 2, var))
-  tmp.non.zero.perc <- unname(apply(tmp, MARGIN = 2, 
-                                    function(v) {100*sum(v>0)/length(v)}))
-  genera.dataset.stats <- 
-    bind_rows(genera.dataset.stats, 
-              data.frame(Taxon = tmp.genera, 
-                         Dataset = dataset,
-                         Dataset.N = nrow(tmp),
-                         Taxon.Mean.Abundance = tmp.means,
-                         Taxon.Var.Abundance = tmp.vars,
-                         Taxon.Perc.of.Non.Zeros = tmp.non.zero.perc))
-}
+genera.dataset.stats <- get.genera.dataset.stats(genera, datasets)
 
 # We further summarize these stats to get basic statistics 
 #  at the genus level (average over datasets)
@@ -175,15 +150,8 @@ rm(dataset, tmp.genera, tmp.means, tmp.vars, tmp.non.zero.perc, tmp)
 #### Shared HMDB-identified metabolites
 
 ```{r fig.width=4.5, fig.height=3}
-metabolites.per.dataset <- data.frame(stringsAsFactors = F)
-
-for (dataset in datasets) {
-  tmp <- mtb.map[[dataset]] %>%
-    select(KEGG, HMDB) %>%
-    tidyr::pivot_longer(cols = c("KEGG","HMDB"), names_to = "Type", values_to = "Compound", values_drop_na = TRUE) %>%
-    mutate(Dataset = dataset) 
-  metabolites.per.dataset <- bind_rows(metabolites.per.dataset, tmp)
-}
+metabolites.per.dataset <- 
+  get.metab.dataset.stats(mtb.map, datasets)
 
 # Count for each metabolite how many datasets have it
 metabolites.stats <- metabolites.per.dataset %>%

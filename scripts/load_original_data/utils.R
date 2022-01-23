@@ -1,3 +1,7 @@
+# ----------------------------------------------------------------
+# Utility functions for data loading
+# ----------------------------------------------------------------
+
 map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name") {
   require(MetaboAnalystR)
   
