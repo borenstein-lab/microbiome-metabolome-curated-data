@@ -155,7 +155,7 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
 rm(list = ls())
 

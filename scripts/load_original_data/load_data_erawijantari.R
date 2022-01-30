@@ -200,6 +200,6 @@ genera <- l$genera
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
 rm(list = ls())

@@ -2,6 +2,8 @@
 # Utility functions for data loading
 # ----------------------------------------------------------------
 
+require(readr)
+
 map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name") {
   require(MetaboAnalystR)
   
@@ -162,16 +164,15 @@ get.genus.level <- function(species, species.mapping) {
   return(list(species = species, genera = genera))
 }
 
-save.to.files <- function(save_to_folder, 
+save.to.files <- function(new.folder, 
+                          parent.folder,
                           metadata = NULL, 
                           mtb = NULL, 
                           mtb.map = NULL, 
                           genera = NULL, 
                           species = NULL) {
-  require(readr)
-  
-  full.folder.path <- file.path("../data/processed_data", save_to_folder)
-  dir.create(full.folder.path, showWarnings = FALSE)
+  full.folder.path <- file.path("../data", parent.folder, new.folder)
+  dir.create(full.folder.path, showWarnings = FALSE, recursive = TRUE)
   
   if (!is.null(metadata)) write_delim(metadata, 
                                       file.path(full.folder.path, "metadata.tsv"),
@@ -191,14 +192,15 @@ save.to.files <- function(save_to_folder,
   message("Wrote data to text files")
 }
 
-save.to.rdata <- function(save_to_folder, 
+save.to.rdata <- function(new.folder,
+                          parent.folder,
                           metadata, 
                           mtb, 
                           mtb.map, 
                           genera, 
                           species = NULL) {
-  full.folder.path <- file.path("../data/processed_data", save_to_folder)
-  dir.create(full.folder.path, showWarnings = FALSE)
+  full.folder.path <- file.path("../data", parent.folder, new.folder)
+  dir.create(full.folder.path, showWarnings = FALSE, recursive = TRUE)
   
   files.to.save <- c("metadata","mtb","mtb.map","genera")
   if (!is.null(species)) files.to.save <- c(files.to.save, "species")
