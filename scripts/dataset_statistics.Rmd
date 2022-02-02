@@ -11,11 +11,17 @@ output:
 library(ggplot2)
 library(dplyr)
 library(gt)
-source("load_all_datasets.R")
+#source("load_all_datasets.R")
 source("utils.R")
 datasets <- basename(data.dirs)
 options(scipen = 999)
 ```
+```{r}
+all.data <- load.all.datasets()
+for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
+rm(all.data)
+```
+
 
 ### Get statistics
 
