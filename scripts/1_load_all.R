@@ -19,3 +19,23 @@ tmp <- sapply(load.data.scripts,
        })
 
 message("Completed data loading")
+
+# --------------------------------
+# Patches (involving >1 dataset)
+# --------------------------------
+
+# Mark duplicated samples in datasets ERAWIJANTARI_GASTRIC_CANCER_2020 & YACHIDA_CRC_2019
+metadata.yach <- read_delim("../data/prelim_data/YACHIDA_CRC_2019/metadata.tsv", 
+                            delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+metadata.eraw <- read_delim("../data/prelim_data/ERAWIJANTARI_GASTRIC_CANCER_2020/metadata.tsv", 
+                            delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+shared.subjects <- intersect(gsub("\\..*","",metadata.eraw$Sample),
+                             as.character(metadata.yach$Sample))
+metadata.yach$Shared.w.ERAWIJANTARI_2020 <- as.character(metadata.yach$Sample) %in% shared.subjects
+metadata.eraw$Shared.w.YACHIDA_2019 <- gsub("\\..*","",metadata.eraw$Sample) %in% shared.subjects
+
+source("load_original_data/utils.R")
+save.to.files("YACHIDA_CRC_2019", "prelim_data", metadata = metadata.yach)
+save.to.rdata("YACHIDA_CRC_2019", "prelim_data", metadata = metadata.yach)
+save.to.files("ERAWIJANTARI_GASTRIC_CANCER_2020", "prelim_data", metadata = metadata.eraw)
+save.to.rdata("ERAWIJANTARI_GASTRIC_CANCER_2020", "prelim_data", metadata = metadata.eraw)
