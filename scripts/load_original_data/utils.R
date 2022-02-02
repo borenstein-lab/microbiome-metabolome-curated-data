@@ -75,6 +75,24 @@ get.metaphlan.species.mapper <- function() {
              trim_ws = TRUE)
 }
 
+# ERASE
+# get.metaphlan.gtdb.mapper <- function() {
+#   mphlan.mapping <- get.metaphlan.species.mapper() %>% 
+#     rename(mphlan_taxonomy = taxon) %>% 
+#     mutate(mphlan_taxonomy = trimws(mphlan_taxonomy)) %>%
+#     select(-taxon.genus)
+#   
+#   gtdb.mapping <- get.gtdb.mapper() %>% 
+#     filter(ref_db == "ncbi_taxonomy") %>% 
+#     mutate(ref_taxonomy = trimws(gsub(" ","_",ref_taxonomy))) %>%
+#     select(-ref_db, -ref_genus)
+#   
+#   x <- mphlan.mapping %>%
+#     mutate(mphlan_taxonomy2 = gsub("k__Bacteria","d__Bacteria",mphlan_taxonomy)) %>%
+#     mutate(mphlan_taxonomy2 = gsub("\\|",";",mphlan_taxonomy2)) %>%
+#     left_join(gtdb.mapping , by = c("mphlan_taxonomy2" = "ref_taxonomy"))
+# }
+
 get.genus.level <- function(species, species.mapping) {
   # We now want to map the original metaphlan labels to 
   #  a full genus-level taxonomy. 
@@ -194,19 +212,28 @@ save.to.files <- function(new.folder,
 
 save.to.rdata <- function(new.folder,
                           parent.folder,
-                          metadata, 
-                          mtb, 
-                          mtb.map, 
-                          genera, 
-                          species = NULL) {
+                          metadata = NULL, 
+                          mtb = NULL, 
+                          mtb.map = NULL, 
+                          genera = NULL, 
+                          species = NULL,
+                          override.all = FALSE) {
   full.folder.path <- file.path("../data", parent.folder, new.folder)
   dir.create(full.folder.path, showWarnings = FALSE, recursive = TRUE)
+  rdata.file.path <- file.path(full.folder.path, ".RData")
   
-  files.to.save <- c("metadata","mtb","mtb.map","genera")
-  if (!is.null(species)) files.to.save <- c(files.to.save, "species")
-  
-  save(list = files.to.save, 
-       file = file.path(full.folder.path, ".RData"))
-  
-  message("Wrote data to rdata files")
+  if (override.all | ! file.exists(rdata.file.path)) {
+    files.to.save <- c("metadata","mtb","mtb.map","genera")
+    if (!is.null(species)) files.to.save <- c(files.to.save, "species")
+    save(list = files.to.save, file = rdata.file.path)
+    message("Wrote data to rdata file")
+  } else {
+    require(cgwtools)
+    if (!is.null(metadata)) resave(metadata, file = rdata.file.path)
+    if (!is.null(mtb))      resave(mtb, file = rdata.file.path)
+    if (!is.null(mtb.map))  resave(mtb.map, file = rdata.file.path)
+    if (!is.null(genera))   resave(genera, file = rdata.file.path)
+    if (!is.null(species))  resave(species, file = rdata.file.path)
+    message("Updated rdata file")
+  }
 }
