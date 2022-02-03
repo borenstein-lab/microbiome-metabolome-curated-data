@@ -23,7 +23,7 @@ source("load_original_data/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 RDATA_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/.RData"
-TAXONOMY_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/feature-table.tsv"
+TAXONOMY_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/feature_table_gtdb.tsv"
 
 PUBLICATION_NAME <- 'The Microbiome and Metabolome of Preterm Infant Stool Are Personalized and Not Driven by Health Outcomes, Including Necrotizing Enterocolitis and Late-Onset Sepsis'
 DOI <- '10.1128/mSphere.00104-18'
@@ -58,7 +58,7 @@ metadata <- metadata %>%
 
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
-                     "\t", escape_double = FALSE, trim_ws = TRUE, skip = 1)
+                     "\t", escape_double = FALSE, trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 # Sanity: apply(genera[,-1], 2, sum)
 

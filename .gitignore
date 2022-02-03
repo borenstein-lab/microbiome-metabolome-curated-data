@@ -15,5 +15,5 @@ name_map.csv
 scripts/.RData
 data/original_data
 data/prelim_data
-data/~$*.xlsx
+docs/~$*.xlsx
 data/processed_data/iHMP_IBDMDB_2019/mtb.tsv

@@ -25,7 +25,7 @@ source("load_original_data/utils.R")
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/diabimmune_t1d_16s_metadata.xlsx"
 METADATA_FILE2 <-"../data/original_data/KOSTIC_INFANTS_DIABETES_2015/diabimmune_sample_id_mapping.txt"
-TAXONOMY_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/feature-table.tsv"
+TAXONOMY_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/feature_table_gtdb.tsv"
 METABOLOMICS_FILE <- "../data/original_data/KOSTIC_INFANTS_DIABETES_2015/MxP_DIABIMMUNE.xlsx"
 
 PUBLICATION_NAME <- 'The Dynamics of the Human Infant Gut Microbiome in Development and in Progression towards Type 1 Diabetes'
@@ -65,8 +65,7 @@ metadata <- metadata %>%
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
                      "\t", escape_double = FALSE, 
-                     trim_ws = TRUE, 
-                     skip = 1)
+                     trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
 # --------------------------------

@@ -23,7 +23,7 @@ source("load_original_data/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/63189_mapping_file__small.txt"
-TAXONOMY_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/feature-table.tsv"
+TAXONOMY_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/feature_table_gtdb.tsv"
 METABOLOMICS_FILE <- "../data/original_data/HE_INFANTS_MFGM_2019/Tumme stool concentration 4.11.2017 final uM.csv"
 
 PUBLICATION_NAME <- 'Fecal microbiome and metabolome of infants fed bovine MFGM supplemented formula or standard formula with breast-fed infants as reference: a randomized controlled trial'
@@ -66,8 +66,7 @@ metadata <- metadata %>%
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
                      "\t", escape_double = FALSE, 
-                     trim_ws = TRUE, 
-                     skip = 1)
+                     trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
 # Map ID's to uniform format

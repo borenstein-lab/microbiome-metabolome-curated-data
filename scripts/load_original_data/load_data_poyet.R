@@ -25,7 +25,7 @@ source("load_original_data/utils.R")
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/POYET_BIO_ML_2019/41591_2019_559_MOESM3_ESM.xlsx"
 METADATA_FILE2 <- "../data/original_data/POYET_BIO_ML_2019/SraRunTable.txt"
-TAXONOMY_FILE <- "../data/original_data/POYET_BIO_ML_2019/feature-table.tsv"
+TAXONOMY_FILE <- "../data/original_data/POYET_BIO_ML_2019/feature_table_gtdb.tsv"
 METABOLOMICS_FILE1 <- "../data/original_data/POYET_BIO_ML_2019/HILIC_NEG_ION_MODE.txt"
 METABOLOMICS_FILE2 <- "../data/original_data/POYET_BIO_ML_2019/HILIC_POS_ION_MODE.txt"
 METABOLOMICS_FILE3 <- "../data/original_data/POYET_BIO_ML_2019/Rev_Phase_NEG_ION_MODE.txt"
@@ -80,7 +80,7 @@ metadata <- metadata %>%
 
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
-                     "\t", escape_double = FALSE, trim_ws = TRUE, skip = 1)
+                     "\t", escape_double = FALSE, trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
 # --------------------------------
