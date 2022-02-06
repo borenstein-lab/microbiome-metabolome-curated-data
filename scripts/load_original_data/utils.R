@@ -34,10 +34,13 @@ map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name"
   return(MA.matches)
 }
 
+# --------------------------------------------------------
 # Prepare a map between metaphlan species name to full taxonomy
 #  based on the file in: 
 #  https://bitbucket.org/biobakery/metaphlan2/downloads/mpa_v20_m200_marker_info.txt.bz2
 # The new map will be saved to the file: 
+#  species_to_full_taxonomy_map.tsv
+# --------------------------------------------------------
 make.metaphlan.species.mapper <- function() {
   
   # Load a table with full metaphlan species names 
@@ -75,27 +78,11 @@ get.metaphlan.species.mapper <- function() {
              trim_ws = TRUE)
 }
 
-# ERASE
-# get.metaphlan.gtdb.mapper <- function() {
-#   mphlan.mapping <- get.metaphlan.species.mapper() %>% 
-#     rename(mphlan_taxonomy = taxon) %>% 
-#     mutate(mphlan_taxonomy = trimws(mphlan_taxonomy)) %>%
-#     select(-taxon.genus)
-#   
-#   gtdb.mapping <- get.gtdb.mapper() %>% 
-#     filter(ref_db == "ncbi_taxonomy") %>% 
-#     mutate(ref_taxonomy = trimws(gsub(" ","_",ref_taxonomy))) %>%
-#     select(-ref_db, -ref_genus)
-#   
-#   x <- mphlan.mapping %>%
-#     mutate(mphlan_taxonomy2 = gsub("k__Bacteria","d__Bacteria",mphlan_taxonomy)) %>%
-#     mutate(mphlan_taxonomy2 = gsub("\\|",";",mphlan_taxonomy2)) %>%
-#     left_join(gtdb.mapping , by = c("mphlan_taxonomy2" = "ref_taxonomy"))
-# }
-
+# --------------------------------------------------------
+# Map original metaphlan species labels to full 
+#  genus-level taxonomy.
+# --------------------------------------------------------
 get.genus.level <- function(species, species.mapping) {
-  # We now want to map the original metaphlan labels to 
-  #  a full genus-level taxonomy. 
   #  The "tmp" table will hold all these intermediate mappings. 
   #  Due to the messiness of the raw data, 
   #  and mapping file limitations, we use a 

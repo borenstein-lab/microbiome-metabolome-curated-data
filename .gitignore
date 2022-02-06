@@ -12,8 +12,16 @@ master_compound_db.qs
 master_syn_nms.qs
 name_map.csv
 
-scripts/.RData
+# Intermediate data files
 data/original_data
 data/prelim_data
-docs/~$*.xlsx
 data/processed_data/iHMP_IBDMDB_2019/mtb.tsv
+data/processed_data_DELETE
+
+# Reference DB files
+gtdb/bac120_metadata_r202.tsv
+
+# Misc.
+docs/~$*.xlsx
+scripts/.RData
+

@@ -16,6 +16,7 @@ require(MetaboAnalystR)
 require(readr)
 require(dplyr)
 source("load_original_data/utils.R")
+source("gtdb_utils.R")
 
 # --------------------------------
 # Required files & info
@@ -88,6 +89,88 @@ genera$Genus <- gsub("Root;","",genera$Genus)
 
 # Fix typos
 genera$Genus <- gsub("c__Erysipelotrichi;","c__Erysipelotrichia;",genera$Genus)
+
+# Get mappings to GTDB
+gtdb.map <- get.gtdb.mapper()
+gtdb.data.map <- sapply(genera$Genus, 
+                          get.gtdb.genus, 
+                          gtdb.map, 
+                          use.ncbi = F, 
+                          use.gg = T, 
+                          use.silva = F, 
+                          simplify = T)
+gtdb.data.map <- data.frame(t(gtdb.data.map)) %>%
+  tibble::rownames_to_column("genus.orig")
+
+# Manually fix some mappings 
+gtdb.data.map$genus[gtdb.data.map$genus.orig == "k__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Actinomycetaceae;g__Parascardovia"] <-
+  "d__Bacteria;p__Actinobacteriota;c__Actinomycetia;o__Actinomycetales;f__Bifidobacteriaceae;g__Parascardovia"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == "k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__;g__"] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Clostridiales;f__;g__"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == "k__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__[Paraprevotellaceae];g__[Prevotella]"] <- 
+  "d__Bacteria;p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Prevotellamassilia"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Catabacteriaceae;g__'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia_A;o__Christensenellales;f__;g__"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == "k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Eubacteriaceae;g__Eubacterium"] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Eubacteriales;f__Eubacteriaceae;g__Eubacterium"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Ruminococcus]'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Ruminococcus_B"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Dorea'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Dorea"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Coprococcus'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Coprococcus"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Anaerostipes'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Anaerostipes"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodospirillales;f__Rhodospirillaceae;g__'] <- 
+  "d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodospirillales;f__Rhodospirillaceae;g__"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__'] <- 
+  "d__Bacteria;p__Actinobacteriota;c__Coriobacteriia;o__Coriobacteriales;f__Coriobacteriaceae;g__Collinsella"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Veillonellaceae;g__'] <- 
+  "d__Bacteria; p__Firmicutes_C; c__Negativicutes; o__Veillonellales; f__Veillonellaceae;g__"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Oscillospira'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Oscillospirales;f__Oscillospiraceae;g__Flavonifractor"
+gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__'] <- 
+  "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Oscillospirales;f__Ruminococcaceae;g__"
+
+# Verified mapping manually, no action required:
+# 'k__Bacteria;p__;c__;o__;f__;g__'
+# 'k__Archaea;p__Euryarchaeota;c__[Parvarchaea];o__YLA114;f__;g__'
+# 'k__Bacteria;p__Firmicutes;c__RF3;o__;f__;g__'
+# 'k__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__RF32;f__;g__'
+# "k__Bacteria;p__Verrucomicrobia;c__[Pedosphaerae];o__[Pedosphaerales];f__;g__"
+# 'k__Bacteria;p__Bacteroidetes;c__Sphingobacteriia;o__Sphingobacteriales;f__Saprospiraceae;g__'
+# 'k__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Actinomycetaceae;g__Actinomyces'
+# 'k__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__;g__'
+# 'k__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Porphyromonadaceae;g__Porphyromonas'
+# 'k__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Rikenellaceae;g__'
+# 'k__Bacteria;p__Bacteroidetes;c__Flavobacteriia;o__Flavobacteriales;f__Flavobacteriaceae;g__'
+# 'k__Bacteria;p__Firmicutes;c__Bacilli;o__;f__;g__'
+# 'k__Bacteria;p__Firmicutes;c__Bacilli;o__Bacillales;f__Planococcaceae;g__'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__;f__;g__'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae;g__Clostridium'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Eubacteriaceae;g__'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Blautia'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminococcus'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Veillonellaceae;g__Dialister' --> verify I get dialister after the sorting!!!!!!
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__;g__'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__Adlercreutzia'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__Eggerthella'
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__Slackia'
+# 'k__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__Erysipelotrichaceae;g__[Eubacterium]'
+# 'k__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__[Coprobacillaceae];g__Coprobacillus'
+# 'k__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Alcaligenaceae;g__Sutterella'
+# 'k__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Neisseriales;f__Neisseriaceae;g__'
+# 'k__Bacteria;p__Proteobacteria;c__Deltaproteobacteria;o__Desulfovibrionales;f__Desulfovibrionaceae;g__Desulfovibrio'
+# 'k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__'
+# 'k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Klebsiella'
+# 'k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pasteurellales;f__Pasteurellaceae;g__Haemophilus'
+
+# write_delim(gtdb.data.map %>% filter(comment != "") %>% arrange(comment), file = "debug.tsv")
+# View(gtdb.map %>% filter(grepl("Anaerostipes", ref_taxonomy)))
+# View(gtdb.map.tmp %>% filter(grepl("\\[Eubacterium\\]", ref_taxonomy)))
+
+# No need to regroup --> genera are unique after mapping
 
 # --------------------------------
 # Load metabolomic profiles
