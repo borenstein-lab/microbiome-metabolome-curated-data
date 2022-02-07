@@ -19,7 +19,8 @@ data/processed_data/iHMP_IBDMDB_2019/mtb.tsv
 data/processed_data_DELETE
 
 # Reference DB files
-gtdb/bac120_metadata_r202.tsv
+references/gtdb/bac120_metadata_r202.tsv
+references/ncbi
 
 # Misc.
 docs/~$*.xlsx
