@@ -5,8 +5,15 @@
 
 require(vegan)
 require(dplyr)
-source("load_all_datasets.R")
+require(readr)
+source("utils.R")
+
+# Load data
+all.data <- load.all.datasets("prelim_data")
+for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
+rm(all.data)
 datasets <- basename(data.dirs)
+gtdb.map <- get.gtdb.mapper()
 
 # --------------------------------
 # 1. Remove non-bacteria
@@ -50,72 +57,108 @@ for (dataset in datasets) {
 # For the qiime-processed datasets, we change from silva-like 
 #  convention to metaplhan-like convention.
 # E.g. from "D_0__Bacteria;D_1__Actinobacteria;D_2__Actinobacteria;D_3__Actinomycetales;D_4__Actinomycetaceae;D_5__Actinotignum" to: 
-#  "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Actinomycetaceae|g__Actinotignum".
+#  "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Actinomycetaceae;g__Actinotignum".
 
 for (dataset in datasets) {
   # Reformat the genera names
   new.names <- genera.new[[dataset]]$Genus
-  # print(paste("Before:",new.names[1]))
-  new.names <- gsub("D_0__","k__",new.names)
-  new.names <- gsub(";D_1__","\\|p__",new.names)
-  new.names <- gsub(";D_2__","\\|c__",new.names)
-  new.names <- gsub(";D_3__","\\|o__",new.names)
-  new.names <- gsub(";D_4__","\\|f__",new.names)
-  new.names <- gsub(";D_5__","\\|g__",new.names)
-  new.names <- gsub(";Ambiguous_taxa","\\|__",new.names)
-  new.names <- gsub("\\|Ambiguous_taxa","\\|__",new.names)
+  #print(paste("Before:",new.names[1:5]))
   
-  # Other adaptations:
-  new.names <- gsub(";p__","\\|p__",new.names)
-  new.names <- gsub(";c__","\\|c__",new.names)
-  new.names <- gsub(";o__","\\|o__",new.names)
-  new.names <- gsub(";f__","\\|f__",new.names)
-  new.names <- gsub(";g__","\\|g__",new.names)
-  new.names <- gsub(";__","\\|__",new.names)
+  new.names <- gsub("\\|",";",new.names)
+  new.names <- gsub("D_0__","d__",new.names)
+  new.names <- gsub("D_1__","p__",new.names)
+  new.names <- gsub("D_2__","c__",new.names)
+  new.names <- gsub("D_3__","o__",new.names)
+  new.names <- gsub("D_4__","f__",new.names)
+  new.names <- gsub("D_5__","g__",new.names)
   
-  new.names <- gsub("\\|p__\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|c__\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|o__\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|f__\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|g__$","\\|__",new.names)
+  # GTDB
+  new.names <- gsub("k__Bacteria","d__Bacteria",new.names)
   
-  new.names <- gsub("\\|f__gut metagenome\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|g__gut metagenome$","\\|__",new.names)
-  new.names <- gsub("\\|f__metagenome\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|g__metagenome$","\\|__",new.names)
-  new.names <- gsub("\\|f__uncultured bacterium\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|f__uncultured prokaryote\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|f__uncultured soil bacterium\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|f__uncultured\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|g__uncultured bacterium$","\\|__",new.names)
-  new.names <- gsub("\\|g__uncultured prokaryote$","\\|__",new.names)
-  new.names <- gsub("\\|g__uncultured soil bacterium$","\\|__",new.names)
-  new.names <- gsub("\\|g__uncultured$","\\|__",new.names)
-  new.names <- gsub("\\|f__uncultured organism\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|g__uncultured organism$","\\|__",new.names)
-  new.names <- gsub("\\|f__uncultured rumen bacterium\\|","\\|__\\|",new.names)
-  new.names <- gsub("\\|g__uncultured rumen bacterium$","\\|__",new.names)
-  
-  new.names <- gsub("\\|g__.*_noname$","\\|__",new.names)
-  new.names <- gsub("\\|f__.*_noname\\|__$","\\|__\\|__",new.names)
-  new.names <- gsub("\\|o__.*_noname\\|__\\|__$","\\|__\\|__\\|__",new.names)
-  new.names <- gsub("\\|c__.*_noname\\|__\\|__\\|__$","\\|__\\|__\\|__\\|__",new.names)
-  
-  # For a few cases where some phylogeny levels are consistently missing:
-  new.names <- gsub("\\|__\\|o__Nostocales\\|","\\|c__Cyanophyceae\\|o__Nostocales\\|",new.names)
-  new.names <- gsub("\\|__\\|o__Oscillatoriales\\|","\\|c__Cyanophyceae\\|o__Oscillatoriales\\|",new.names)
-  new.names <- gsub("\\|__\\|o__Pleurocapsales\\|","\\|c__Cyanophyceae\\|o__Pleurocapsales\\|",new.names)
-  new.names <- gsub("\\|__\\|o__Synechococcales\\|","\\|c__Cyanophyceae\\|o__Synechococcales\\|",new.names)
-  new.names <- gsub("\\|__\\|f__Leptospiraceae\\|","\\|o__Leptospirales\\|f__Leptospiraceae\\|",new.names)
+  # # Other adaptations related to taxa identified at a level higher than genus
+  # new.names <- gsub(";Ambiguous_taxa",";__",new.names)
+  # new.names <- gsub(";[pcof]__;",";__;",new.names)
+  # new.names <- gsub(";g__$",";__",new.names)
+  # new.names <- gsub(";f__gut metagenome;",";__;",new.names)
+  # new.names <- gsub(";g__gut metagenome$",";__",new.names)
+  # new.names <- gsub(";f__metagenome;",";__;",new.names)
+  # new.names <- gsub(";g__metagenome$",";__",new.names)
+  # new.names <- gsub(";f__uncultured bacterium;",";__;",new.names)
+  # new.names <- gsub(";f__uncultured prokaryote;",";__;",new.names)
+  # new.names <- gsub(";f__uncultured soil bacterium;",";__;",new.names)
+  # new.names <- gsub(";f__uncultured;",";__;",new.names)
+  # new.names <- gsub(";g__uncultured bacterium$",";__",new.names)
+  # new.names <- gsub(";g__uncultured prokaryote$",";__",new.names)
+  # new.names <- gsub(";g__uncultured soil bacterium$",";__",new.names)
+  # new.names <- gsub(";g__uncultured$",";__",new.names)
+  # new.names <- gsub(";f__uncultured organism;",";__;",new.names)
+  # new.names <- gsub(";g__uncultured organism$",";__",new.names)
+  # new.names <- gsub(";f__uncultured rumen bacterium;",";__;",new.names)
+  # new.names <- gsub(";g__uncultured rumen bacterium$",";__",new.names)
+  # new.names <- gsub(";g__.*_noname$",";__",new.names)
+  # new.names <- gsub(";f__.*_noname;__$",";__;__",new.names)
+  # new.names <- gsub(";o__.*_noname;__;__$",";__;__;__",new.names)
+  # new.names <- gsub(";c__.*_noname;__;__;__$",";__;__;__;__",new.names)
+  # 
+  # # For a few cases where some phylogeny levels are consistently missing:
+  # new.names <- gsub(";__;o__Nostocales;",";c__Cyanophyceae;o__Nostocales;",new.names)
+  # new.names <- gsub(";__;o__Oscillatoriales;",";c__Cyanophyceae;o__Oscillatoriales;",new.names)
+  # new.names <- gsub(";__;o__Pleurocapsales;",";c__Cyanophyceae;o__Pleurocapsales;",new.names)
+  # new.names <- gsub(";__;o__Synechococcales;",";c__Cyanophyceae;o__Synechococcales;",new.names)
+  # new.names <- gsub(";__;f__Leptospiraceae;",";o__Leptospirales;f__Leptospiraceae;",new.names)
   
   message(paste(dataset, "- reformatted",
                 sum(new.names != genera.new[[dataset]]$Genus),
                 "out of", length(new.names), "genus entities"))
   
   genera.new[[dataset]]$Genus <- new.names
-  # print(paste("After:",new.names[1]))
+  #print(paste("After:",new.names[1:5]))
 }
 rm(new.names)
+
+
+
+
+
+
+
+
+
+
+
+
+x2 <- gsub(".*;g__", "", x)
+
+yy <- gtdb.map %>% 
+  group_by(gtdb_genus, ref_db, ref_genus) %>% 
+  summarise(n_avail_genomes = n()) %>%
+  mutate(gtdb_genus_short = gsub(".*;g__", "", gtdb_genus)) %>%
+  filter(gtdb_genus_short %in% x2) %>%
+  group_by(gtdb_genus, ref_db) %>% 
+  summarise(n_distinct_ref_genera = n_distinct(ref_genus)) %>%
+  
+
+xx <- gtdb.map %>% 
+  group_by(gtdb_genus, ref_db, ref_genus) %>% 
+  summarise(N = n()) %>%
+  mutate(gtdb_genus_short = gsub(".*;g__", "", gtdb_genus)) %>%
+  mutate(ref_genus_short = gsub(".*;g__", "", ref_genus)) %>%
+  filter(gtdb_genus_short %in% x2)
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 3.2. Regroup unclassified genera
   
@@ -124,13 +167,13 @@ rm(new.names)
 #  (e.g. class-level, order-level, etc.), we leave it as is.
 
 # Examples of entities that we leave untouched:
-#  "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|Ambiguous_taxa"
-#  "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Lachnospiraceae_noname"
-#  "k__Bacteria|p__Proteobacteria|__|__|__|__" 
+#  "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;__"
+#  "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnospiraceae_noname"
+#  "d__Bacteria;p__Proteobacteria;__;__;__;__" 
 
 # Examples of entities we rename as "Unclassified":
-#  "k__Bacteria;__;__;__;__;__"
-#  "Unassigned|__|__|__|__|__"
+#  "d__Bacteria;__;__;__;__;__"
+#  "Unassigned;__;__;__;__;__"
 
 # Save some statistics about this step, for sanity
 debug.unclass.genera.stats <- data.frame(Dataset=character(0),
@@ -141,8 +184,8 @@ debug.unclass.genera.stats <- data.frame(Dataset=character(0),
 
 # NO RUN
 # x <- c(); for(dataset in datasets) {x <- c(x, genera.new[[dataset]]$Genus)}; x <- unique(x)
-# print(c(grep("\\|__$", x,value = T), 
-#         grep("\\|g__$", x,value = T), 
+# print(c(grep(";__$", x,value = T), 
+#         grep(";g__$", x,value = T), 
 #         grep("_noname$", x,value = T), 
 #         grep("Unclassified", x,value = T),
 #         grep("g__uncultured", x,value = T),
@@ -151,10 +194,10 @@ debug.unclass.genera.stats <- data.frame(Dataset=character(0),
 #         grep("g__unidentified rumen bacterium", x,value = T),
 #         grep("g__gut metagenome$", x,value = T)))
 
-unclass.tax.strings <- c("k__Bacteria|p__|c__|o__|f__|g__",
-                         "k__Bacteria|__|__|__|__|__",
-                         "Unassigned|__|__|__|__|__",
-                         "Ambiguous_taxa|__|__|__|__|__",
+unclass.tax.strings <- c("d__Bacteria;p__;c__;o__;f__;g__",
+                         "d__Bacteria;__;__;__;__;__",
+                         "Unassigned;__;__;__;__;__",
+                         "Ambiguous_taxa;__;__;__;__;__",
                          "Unclassified")
 
 for (dataset in datasets) {
@@ -201,264 +244,264 @@ rm(unclassified.rows, tmp)
 # We perform several manual curations of taxonomic annotations, for cases such as:  
 #  * In the metaphlan datasets, we merge Escherichia and Shigella entities, 
 #    which cannot be differentiated by 16s using SILVA database. Same for Hafnia/Obesumbacterium.
-#  * Wherever silva OTU's are in the species level, we merge the entities to 
-#    a genus-level entity for consistency (e.g. Eubacterium, Ruminococcus, ...)
-#  * In the SINHA dataset, they had 16s but they did not use SILVA (and we weren't 
-#    able to obtain the raw data), so we unify their annotations as well.  
+#  * Wherever silva OTU's are in the species/sub-genus level, we merge the entities to 
+#    a genus-level entity for consistency (e.g. Eubacterium, Ruminococcus, ...)  
 
 # A list of pairs, where in each pair there's a "new.string" element defining the unified genus name,
 #  and an "old.strings" element including all genera that should be mapped to the "new.string".
 strings.to.correct <- list()
 
 strings.to.correct$Escherichia_Shigella <- 
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Escherichia-Shigella",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Escherichia",
-                       "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Shigella",
-                       "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Escherichia-Shigella"))
-
-strings.to.correct$Coprococcus <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Coprococcus",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Coprococcus",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Coprococcus 1",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Coprococcus 2",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Coprococcus 3"))
-
-strings.to.correct$Corynebacterium <- 
-  list(new.string = "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Corynebacteriales|f__Corynebacteriaceae|g__Corynebacterium",
-       old.strings = c("k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Corynebacteriales|f__Corynebacteriaceae|g__Corynebacterium",
-                       "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Corynebacteriales|f__Corynebacteriaceae|g__Corynebacterium 1"))
-
-strings.to.correct$Prevotella <- 
-  list(new.string = "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella",
-       old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella 1",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella 2",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella 6",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella 7",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Prevotellaceae|g__Prevotella 9",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__[Paraprevotellaceae]|g__[Prevotella]"))
-
-strings.to.correct$Ruminococcus <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminococcus",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminococcus",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminococcus 1",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminococcus 2",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Ruminococcus]",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Ruminococcus] gauvreauii group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Ruminococcus] gnavus group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Ruminococcus] torques group"))
-
-strings.to.correct$Ruminiclostridium <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminiclostridium",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminiclostridium",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminiclostridium 1",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminiclostridium 5",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminiclostridium 6",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Ruminiclostridium 9"))
-
-strings.to.correct$Eubacterium <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Eubacteriaceae|g__Eubacterium",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Eubacteriaceae|g__Eubacterium",
-                       "k__Bacteria|p__Firmicutes|c__Erysipelotrichia|o__Erysipelotrichales|f__Erysipelotrichaceae|g__[Eubacterium]",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__[Eubacterium] coprostanoligenes group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] eligens group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] fissicatena group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] hallii group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] ruminantium group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] ventriosum group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] xylanophilum group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Family XIII|g__[Eubacterium] brachy group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Family XIII|g__[Eubacterium] nodatum group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__[Eubacterium] oxidoreducens group"))
-
-strings.to.correct$Clostridium <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae|g__Clostridium",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|g__Clostridium sensu stricto 1",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|g__Clostridium sensu stricto 2",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|g__Clostridium sensu stricto 3",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|g__Clostridium sensu stricto 6",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|g__Clostridium sensu stricto 13",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|g__Clostridium sensu stricto 18",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae|g__Clostridium",
-                       "k__Bacteria|p__Firmicutes|c__Erysipelotrichia|o__Erysipelotrichales|f__Erysipelotrichaceae|g__[Clostridium] innocuum group",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__CAG-352",
-                       "k__Bacteria|p__Cyanobacteria|c__Melainabacteria|o__Gastranaerophilales|f__Clostridium sp. K4410.MGS-306|g__Clostridium sp. K4410.MGS-306"))
-
-strings.to.correct$Tyzzerella <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Tyzzerella",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Tyzzerella",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Tyzzerella 3",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Tyzzerella 4"))
-
-strings.to.correct$Azospirillum <- 
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|f__Rhodospirillaceae|g__Azospirillum",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|f__Rhodospirillaceae|g__Azospirillum",
-                       "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|__|g__Azospirillum sp. 47_25",
-                       "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhodospirillales|f__uncultured|g__Azospirillum sp. 47_25"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Escherichia-Shigella",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Escherichia",
+                       "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Shigella",
+                       "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Escherichia-Shigella"))
 
 strings.to.correct$Hafnia <- 
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Hafnia-Obesumbacterium",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Hafnia",
-                       "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Hafnia-Obesumbacterium",
-                       "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Obesumbacterium"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Hafnia-Obesumbacterium",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Hafnia",
+                       "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Hafnia-Obesumbacterium",
+                       "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Obesumbacterium"))
+
+strings.to.correct$Coprococcus <- 
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Coprococcus",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Coprococcus",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Coprococcus 1",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Coprococcus 2",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Coprococcus 3"))
+
+strings.to.correct$Corynebacterium <- 
+  list(new.string = "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Corynebacteriales;f__Corynebacteriaceae;g__Corynebacterium",
+       old.strings = c("d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Corynebacteriales;f__Corynebacteriaceae;g__Corynebacterium",
+                       "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Corynebacteriales;f__Corynebacteriaceae;g__Corynebacterium 1"))
+
+strings.to.correct$Prevotella <- 
+  list(new.string = "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella",
+       old.strings = c("d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella 1",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella 2",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella 6",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella 7",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Prevotellaceae;g__Prevotella 9",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__[Paraprevotellaceae];g__[Prevotella]"))
+
+strings.to.correct$Ruminococcus <- 
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminococcus",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminococcus",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminococcus 1",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminococcus 2",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Ruminococcus]",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Ruminococcus] gauvreauii group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Ruminococcus] gnavus group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Ruminococcus] torques group"))
+
+strings.to.correct$Ruminiclostridium <- 
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminiclostridium",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminiclostridium",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminiclostridium 1",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminiclostridium 5",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminiclostridium 6",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminiclostridium 9"))
+
+strings.to.correct$Eubacterium <- 
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Eubacteriaceae;g__Eubacterium",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Eubacteriaceae;g__Eubacterium",
+                       "d__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__Erysipelotrichaceae;g__[Eubacterium]",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__[Eubacterium] coprostanoligenes group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] eligens group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] fissicatena group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] hallii group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] ruminantium group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] ventriosum group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] xylanophilum group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Family XIII;g__[Eubacterium] brachy group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Family XIII;g__[Eubacterium] nodatum group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__[Eubacterium] oxidoreducens group"))
+
+strings.to.correct$Clostridium <- 
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae;g__Clostridium",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;g__Clostridium sensu stricto 1",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;g__Clostridium sensu stricto 2",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;g__Clostridium sensu stricto 3",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;g__Clostridium sensu stricto 6",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;g__Clostridium sensu stricto 13",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;g__Clostridium sensu stricto 18",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae;g__Clostridium",
+                       "d__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__Erysipelotrichaceae;g__[Clostridium] innocuum group",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__CAG-352",
+                       "d__Bacteria;p__Cyanobacteria;c__Melainabacteria;o__Gastranaerophilales;f__Clostridium sp. K4410.MGS-306;g__Clostridium sp. K4410.MGS-306"))
+
+strings.to.correct$Tyzzerella <- 
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Tyzzerella",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Tyzzerella",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Tyzzerella 3",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Tyzzerella 4"))
+
+strings.to.correct$Azospirillum <- 
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodospirillales;f__Rhodospirillaceae;g__Azospirillum",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodospirillales;f__Rhodospirillaceae;g__Azospirillum",
+                       "d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodospirillales;__;g__Azospirillum sp. 47_25",
+                       "d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhodospirillales;f__uncultured;g__Azospirillum sp. 47_25"))
+
+
 
 strings.to.correct$Lachnoclostridium <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Lachnoclostridium",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Lachnoclostridium",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Lachnoclostridium 10",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Lachnoclostridium 12",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Lachnospiraceae|g__Lachnoclostridium 5"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnoclostridium",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnoclostridium",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnoclostridium 10",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnoclostridium 12",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnoclostridium 5"))
 
 strings.to.correct$Selenomonas <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Veillonellaceae|g__Selenomonas",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Veillonellaceae|g__Selenomonas",
-                       "k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Veillonellaceae|g__Selenomonas 3",
-                       "k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Veillonellaceae|g__Selenomonas 4"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Veillonellaceae;g__Selenomonas",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Veillonellaceae;g__Selenomonas",
+                       "d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Veillonellaceae;g__Selenomonas 3",
+                       "d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Veillonellaceae;g__Selenomonas 4"))
 
 strings.to.correct$Treponema <- 
-  list(new.string = "k__Bacteria|p__Spirochaetes|c__Spirochaetia|o__Spirochaetales|f__Spirochaetaceae|g__Treponema",
-       old.strings = c("k__Bacteria|p__Spirochaetes|c__Spirochaetia|o__Spirochaetales|f__Spirochaetaceae|g__Treponema",
-                       "k__Bacteria|p__Spirochaetes|c__Spirochaetia|o__Spirochaetales|f__Spirochaetaceae|g__Treponema 2"))
+  list(new.string = "d__Bacteria;p__Spirochaetes;c__Spirochaetia;o__Spirochaetales;f__Spirochaetaceae;g__Treponema",
+       old.strings = c("d__Bacteria;p__Spirochaetes;c__Spirochaetia;o__Spirochaetales;f__Spirochaetaceae;g__Treponema",
+                       "d__Bacteria;p__Spirochaetes;c__Spirochaetia;o__Spirochaetales;f__Spirochaetaceae;g__Treponema 2"))
 
 strings.to.correct$Faecalibacterium <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Faecalibacterium",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Faecalibacterium",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__UBA1819"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Faecalibacterium",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Faecalibacterium",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__UBA1819"))
 
 strings.to.correct$Candidatus_Soleaferrea <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Candidatus_Soleaferrea",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Candidatus_Soleaferrea",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Ruminococcaceae|g__Candidatus Soleaferrea"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Candidatus_Soleaferrea",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Candidatus_Soleaferrea",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Candidatus Soleaferrea"))
 
 strings.to.correct$Candidatus_Stoquefichus <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Erysipelotrichia|o__Erysipelotrichales|f__Erysipelotrichaceae|g__Candidatus_Stoquefichus",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Erysipelotrichia|o__Erysipelotrichales|f__Erysipelotrichaceae|g__Candidatus_Stoquefichus",
-                       "k__Bacteria|p__Firmicutes|c__Erysipelotrichia|o__Erysipelotrichales|f__Erysipelotrichaceae|g__Candidatus Stoquefichus"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__Erysipelotrichaceae;g__Candidatus_Stoquefichus",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__Erysipelotrichaceae;g__Candidatus_Stoquefichus",
+                       "d__Bacteria;p__Firmicutes;c__Erysipelotrichia;o__Erysipelotrichales;f__Erysipelotrichaceae;g__Candidatus Stoquefichus"))
 
 strings.to.correct$Barnesiellaceae__ <-
-  list(new.string = "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Barnesiellaceae|__",
-       old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__[Barnesiellaceae]|__",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Barnesiellaceae|__"))
+  list(new.string = "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Barnesiellaceae;__",
+       old.strings = c("d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__[Barnesiellaceae];__",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Barnesiellaceae;__"))
 
 strings.to.correct$Clostridiaceae__ <-
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae|__",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae 1|__",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiaceae|__"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae;__",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae 1;__",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiaceae;__"))
 
 strings.to.correct$Acidaminococcaceae__ <- 
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Acidaminococcaceae|__",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Acidaminococcaceae|g__Acidaminococcaceae_unclassified",
-                       "k__Bacteria|p__Firmicutes|c__Negativicutes|o__Selenomonadales|f__Acidaminococcaceae|__"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Acidaminococcaceae;__",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Acidaminococcaceae;g__Acidaminococcaceae_unclassified",
+                       "d__Bacteria;p__Firmicutes;c__Negativicutes;o__Selenomonadales;f__Acidaminococcaceae;__"))
 
 strings.to.correct$Clostridiales_Family_XIII_Incertae_Sedis <-
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiales_Family_XIII_Incertae_Sedis|__",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiales_Family_XIII_Incertae_Sedis|__",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiales_Family_XIII._Incertae_Sedis|__",
-                       "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Clostridiales_Family_XIII_Incertae_Sedis|g__Clostridiales_Family_XIII_Incertae_Sedis_unclassified"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiales_Family_XIII_Incertae_Sedis;__",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiales_Family_XIII_Incertae_Sedis;__",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiales_Family_XIII._Incertae_Sedis;__",
+                       "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Clostridiales_Family_XIII_Incertae_Sedis;g__Clostridiales_Family_XIII_Incertae_Sedis_unclassified"))
 
 strings.to.correct$f__Leptotrichiaceae__ <-
-  list(new.string = "k__Bacteria|p__Fusobacteria|c__Fusobacteriia|o__Fusobacteriales|f__Leptotrichiaceae|__",
-       old.strings = c("k__Bacteria|p__Fusobacteria|c__Fusobacteriia|o__Fusobacteriales|f__Leptotrichiaceae|__",
-                       "k__Bacteria|p__Fusobacteria|c__Fusobacteriia|o__Fusobacteriales|f__Leptotrichiaceae|g__Leptotrichiaceae_unclassified"))
+  list(new.string = "d__Bacteria;p__Fusobacteria;c__Fusobacteriia;o__Fusobacteriales;f__Leptotrichiaceae;__",
+       old.strings = c("d__Bacteria;p__Fusobacteria;c__Fusobacteriia;o__Fusobacteriales;f__Leptotrichiaceae;__",
+                       "d__Bacteria;p__Fusobacteria;c__Fusobacteriia;o__Fusobacteriales;f__Leptotrichiaceae;g__Leptotrichiaceae_unclassified"))
 
 strings.to.correct$Muribaculaceae__ <-
-  list(new.string = "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Muribaculaceae|__",
-       old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Muribaculaceae|__",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Muribaculaceae|g__uncultured Bacteroidales bacterium"))
+  list(new.string = "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Muribaculaceae;__",
+       old.strings = c("d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Muribaculaceae;__",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Muribaculaceae;g__uncultured Bacteroidales bacterium"))
 
 strings.to.correct$Gastranaerophilales____ <-
-  list(new.string = "k__Bacteria|p__Cyanobacteria|c__Melainabacteria|o__Gastranaerophilales|__|__",
-       old.strings = c("k__Bacteria|p__Cyanobacteria|c__Melainabacteria|o__Gastranaerophilales|__|__",
-                       "k__Bacteria|p__Cyanobacteria|c__Melainabacteria|o__Gastranaerophilales|f__uncultured cyanobacterium|g__uncultured cyanobacterium"))
+  list(new.string = "d__Bacteria;p__Cyanobacteria;c__Melainabacteria;o__Gastranaerophilales;__;__",
+       old.strings = c("d__Bacteria;p__Cyanobacteria;c__Melainabacteria;o__Gastranaerophilales;__;__",
+                       "d__Bacteria;p__Cyanobacteria;c__Melainabacteria;o__Gastranaerophilales;f__uncultured cyanobacterium;g__uncultured cyanobacterium"))
 
 strings.to.correct$Mollicutes_RF39____ <-
-  list(new.string = "k__Bacteria|p__Tenericutes|c__Mollicutes|o__Mollicutes RF39|__|__",
-       old.strings = c("k__Bacteria|p__Tenericutes|c__Mollicutes|o__Mollicutes RF39|__|__",
-                       "k__Bacteria|p__Tenericutes|c__Mollicutes|o__Mollicutes RF39|f__wallaby gut metagenome|g__wallaby gut metagenome",
-                       "k__Bacteria|p__Tenericutes|c__Mollicutes|o__Mollicutes RF39|f__unidentified rumen bacterium RF39|g__unidentified rumen bacterium RF39"))
+  list(new.string = "d__Bacteria;p__Tenericutes;c__Mollicutes;o__Mollicutes RF39;__;__",
+       old.strings = c("d__Bacteria;p__Tenericutes;c__Mollicutes;o__Mollicutes RF39;__;__",
+                       "d__Bacteria;p__Tenericutes;c__Mollicutes;o__Mollicutes RF39;f__wallaby gut metagenome;g__wallaby gut metagenome",
+                       "d__Bacteria;p__Tenericutes;c__Mollicutes;o__Mollicutes RF39;f__unidentified rumen bacterium RF39;g__unidentified rumen bacterium RF39"))
 
 strings.to.correct$Rikenella <-
-  list(new.string = "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Rikenellaceae|g__Rikenella",
-       old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Rikenellaceae|g__Rikenella",
-                       "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Rikenellaceae|g__uncultured Rikenella sp."))
+  list(new.string = "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Rikenellaceae;g__Rikenella",
+       old.strings = c("d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Rikenellaceae;g__Rikenella",
+                       "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Rikenellaceae;g__uncultured Rikenella sp."))
 
 strings.to.correct$Thermobaculum <- 
-  list(new.string = "k__Bacteria|p__Chloroflexi|__|__|__|g__Thermobaculum",
-      old.strings = c("k__Bacteria|__|__|__|__|g__Thermobaculum"))
+  list(new.string = "d__Bacteria;p__Chloroflexi;__;__;__;g__Thermobaculum",
+      old.strings = c("d__Bacteria;__;__;__;__;g__Thermobaculum"))
 
 strings.to.correct$Haloplasma <- 
-  list(new.string = "k__Bacteria|p__Tenericutes|c__Mollicutes|o__Haloplasmatales|f__Haloplasmataceae|g__Haloplasma",
-       old.strings = c("k__Bacteria|__|__|o__Haloplasmatales|f__Haloplasmataceae|g__Haloplasma"))
+  list(new.string = "d__Bacteria;p__Tenericutes;c__Mollicutes;o__Haloplasmatales;f__Haloplasmataceae;g__Haloplasma",
+       old.strings = c("d__Bacteria;__;__;o__Haloplasmatales;f__Haloplasmataceae;g__Haloplasma"))
 
 strings.to.correct$Pyrinomonas <-
-  list(new.string = "k__Bacteria|p__Acidobacteria|c__Blastocatellia|o__Blastocatellales|f__Pyrinomonadaceae|g__Pyrinomonas",
-       old.strings = c("k__Bacteria|p__Acidobacteria|c__Blastocatellia|__|__|g__Pyrinomonas"))
+  list(new.string = "d__Bacteria;p__Acidobacteria;c__Blastocatellia;o__Blastocatellales;f__Pyrinomonadaceae;g__Pyrinomonas",
+       old.strings = c("d__Bacteria;p__Acidobacteria;c__Blastocatellia;__;__;g__Pyrinomonas"))
 
 strings.to.correct$Tropheryma <-
-  list(new.string = "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Microbacteriaceae|g__Tropheryma",
-       old.strings = c("k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Micrococcales|__|g__Tropheryma",
-                       "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Microbacteriaceae|g__Tropheryma"))
+  list(new.string = "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Microbacteriaceae;g__Tropheryma",
+       old.strings = c("d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Micrococcales;__;g__Tropheryma",
+                       "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Actinomycetales;f__Microbacteriaceae;g__Tropheryma"))
 
 strings.to.correct$Phocaeicola <-
-  list(new.string = "k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|f__Bacteroidaceae|g__Phocaeicola",
-       old.strings = c("k__Bacteria|p__Bacteroidetes|c__Bacteroidia|o__Bacteroidales|__|g__Phocaeicola"))
+  list(new.string = "d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Phocaeicola",
+       old.strings = c("d__Bacteria;p__Bacteroidetes;c__Bacteroidia;o__Bacteroidales;__;g__Phocaeicola"))
 
 strings.to.correct$Dehalogenimonas <-
-  list(new.string = "k__Bacteria|p__Chloroflexi|c__Dehalococcoidia|o__Dehalococcoidales|f__Dehalococcoidaceae|g__Dehalogenimonas",
-       old.strings = c("k__Bacteria|p__Chloroflexi|c__Dehalococcoidia|__|__|g__Dehalogenimonas"))
+  list(new.string = "d__Bacteria;p__Chloroflexi;c__Dehalococcoidia;o__Dehalococcoidales;f__Dehalococcoidaceae;g__Dehalogenimonas",
+       old.strings = c("d__Bacteria;p__Chloroflexi;c__Dehalococcoidia;__;__;g__Dehalogenimonas"))
 
 strings.to.correct$Microcystis <-
-  list(new.string = "k__Bacteria|p__Cyanobacteria|c__Cyanophyceae|o__Chroococcales|f__Microcystaceae|g__Microcystis",
-       old.strings = c("k__Bacteria|p__Cyanobacteria|__|o__Chroococcales|f__Microcystaceae|g__Microcystis"))
+  list(new.string = "d__Bacteria;p__Cyanobacteria;c__Cyanophyceae;o__Chroococcales;f__Microcystaceae;g__Microcystis",
+       old.strings = c("d__Bacteria;p__Cyanobacteria;__;o__Chroococcales;f__Microcystaceae;g__Microcystis"))
 
 strings.to.correct$Chroococcidiopsis <-
-  list(new.string = "k__Bacteria|p__Cyanobacteria|c__Cyanophyceae|o__Chroococcidiopsidales|f__Chroococcidiopsidaceae|g__Chroococcidiopsis",
-       old.strings = c("k__Bacteria|p__Cyanobacteria|__|o__Chroococcidiopsidales|f__Chroococcidiopsidaceae|g__Chroococcidiopsis"))
+  list(new.string = "d__Bacteria;p__Cyanobacteria;c__Cyanophyceae;o__Chroococcidiopsidales;f__Chroococcidiopsidaceae;g__Chroococcidiopsis",
+       old.strings = c("d__Bacteria;p__Cyanobacteria;__;o__Chroococcidiopsidales;f__Chroococcidiopsidaceae;g__Chroococcidiopsis"))
 
 strings.to.correct$Gottschalkia <-
-  list(new.string = "k__Bacteria|p__Firmicutes|c__Tissierellia|o__Tissierellales|f__Gottschalkiaceae|g__Gottschalkia",
-       old.strings = c("k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|__|g__Gottschalkia"))
+  list(new.string = "d__Bacteria;p__Firmicutes;c__Tissierellia;o__Tissierellales;f__Gottschalkiaceae;g__Gottschalkia",
+       old.strings = c("d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;__;g__Gottschalkia"))
 
 strings.to.correct$Methyloceanibacter <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Hyphomicrobiales|f__Hyphomicrobiaceae|g__Methyloceanibacter",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Alphaproteobacteria|o__Rhizobiales|__|g__Methyloceanibacter"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Hyphomicrobiales;f__Hyphomicrobiaceae;g__Methyloceanibacter",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Alphaproteobacteria;o__Rhizobiales;__;g__Methyloceanibacter"))
 
 strings.to.correct$Ideonella <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Ideonella",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Ideonella"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Ideonella",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Ideonella"))
 
 strings.to.correct$Paucibacter <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Paucibacter",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Paucibacter"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Paucibacter",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Paucibacter"))
 
 strings.to.correct$Roseateles <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Roseateles",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Roseateles"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Roseateles",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Roseateles"))
 
 strings.to.correct$Rhizobacter <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Pseudomonadales|f__Pseudomonadaceae|g__Rhizobacter",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Rhizobacter"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pseudomonadales;f__Pseudomonadaceae;g__Rhizobacter",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Rhizobacter"))
 
 strings.to.correct$Rubrivivax <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Rubrivivax",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Rubrivivax"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Rubrivivax",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Rubrivivax"))
 
 strings.to.correct$Sphaerotilus <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Sphaerotilus",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Sphaerotilus"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Sphaerotilus",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Sphaerotilus"))
 
 strings.to.correct$Tepidimonas <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Tepidimonas",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Tepidimonas"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Tepidimonas",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Tepidimonas"))
 
 strings.to.correct$Thiomonas <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Comamonadaceae|g__Thiomonas",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|f__Burkholderiales_noname|g__Thiomonas",
-                       "k__Bacteria|p__Proteobacteria|c__Betaproteobacteria|o__Burkholderiales|__|g__Thiomonas"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Comamonadaceae;g__Thiomonas",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;f__Burkholderiales_noname;g__Thiomonas",
+                       "d__Bacteria;p__Proteobacteria;c__Betaproteobacteria;o__Burkholderiales;__;g__Thiomonas"))
 
 strings.to.correct$Plesiomonas <-
-  list(new.string = "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacterales|f__Enterobacteriaceae|g__Plesiomonas",
-       old.strings = c("k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacterales|__|g__Plesiomonas"))
+  list(new.string = "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Plesiomonas",
+       old.strings = c("d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;__;g__Plesiomonas"))
 
 debug.unify.genera <- data.frame()
 
@@ -502,7 +545,7 @@ rm(old.strings, new.string, fix.genus)
 # colnames(xx) <- x; xx$G1 <- x; 
 # xx <- xx %>% tidyr::pivot_longer(!G1, names_to = "G2", values_to = "similarity") %>% filter(G1 > G2)
 # xx <- xx %>% filter(similarity > 0.5)
-# xx <- xx %>% filter(gsub(".*\\|g__","",G1) != gsub(".*\\|g__","",G2))
+# xx <- xx %>% filter(gsub(".*;g__","",G1) != gsub(".*;g__","",G2))
 # write.table(xx, "tmp.tsv", sep="\t", row.names = F)
 
 
@@ -512,8 +555,8 @@ rm(old.strings, new.string, fix.genus)
 #  (due to discrepancies between annotation methods/databases).
 
 # Example: 
-#  "k__Bacteria|p__Actinobacteria|c__Coriobacteriia|o__Coriobacteriales|f__Atopobiaceae|g__Atopobium" vs.
-#  "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Coriobacteriales|f__Coriobacteriaceae|g__Atopobium"
+#  "d__Bacteria;p__Actinobacteria;c__Coriobacteriia;o__Coriobacteriales;f__Atopobiaceae;g__Atopobium" vs.
+#  "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Coriobacteriales;f__Coriobacteriaceae;g__Atopobium"
 
 # We identify these cases by looking for the same genus name but different overall string, and we then choose a single representation.
 
@@ -521,19 +564,19 @@ rm(old.strings, new.string, fix.genus)
 x <- c(); for(dataset in datasets) {x <- c(x, genera.new[[dataset]]$Genus)}; x <- unique(x)
 genera.names.mapping <- data.frame(Genus = x)
 genera.names.mapping <- genera.names.mapping %>%
-  mutate(Genus.short = gsub(".*\\|g__", "", Genus)) %>%
-  mutate(Genus.short = ifelse(grepl(".*\\|g__", Genus), 
+  mutate(Genus.short = gsub(".*;g__", "", Genus)) %>%
+  mutate(Genus.short = ifelse(grepl(".*;g__", Genus), 
                               Genus.short, 
-                              gsub(".*\\|f__", "", Genus))) %>%
-  mutate(Genus.short = ifelse(grepl(".*\\|[gf]__", Genus), 
+                              gsub(".*;f__", "", Genus))) %>%
+  mutate(Genus.short = ifelse(grepl(".*;[gf]__", Genus), 
                               Genus.short, 
-                              gsub(".*\\|o__", "", Genus))) %>%
-  mutate(Genus.short = ifelse(grepl(".*\\|[gfo]__", Genus), 
+                              gsub(".*;o__", "", Genus))) %>%
+  mutate(Genus.short = ifelse(grepl(".*;[gfo]__", Genus), 
                               Genus.short, 
-                              gsub(".*\\|c__", "", Genus))) %>%
-  mutate(Genus.short = ifelse(grepl(".*\\|[gfoc]__", Genus), 
+                              gsub(".*;c__", "", Genus))) %>%
+  mutate(Genus.short = ifelse(grepl(".*;[gfoc]__", Genus), 
                               Genus.short, 
-                              gsub(".*\\|p__", "", Genus))) 
+                              gsub(".*;p__", "", Genus))) 
 
 duplicated.taxa <- genera.names.mapping$Genus.short[duplicated(genera.names.mapping$Genus.short)]
 
@@ -573,6 +616,6 @@ source("load_original_data/utils.R")
 
 for(dataset in data.dirs) {
   genera <- genera.new[[basename(dataset)]]
-  resave(genera, file = file.path(dataset, ".RData"))
+  resave(genera, file = file.path(dataset, ".RData")) ##### Need to first copy files from prelim to processed. Then run these 2 lines + update to new save.to.rdata
   save.to.files(basename(dataset), genera = genera)
 }
