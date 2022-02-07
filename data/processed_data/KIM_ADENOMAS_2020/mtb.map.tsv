@@ -1,0 +1,463 @@
+Compound	Superpathway	Subpathway	Chem.ID	High.Confidence.Annotation	HMDB	KEGG
+(R)-salsolinol	Amino Acid	Tyrosine Metabolism	X_R__SALSOLINOL	TRUE	HMDB0005199	C09642
+1-(1-enyl-oleoyl)-GPE (P-18:1)*	Lipid	Lysoplasmalogen	X_1__1_ENYL_OLEOYL__GPE__P_18_	FALSE	HMDB0240599	NA
+1-(1-enyl-palmitoyl)-GPE (P-16:0)*	Lipid	Lysoplasmalogen	X_1__1_ENYL_PALMITOYL__GPE__P_	FALSE	NA	NA
+1-(1-enyl-stearoyl)-GPE (P-18:0)*	Lipid	Lysoplasmalogen	X_1__1_ENYL_STEAROYL__GPE__P_1	FALSE	HMDB0240598	NA
+1-linoleoyl-GPE (18:2)*	Lipid	Lysophospholipid	X_1_LINOLEOYL_GPE__18_2_	FALSE	HMDB0011507	NA
+1-linoleoylglycerol (18:2)	Lipid	Monoacylglycerol	X_1_LINOLEOYLGLYCEROL__18_2_	TRUE	NA	NA
+1-methyladenine	Nucleotide	Purine Metabolism, Adenine containing	X_1_METHYLADENINE	TRUE	HMDB0011599	C02216
+1-methylguanidine	Amino Acid	Guanidino and Acetamido Metabolism	X_1_METHYLGUANIDINE	TRUE	HMDB0001522	C02294
+1-methylimidazoleacetate	Amino Acid	Histidine Metabolism	X_1_METHYLIMIDAZOLEACETATE	TRUE	NA	NA
+1-methylnicotinamide	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	X_1_METHYLNICOTINAMIDE	TRUE	HMDB0000699	C02918
+1-oleoyl-2-linoleoyl-GPC (18:1/18:2)*	Lipid	Phosphatidylcholine (PC)	X_1_OLEOYL_2_LINOLEOYL_GPC__18	FALSE	HMDB0008105	NA
+1-oleoyl-GPC (18:1)	Lipid	Lysophospholipid	X_1_OLEOYL_GPC__18_1_	TRUE	HMDB0240602	NA
+1-oleoyl-GPE (18:1)	Lipid	Lysophospholipid	X_1_OLEOYL_GPE__18_1_	TRUE	HMDB0011506	NA
+1-oleoylglycerol (18:1)	Lipid	Monoacylglycerol	X_1_OLEOYLGLYCEROL__18_1_	TRUE	HMDB0011567	NA
+1-palmitoyl-2-linoleoyl-digalactosylglycerol (16:0/18:2)*	Lipid	Glycolipid Metabolism	X_1_PALMITOYL_2_LINOLEOYL_DGG	FALSE	NA	NA
+1-palmitoyl-2-linoleoyl-galactosylglycerol (16:0/18:2)*	Lipid	Glycolipid Metabolism	X_1_PALMITOYL_2_LINOLEOYL_GG	FALSE	NA	NA
+1-palmitoyl-2-linoleoyl-GPC (16:0/18:2)	Lipid	Phosphatidylcholine (PC)	X_1_PALMITOYL_2_LINOLEOYL_GPC	TRUE	HMDB0007973	C00157
+1-palmitoyl-2-linoleoyl-GPE (16:0/18:2)	Lipid	Phosphatidylethanolamine (PE)	X_1_PALMITOYL_2_LINOLEOYL_GPE	TRUE	HMDB0008928	C00350
+1-palmitoyl-2-oleoyl-GPC (16:0/18:1)	Lipid	Phosphatidylcholine (PC)	X_1_PALMITOYL_2_OLEOYL_GPC__16	TRUE	NA	NA
+1-palmitoyl-GPC (16:0)	Lipid	Lysophospholipid	X_1_PALMITOYL_GPC__16_0_	TRUE	HMDB0010382	C04230
+1-palmitoyl-GPE (16:0)	Lipid	Lysophospholipid	X_1_PALMITOYL_GPE__16_0_	TRUE	HMDB0011503	NA
+1-palmitoyl-GPG (16:0)*	Lipid	Lysophospholipid	X_1_PALMITOYL_GPG__16_0_	FALSE	HMDB0240601	NA
+1-palmitoylglycerol (16:0)	Lipid	Monoacylglycerol	X_1_PALMITOYLGLYCEROL__16_0_	TRUE	NA	NA
+1-stearoyl-2-oleoyl-GPC (18:0/18:1)	Lipid	Phosphatidylcholine (PC)	X_1_STEAROYL_2_OLEOYL_GPC__18_	TRUE	NA	NA
+1-stearoyl-GPC (18:0)	Lipid	Lysophospholipid	X_1_STEAROYL_GPC__18_0_	TRUE	HMDB0010384	NA
+1-stearoyl-GPE (18:0)	Lipid	Lysophospholipid	X_1_STEAROYL_GPE__18_0_	TRUE	HMDB0011130	NA
+1-stearoyl-GPG (18:0)	Lipid	Lysophospholipid	X_1_STEAROYL_GPG__18_0_	TRUE	NA	NA
+1,2-dilinoleoyl-digalactosylglycerol (18:2/18:2)*	Lipid	Glycolipid Metabolism	X_1_2_DILINOLEOYL_DGG	FALSE	NA	NA
+1,2-dilinoleoyl-GPC (18:2/18:2)	Lipid	Phosphatidylcholine (PC)	X_1_2_DILINOLEOYL_GPC__18_2_18	TRUE	HMDB0008138	NA
+1,2-dipalmitoyl-GPC (16:0/16:0)	Lipid	Phosphatidylcholine (PC)	X_1_2_DIPALMITOYL_GPC__16_0_16	TRUE	HMDB0000564	NA
+1,3-dimethylurate	Xenobiotics	Xanthine Metabolism	X_1_3_DIMETHYLURATE	TRUE	HMDB0001857	NA
+1,3-propanediol	Xenobiotics	Chemical	X_1_3_PROPANEDIOL	TRUE	METPA0292	C02457
+1,3,7-trimethylurate	Xenobiotics	Xanthine Metabolism	X_1_3_7_TRIMETHYLURATE	TRUE	HMDB0002123	C16361
+1,7-dimethylurate	Xenobiotics	Xanthine Metabolism	X_1_7_DIMETHYLURATE	TRUE	HMDB0011103	C16356
+10-hydroxystearate	Lipid	Fatty Acid, Monohydroxy	X_10_HYDROXYSTEARATE	TRUE	HMDB0037396	NA
+10-nonadecenoate (19:1n9)	Lipid	Long Chain Fatty Acid	X_10_NONADECENOATE__19_1N9_	TRUE	NA	NA
+12-dehydrocholate	Lipid	Secondary Bile Acid Metabolism	X_12_DEHYDROCHOLATE	TRUE	NA	NA
+12,13-DiHOME	Lipid	Fatty Acid, Dihydroxy	X_12_13_DIHOME	TRUE	HMDB0004705	C14829
+13-methylmyristate	Lipid	Fatty Acid, Branched	X_13_METHYLMYRISTATE	TRUE	NA	NA
+15-methylpalmitate	Lipid	Fatty Acid, Branched	X_15_METHYLPALMITATE	TRUE	NA	NA
+17-methylstearate	Lipid	Fatty Acid, Branched	X_17_METHYLSTEARATE	TRUE	HMDB0037397	NA
+2'-deoxyadenosine	Nucleotide	Purine Metabolism, Adenine containing	X_2__DEOXYADENOSINE	TRUE	HMDB0000101	C00559
+2'-deoxyadenosine 5'-monophosphate	Nucleotide	Purine Metabolism, Adenine containing	X_2__DEOXYADENOSINE_5__MONOPHO	TRUE	HMDB0000905	C00360
+2'-deoxycytidine	Nucleotide	Pyrimidine Metabolism, Cytidine containing	X_2__DEOXYCYTIDINE	TRUE	HMDB0000014	C00881
+2'-deoxycytidine 5'-monophosphate	Nucleotide	Pyrimidine Metabolism, Cytidine containing	X_2__DEOXYCYTIDINE_5__MONOPHOS	TRUE	HMDB0001202	C00239
+2'-deoxyguanosine	Nucleotide	Purine Metabolism, Guanine containing	X_2__DEOXYGUANOSINE	TRUE	HMDB0000085	C00330
+2'-deoxyinosine	Nucleotide	Purine Metabolism, (Hypo)Xanthine/Inosine containing	X_2__DEOXYINOSINE	TRUE	HMDB0000071	C05512
+2'-deoxyuridine	Nucleotide	Pyrimidine Metabolism, Uracil containing	X_2__DEOXYURIDINE	TRUE	HMDB0000012	C00526
+2-aminoadipate	Amino Acid	Lysine Metabolism	X_2_AMINOADIPATE	TRUE	HMDB0000510	C00956
+2-aminophenol	Amino Acid	Tryptophan Metabolism	X_2_AMINOPHENOL	TRUE	METPA0236	C01987
+2-hydroxy-3-methylvalerate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	X_2_HYDROXY_3_METHYLVALERATE	TRUE	HMDB0000317	NA
+2-hydroxybehenate	Lipid	Fatty Acid, Monohydroxy	X_2_HYDROXYBEHENATE	TRUE	NA	NA
+2-hydroxybutyrate/2-hydroxyisobutyrate	Amino Acid	Glutathione Metabolism	X_2_HYDROXYBUTYRATE_2_HYDROXYI	FALSE	NA	NA
+2-hydroxydecanoate	Lipid	Fatty Acid, Monohydroxy	X_2_HYDROXYDECANOATE	TRUE	HMDB0094656	NA
+2-hydroxyglutarate	Lipid	Fatty Acid, Dicarboxylate	X_2_HYDROXYGLUTARATE	TRUE	HMDB0059655	C02630
+2-hydroxylaurate	Lipid	Fatty Acid, Monohydroxy	X_2_HYDROXYLAURATE	TRUE	NA	NA
+2-hydroxypalmitate	Lipid	Fatty Acid, Monohydroxy	X_2_HYDROXYPALMITATE	TRUE	HMDB0031057	NA
+2-hydroxystearate	Lipid	Fatty Acid, Monohydroxy	X_2_HYDROXYSTEARATE	FALSE	HMDB0062549	C03045
+2-isopropylmalate	Xenobiotics	Food Component/Plant	X_2_ISOPROPYLMALATE	TRUE	HMDB0000402	C02504
+2-keto-3-deoxy-gluconate	Xenobiotics	Food Component/Plant	X_2_KETO_3_DEOXY_GLUCONATE	TRUE	HMDB0001353	NA
+2-linoleoylglycerol (18:2)	Lipid	Monoacylglycerol	X_2_LINOLEOYLGLYCEROL__18_2_	TRUE	HMDB0011538	NA
+2-oxindole-3-acetate	Xenobiotics	Food Component/Plant	X_2_OXINDOLE_3_ACETATE	TRUE	HMDB0094657	NA
+2-oxo-1-pyrrolidinepropionate	Xenobiotics	Chemical	X_2_OXO_1_PYRROLIDINEPROPIONAT	TRUE	NA	NA
+2-oxoarginine*	Amino Acid	Urea cycle; Arginine and Proline Metabolism	X_2_OXOARGININE	FALSE	HMDB0004225	C03771
+2-piperidinone	Xenobiotics	Food Component/Plant	X_2_PIPERIDINONE	TRUE	HMDB0011749	NA
+2,3-dihydroxyisovalerate	Xenobiotics	Food Component/Plant	X_2_3_DIHYDROXYISOVALERATE	TRUE	NA	C04039
+2,3-dimethylsuccinate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	X_2_3_DIMETHYLSUCCINATE	TRUE	HMDB0245405	NA
+3-(3-hydroxyphenyl)propionate	Xenobiotics	Benzoate Metabolism	X_3__3_HYDROXYPHENYL_PROPIONAT	TRUE	HMDB0000375	C11457
+3-(4-hydroxyphenyl)lactate	Amino Acid	Tyrosine Metabolism	X_3__4_HYDROXYPHENYL_LACTATE	TRUE	HMDB0000755	C03672
+3-(4-hydroxyphenyl)propionate	Xenobiotics	Benzoate Metabolism	X_3__4_HYDROXYPHENYL_PROPIONAT	TRUE	HMDB0002199	C01744
+3-aminoisobutyrate	Nucleotide	Pyrimidine Metabolism, Thymine containing	X_3_AMINOISOBUTYRATE	TRUE	HMDB0003911	C05145
+3-carboxyadipate	Lipid	Fatty Acid, Dicarboxylate	X_3_CARBOXYADIPATE	TRUE	NA	NA
+3-hydroxy-3-methylglutarate	Lipid	Mevalonate Metabolism	X_3_HYDROXY_3_METHYLGLUTARATE	TRUE	HMDB0000355	C03761
+3-hydroxybutyrate (BHBA)	Lipid	Ketone Bodies	X_3_HYDROXYBUTYRATE__BHBA_	TRUE	HMDB0000357	C01089
+3-hydroxydecanoate	Lipid	Fatty Acid, Monohydroxy	X_3_HYDROXYDECANOATE	TRUE	HMDB0002203	NA
+3-hydroxylaurate	Lipid	Fatty Acid, Monohydroxy	X_3_HYDROXYLAURATE	TRUE	HMDB0000387	NA
+3-hydroxypalmitate	Lipid	Fatty Acid, Monohydroxy	X_3_HYDROXYPALMITATE	TRUE	HMDB0061658	NA
+3-hydroxypyridine	Xenobiotics	Chemical	X_3_HYDROXYPYRIDINE	TRUE	NA	NA
+3-hydroxystearate	Lipid	Fatty Acid, Monohydroxy	X_3_HYDROXYSTEARATE	TRUE	NA	NA
+3-ketosphinganine	Lipid	Sphingolipid Metabolism	X_3_KETOSPHINGANINE	TRUE	HMDB0001480	C02934
+3-methyl-2-oxobutyrate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	X_3_METHYL_2_OXOBUTYRATE	TRUE	HMDB0000019	C00141
+3-methyl-2-oxovalerate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	X_3_METHYL_2_OXOVALERATE	TRUE	HMDB0000491	C00671
+3-methyladipate	Lipid	Fatty Acid, Dicarboxylate	X_3_METHYLADIPATE	TRUE	HMDB0000555	NA
+3-methylglutaconate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	X_3_METHYLGLUTACONATE	TRUE	HMDB0000522	NA
+3-methylglutarate/2-methylglutarate	Lipid	Fatty Acid, Dicarboxylate	X_3_METHYLGLUTARATE_2_METHYLGL	FALSE	NA	NA
+3-methylhistidine	Amino Acid	Histidine Metabolism	X_3_METHYLHISTIDINE	TRUE	HMDB0000479	C01152
+3-phenylpropionate (hydrocinnamate)	Xenobiotics	Benzoate Metabolism	X_3_PHENYLPROPIONATE	TRUE	NA	NA
+3-sulfo-L-alanine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	X_3_SULFO_L_ALANINE	TRUE	NA	NA
+3-ureidopropionate	Nucleotide	Pyrimidine Metabolism, Uracil containing	X_3_UREIDOPROPIONATE	TRUE	HMDB0000026	C02642
+3,7-dimethylurate	Xenobiotics	Xanthine Metabolism	X_3_7_DIMETHYLURATE	TRUE	NA	NA
+3b-hydroxy-5-cholenoic acid	Lipid	Secondary Bile Acid Metabolism	X_3B_HYDROXY_5_CHOLENOIC_ACID	TRUE	HMDB0000308	NA
+4-acetamidobutanoate	Amino Acid	Polyamine Metabolism	X_4_ACETAMIDOBUTANOATE	TRUE	HMDB0003681	C02946
+4-cholesten-3-one	Lipid	Sterol	X_4_CHOLESTEN_3_ONE	TRUE	HMDB0000921	C00599
+4-guanidinobutanoate	Amino Acid	Guanidino and Acetamido Metabolism	X_4_GUANIDINOBUTANOATE	TRUE	HMDB0003464	C01035
+4-hydroxyphenylacetate	Amino Acid	Phenylalanine Metabolism	X_4_HYDROXYPHENYLACETATE	TRUE	HMDB0000020	C00642
+4-imidazoleacetate	Amino Acid	Histidine Metabolism	X_4_IMIDAZOLEACETATE	TRUE	HMDB0002024	C02835
+4-methyl-2-oxopentanoate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	X_4_METHYL_2_OXOPENTANOATE	TRUE	HMDB0000695	C00233
+4-ureidobutyrate	Nucleotide	Pyrimidine Metabolism, Uracil containing	X_4_UREIDOBUTYRATE	TRUE	NA	NA
+5-(2-Hydroxyethyl)-4-methylthiazole	Cofactors and Vitamins	Thiamine Metabolism	X_5__2_HYDROXYETHYL__4_METHYLT	TRUE	HMDB0032985	C04294
+5-acetylamino-6-amino-3-methyluracil	Xenobiotics	Xanthine Metabolism	X_5_ACETYLAMINO_6_AMINO_3_METH	TRUE	HMDB0004400	C16366
+5-acetylamino-6-formylamino-3-methyluracil	Xenobiotics	Xanthine Metabolism	X_5_ACETYLAMINO_6_FORMYLAMINO_	TRUE	HMDB0011105	C16365
+5-aminovalerate	Amino Acid	Lysine Metabolism	X_5_AMINOVALERATE	TRUE	HMDB0003355	C00431
+5-dodecenoate (12:1n7)	Lipid	Medium Chain Fatty Acid	X_5_DODECENOATE__12_1N7_	FALSE	HMDB0000529	NA
+5-hydroxyhexanoate	Lipid	Fatty Acid, Monohydroxy	X_5_HYDROXYHEXANOATE	TRUE	HMDB0000453	NA
+5-hydroxylysine	Amino Acid	Lysine Metabolism	X_5_HYDROXYLYSINE	TRUE	HMDB0000450	C16741
+5-methyluridine (ribothymidine)	Nucleotide	Pyrimidine Metabolism, Uracil containing	X_5_METHYLURIDINE__RIBOTHYMIDI	TRUE	NA	NA
+5-oxoproline	Amino Acid	Glutathione Metabolism	X_5_OXOPROLINE	TRUE	HMDB0000267	C01879
+6-hydroxynicotinate	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	X_6_HYDROXYNICOTINATE	TRUE	HMDB0002658	C01020
+6-oxolithocholate	Lipid	Secondary Bile Acid Metabolism	X_6_OXOLITHOCHOLATE	TRUE	NA	NA
+6-oxopiperidine-2-carboxylate	Amino Acid	Lysine Metabolism	X_6_OXOPIPERIDINE_2_CARBOXYLIC	TRUE	HMDB0061705	NA
+7-ketodeoxycholate	Lipid	Secondary Bile Acid Metabolism	X_7_KETODEOXYCHOLATE	TRUE	HMDB0000391	C04643
+7-methylguanine	Nucleotide	Purine Metabolism, Guanine containing	X_7_METHYLGUANINE	TRUE	HMDB0000897	C02242
+8-hydroxyguanine 	Nucleotide	Purine Metabolism, Guanine containing	X_8_HYDROXYGUANINE	TRUE	HMDB0002032	C20155
+8-hydroxyoctanoate	Lipid	Fatty Acid, Monohydroxy	X_8_HYDROXYOCTANOATE	TRUE	HMDB0061914	NA
+9-HOTrE	Lipid	Fatty Acid, Monohydroxy	X_9_HOTRE	FALSE	HMDB0010224	NA
+9,10-DiHOME	Lipid	Fatty Acid, Dihydroxy	X_9_10_DIHOME	TRUE	HMDB0004704	C14828
+acisoga	Amino Acid	Polyamine Metabolism	ACISOGA	TRUE	HMDB0061384	NA
+aconitate [cis or trans]	Energy	TCA Cycle	ACONITATE__CIS_OR_TRANS_	TRUE	NA	NA
+adenine	Nucleotide	Purine Metabolism, Adenine containing	ADENINE	TRUE	HMDB0000034	C00147
+adenosine	Nucleotide	Purine Metabolism, Adenine containing	ADENOSINE	TRUE	HMDB0000050	C00212
+adipate	Lipid	Fatty Acid, Dicarboxylate	ADIPATE	TRUE	HMDB0000448	C06104
+alanine	Amino Acid	Alanine and Aspartate Metabolism	ALANINE	TRUE	HMDB0000161	C00041
+alanylleucine	Peptide	Dipeptide	ALANYLLEUCINE	TRUE	HMDB0028691	NA
+alpha-hydroxyisocaproate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	ALPHA_HYDROXYISOCAPROATE	TRUE	HMDB0000624	C03264
+alpha-hydroxyisovalerate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	ALPHA_HYDROXYISOVALERATE	TRUE	HMDB0000407	NA
+alpha-ketoglutarate	Energy	TCA Cycle	ALPHA_KETOGLUTARATE	TRUE	HMDB0000208	C00026
+alpha-tocopherol	Cofactors and Vitamins	Tocopherol Metabolism	ALPHA_TOCOPHEROL	TRUE	HMDB0001893	C02477
+anserine	Peptide	Dipeptide Derivative	ANSERINE	TRUE	HMDB0000194	C01262
+arabinose	Carbohydrate	Pentose Metabolism	ARABINOSE	TRUE	HMDB0000646	C02479
+arabonate/xylonate	Carbohydrate	Pentose Metabolism	ARABONATE_XYLONATE	FALSE	NA	NA
+arachidate (20:0)	Lipid	Long Chain Fatty Acid	ARACHIDATE__20_0_	TRUE	HMDB0002212	C06425
+arachidonate (20:4n6)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	ARACHIDONATE__20_4N6_	TRUE	NA	C00219
+arachidoylcarnitine (C20)*	Lipid	Fatty Acid Metabolism(Acyl Carnitine)	ARACHIDOYLCARNITINE__C20_	FALSE	HMDB0006460	NA
+argininate*	Amino Acid	Urea cycle; Arginine and Proline Metabolism	ARGININATE	FALSE	HMDB0003148	NA
+arginine	Amino Acid	Urea cycle; Arginine and Proline Metabolism	ARGININE	TRUE	HMDB0000517	C00062
+asparagine	Amino Acid	Alanine and Aspartate Metabolism	ASPARAGINE	TRUE	HMDB0000168	C00152
+aspartate	Amino Acid	Alanine and Aspartate Metabolism	ASPARTATE	TRUE	HMDB0000191	C00049
+azelate (nonanedioate)	Lipid	Fatty Acid, Dicarboxylate	AZELATE__NONANEDIOATE_	TRUE	HMDB0000784	C08261
+behenoyl ethanolamide (22:0)*	Lipid	Endocannabinoid	BEHENOYL_ETHANOLAMIDE__22_0_	FALSE	NA	NA
+benzoate	Xenobiotics	Benzoate Metabolism	BENZOATE	TRUE	HMDB0013677	C00180
+beta-alanine	Nucleotide	Pyrimidine Metabolism, Uracil containing	BETA_ALANINE	TRUE	HMDB0000056	C00099
+beta-cryptoxanthin	Xenobiotics	Food Component/Plant	BETA_CRYPTOXANTHIN	TRUE	HMDB0033844	C08591
+beta-guanidinopropanoate	Xenobiotics	Food Component/Plant	BETA_GUANIDINOPROPANOATE	TRUE	NA	NA
+beta-hydroxyisovalerate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	BETA_HYDROXYISOVALERATE	TRUE	HMDB0000754	C20827
+beta-sitosterol	Lipid	Sterol	BETA_SITOSTEROL	TRUE	HMDB0000852	C01753
+betaine	Amino Acid	Glycine, Serine and Threonine Metabolism	BETAINE	TRUE	HMDB0000043	C00719
+bilirubin (Z,Z)	Cofactors and Vitamins	Hemoglobin and Porphyrin Metabolism	BILIRUBIN__Z_Z_	TRUE	HMDB0000054	C00486
+biliverdin	Cofactors and Vitamins	Hemoglobin and Porphyrin Metabolism	BILIVERDIN	TRUE	HMDB0001008	C00500
+biotin	Cofactors and Vitamins	Biotin Metabolism	BIOTIN	TRUE	HMDB0000030	C00120
+caffeine	Xenobiotics	Xanthine Metabolism	CAFFEINE	TRUE	HMDB0001847	C07481
+campesterol	Lipid	Sterol	CAMPESTEROL	TRUE	HMDB0002869	C01789
+caprate (10:0)	Lipid	Medium Chain Fatty Acid	CAPRATE__10_0_	TRUE	NA	NA
+caproate (6:0)	Lipid	Medium Chain Fatty Acid	CAPROATE__6_0_	TRUE	HMDB0061883	C01585
+caprylate (8:0)	Lipid	Medium Chain Fatty Acid	CAPRYLATE__8_0_	TRUE	NA	C06423
+carboxyethyl-GABA	Amino Acid	Glutamate Metabolism	CARBOXYETHYL_GABA	TRUE	HMDB0002201	NA
+carnitine	Lipid	Carnitine Metabolism	CARNITINE	TRUE	HMDB0000062	C00318
+carotene diol (1)	Xenobiotics	Food Component/Plant	CAROTENE_DIOL__1_	TRUE	NA	NA
+carotene diol (2)	Xenobiotics	Food Component/Plant	CAROTENE_DIOL__2_	TRUE	NA	NA
+carotene diol (3)	Xenobiotics	Food Component/Plant	CAROTENE_DIOL__3_	TRUE	NA	NA
+ceramide (d18:1/14:0, d16:1/16:0)*	Lipid	Ceramides	CERAMIDE__D18_1_14_0__D16_1_1	FALSE	NA	NA
+ceramide (d18:1/20:0, d16:1/22:0, d20:1/18:0)*	Lipid	Ceramides	CERAMIDE__D18_1_20_0__D16_1_2	FALSE	NA	NA
+cholate	Lipid	Primary Bile Acid Metabolism	CHOLATE	TRUE	HMDB0000619	C00695
+cholesterol	Lipid	Sterol	CHOLESTEROL	TRUE	HMDB0000067	C00187
+choline	Lipid	Phospholipid Metabolism	CHOLINE	TRUE	HMDB0000097	C00114
+choline phosphate	Lipid	Phospholipid Metabolism	CHOLINE_PHOSPHATE	TRUE	HMDB0001565	C00588
+cis-4-hydroxycyclohexylacetic acid	Amino Acid	Tyrosine Metabolism	CIS_4_HYDROXYCYCLOHEXYLACETIC	TRUE	HMDB0000451	NA
+citrate	Energy	TCA Cycle	CITRATE	TRUE	HMDB0000094	C00158
+citrulline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	CITRULLINE	TRUE	HMDB0000904	C00327
+coprostanol	Lipid	Sterol	COPROSTANOL	TRUE	HMDB0000577	NA
+creatine	Amino Acid	Creatine Metabolism	CREATINE	TRUE	HMDB0000064	C00300
+creatinine	Amino Acid	Creatine Metabolism	CREATININE	TRUE	HMDB0000562	C00791
+cysteine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	CYSTEINE	TRUE	HMDB0000574	C00097
+cysteine sulfinic acid	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	CYSTEINE_SULFINIC_ACID	TRUE	HMDB0000996	C00606
+cysteinylglycine	Amino Acid	Glutathione Metabolism	CYSTEINYLGLYCINE	TRUE	HMDB0000078	C01419
+cystine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	CYSTINE	TRUE	HMDB0000192	C00491
+cytidine	Nucleotide	Pyrimidine Metabolism, Cytidine containing	CYTIDINE	TRUE	HMDB0000089	C00475
+cytosine	Nucleotide	Pyrimidine Metabolism, Cytidine containing	CYTOSINE	TRUE	HMDB0000630	C00380
+D-urobilin	Cofactors and Vitamins	Hemoglobin and Porphyrin Metabolism	D_UROBILIN	TRUE	HMDB0004161	C05795
+dehydrolithocholate	Lipid	Secondary Bile Acid Metabolism	DEHYDROLITHOCHOLATE	TRUE	NA	NA
+delta-tocopherol	Cofactors and Vitamins	Tocopherol Metabolism	DELTA_TOCOPHEROL	TRUE	HMDB0002902	C14151
+deoxycarnitine	Lipid	Carnitine Metabolism	DEOXYCARNITINE	TRUE	HMDB0001161	C01181
+deoxycholate	Lipid	Secondary Bile Acid Metabolism	DEOXYCHOLATE	TRUE	HMDB0000626	C04483
+diaminopimelate	Xenobiotics	Food Component/Plant	DIAMINOPIMELATE	TRUE	HMDB0001370	C00666
+dihomo-linoleate (20:2n6)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	DIHOMO_LINOLEATE__20_2N6_	TRUE	HMDB0061864	NA
+dihomo-linolenate (20:3n3 or n6)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	DIHOMO_LINOLENATE	TRUE	NA	NA
+dihydroferulic acid	Xenobiotics	Food Component/Plant	DIHYDROFERULIC_ACID	TRUE	HMDB0062121	NA
+dimethylarginine (SDMA + ADMA)	Amino Acid	Urea cycle; Arginine and Proline Metabolism	DIMETHYLARGININE__SDMA___ADMA	TRUE	NA	NA
+dimethylglycine	Amino Acid	Glycine, Serine and Threonine Metabolism	DIMETHYLGLYCINE	TRUE	HMDB0000092	C01026
+dimethylmalonic acid	Lipid	Fatty Acid, Dicarboxylate	DIMETHYLMALONIC_ACID	TRUE	HMDB0002001	NA
+docosadienoate (22:2n6)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	DOCOSADIENOATE__22_2N6_	TRUE	HMDB0061714	C16533
+docosahexaenoate (DHA; 22:6n3)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	DOCOSAHEXAENOATE	TRUE	NA	C06429
+docosapentaenoate (n3 DPA; 22:5n3)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	DOCOSAPENTAENOATE	TRUE	NA	NA
+dodecanedioate	Lipid	Fatty Acid, Dicarboxylate	DODECANEDIOATE	TRUE	HMDB0000623	C02678
+ectoine	Xenobiotics	Chemical	ECTOINE	TRUE	METPA0797	C06231
+eicosanoylsphingosine (d20:1)*	Lipid	Ceramides	EICOSANOYLSPHINGOSINE__D20_1_	FALSE	NA	NA
+eicosapentaenoate (EPA; 20:5n3)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	EICOSAPENTAENOATE	TRUE	NA	NA
+eicosenoate (20:1)	Lipid	Long Chain Fatty Acid	EICOSENOATE__20_1_	TRUE	NA	NA
+enterolactone	Xenobiotics	Food Component/Plant	ENTEROLACTONE	TRUE	HMDB0006101	C18165
+erucate (22:1n9)	Lipid	Long Chain Fatty Acid	ERUCATE__22_1N9_	TRUE	NA	NA
+erythronate*	Carbohydrate	Aminosugar Metabolism	ERYTHRONATE	FALSE	NA	NA
+ethylmalonate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	ETHYLMALONATE	TRUE	HMDB0000622	NA
+ferulate	Xenobiotics	Food Component/Plant	FERULATE	TRUE	HMDB0000954	C01494
+formiminoglutamate	Amino Acid	Histidine Metabolism	FORMIMINOGLUTAMATE	TRUE	HMDB0000854	C00439
+fructose	Carbohydrate	Fructose, Mannose and Galactose Metabolism	FRUCTOSE	TRUE	HMDB0000660	C02336
+fucose	Carbohydrate	Pentose Metabolism	FUCOSE	FALSE	HMDB0000174	C02781
+fumarate	Energy	TCA Cycle	FUMARATE	TRUE	HMDB0000134	C00122
+galacturonate	Xenobiotics	Food Component/Plant	GALACTURONATE	TRUE	HMDB0002545	C08348
+gamma-glutamyl-alpha-lysine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYL_ALPHA_LYSINE	TRUE	NA	NA
+gamma-glutamyl-epsilon-lysine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYL_EPSILON_LYSINE	TRUE	HMDB0003869	NA
+gamma-glutamylisoleucine*	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYLISOLEUCINE	FALSE	HMDB0011170	NA
+gamma-glutamylleucine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYLLEUCINE	TRUE	HMDB0011171	NA
+gamma-glutamylmethionine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYLMETHIONINE	TRUE	HMDB0034367	NA
+gamma-glutamylphenylalanine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYLPHENYLALANINE	TRUE	HMDB0000594	NA
+gamma-glutamylthreonine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYLTHREONINE	TRUE	HMDB0029159	NA
+gamma-glutamyltyrosine	Peptide	Gamma-glutamyl Amino Acid	GAMMA_GLUTAMYLTYROSINE	TRUE	HMDB0011741	NA
+gamma-tocopherol/beta-tocopherol	Cofactors and Vitamins	Tocopherol Metabolism	GAMMA_TOCOPHEROL_BETA_TOCOPHE	FALSE	NA	NA
+gamma-tocotrienol	Cofactors and Vitamins	Tocopherol Metabolism	GAMMA_TOCOTRIENOL	TRUE	HMDB0012958	C14155
+gentisate	Amino Acid	Tyrosine Metabolism	GENTISATE	TRUE	HMDB0000152	C00628
+gluconate	Xenobiotics	Food Component/Plant	GLUCONATE	TRUE	HMDB0000625	C00257
+glucose	Carbohydrate	Glycolysis, Gluconeogenesis, and Pyruvate Metabolism	GLUCOSE	TRUE	HMDB0000122	C00221
+glucuronate	Carbohydrate	Aminosugar Metabolism	GLUCURONATE	TRUE	HMDB0000127	C00191
+glutamate	Amino Acid	Glutamate Metabolism	GLUTAMATE	TRUE	HMDB0000148	C00025
+glutamate, gamma-methyl ester	Amino Acid	Glutamate Metabolism	GLUTAMATE__GAMMA_METHYL_ESTER	TRUE	HMDB0061715	NA
+glutamine	Amino Acid	Glutamate Metabolism	GLUTAMINE	TRUE	HMDB0000641	C00064
+glutarate (pentanedioate)	Amino Acid	Lysine Metabolism	GLUTARATE__PENTANEDIOATE_	TRUE	NA	NA
+glycerate	Carbohydrate	Glycolysis, Gluconeogenesis, and Pyruvate Metabolism	GLYCERATE	TRUE	HMDB0000139	C00258
+glycerol	Lipid	Glycerolipid Metabolism	GLYCEROL	TRUE	HMDB0000131	C00116
+glycerol 3-phosphate	Lipid	Glycerolipid Metabolism	GLYCEROL_3_PHOSPHATE	TRUE	HMDB0000126	C00093
+glycerophosphoethanolamine	Lipid	Phospholipid Metabolism	GLYCEROPHOSPHOETHANOLAMINE	TRUE	HMDB0000114	C01233
+glycerophosphoglycerol	Lipid	Glycerolipid Metabolism	GLYCEROPHOSPHOGLYCEROL	TRUE	HMDB0240316	NA
+glycerophosphoinositol*	Lipid	Phospholipid Metabolism	GLYCEROPHOSPHOINOSITOL	FALSE	NA	NA
+glycerophosphorylcholine (GPC)	Lipid	Phospholipid Metabolism	GLYCEROPHOSPHORYLCHOLINE__GPC	TRUE	HMDB0000086	C00670
+glycerophosphoserine*	Lipid	Phospholipid Metabolism	GLYCEROPHOSPHOSERINE	FALSE	HMDB0252850	NA
+glycine	Amino Acid	Glycine, Serine and Threonine Metabolism	GLYCINE	TRUE	HMDB0000123	C00037
+glycochenodeoxycholate	Lipid	Primary Bile Acid Metabolism	GLYCOCHENODEOXYCHOLATE	TRUE	HMDB0000637	C05466
+glycocholate	Lipid	Primary Bile Acid Metabolism	GLYCOCHOLATE	TRUE	HMDB0000138	C01921
+glycodeoxycholate	Lipid	Secondary Bile Acid Metabolism	GLYCODEOXYCHOLATE	TRUE	HMDB0000631	C05464
+glycosyl-N-palmitoyl-sphingosine (d18:1/16:0)	Lipid	Sphingolipid Metabolism	GLYCOSYL_N_PALMITOYL_SPHINGOS	TRUE	NA	NA
+glycosyl-N-stearoyl-sphingosine (d18:1/18:0)	Lipid	Sphingolipid Metabolism	GLYCOSYL_N_STEAROYL_SPHINGOSI	TRUE	NA	NA
+glycylisoleucine	Peptide	Dipeptide	GLYCYLISOLEUCINE	TRUE	HMDB0028844	NA
+glycylleucine	Peptide	Dipeptide	GLYCYLLEUCINE	TRUE	HMDB0000759	C02155
+glycylvaline	Peptide	Dipeptide	GLYCYLVALINE	TRUE	HMDB0028854	NA
+guanine	Nucleotide	Purine Metabolism, Guanine containing	GUANINE	TRUE	HMDB0000132	C00242
+guanosine	Nucleotide	Purine Metabolism, Guanine containing	GUANOSINE	TRUE	HMDB0000133	C00387
+harmane	Xenobiotics	Food Component/Plant	HARMANE	TRUE	HMDB0035196	C09209
+heptanoate (7:0)	Lipid	Medium Chain Fatty Acid	HEPTANOATE__7_0_	TRUE	NA	NA
+hexadecadienoate (16:2n6)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	HEXADECADIENOATE__16_2N6_	TRUE	NA	NA
+hexadecanedioate	Lipid	Fatty Acid, Dicarboxylate	HEXADECANEDIOATE	TRUE	HMDB0000672	C19615
+hexadecasphinganine (d16:0)*	Lipid	Sphingolipid Metabolism	HEXADECASPHINGANINE__D16_0_	FALSE	NA	NA
+hexadecasphingosine (d16:1)*	Lipid	Sphingolipid Metabolism	HEXADECASPHINGOSINE__D16_1_	FALSE	NA	NA
+histidine	Amino Acid	Histidine Metabolism	HISTIDINE	TRUE	HMDB0000177	C00135
+homocitrulline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	HOMOCITRULLINE	TRUE	HMDB0000679	C02427
+homostachydrine*	Xenobiotics	Food Component/Plant	HOMOSTACHYDRINE	FALSE	NA	C08283
+hydroxymethylpyrimidine	Cofactors and Vitamins	Thiamine Metabolism	HYDROXYMETHYLPYRIMIDINE	TRUE	NA	NA
+hyocholate	Lipid	Secondary Bile Acid Metabolism	HYOCHOLATE	TRUE	HMDB0000760	C17649
+hypoxanthine	Nucleotide	Purine Metabolism, (Hypo)Xanthine/Inosine containing	HYPOXANTHINE	TRUE	HMDB0000157	C00262
+imidazole lactate	Amino Acid	Histidine Metabolism	IMIDAZOLE_LACTATE	TRUE	METPA0616	C05568
+imidazole propionate	Amino Acid	Histidine Metabolism	IMIDAZOLE_PROPIONATE	TRUE	HMDB0002271	C20522
+indole-3-carboxylic acid	Amino Acid	Tryptophan Metabolism	INDOLE_3_CARBOXYLIC_ACID	TRUE	HMDB0003320	C19837
+indolelactate	Amino Acid	Tryptophan Metabolism	INDOLELACTATE	TRUE	HMDB0000671	C02043
+indolepropionate	Amino Acid	Tryptophan Metabolism	INDOLEPROPIONATE	TRUE	HMDB0002302	NA
+indolin-2-one	Xenobiotics	Food Component/Plant	INDOLIN_2_ONE	TRUE	HMDB0061918	C12312
+inosine	Nucleotide	Purine Metabolism, (Hypo)Xanthine/Inosine containing	INOSINE	TRUE	HMDB0000195	C00294
+isocaproate	Lipid	Fatty Acid, Branched	ISOCAPROATE	TRUE	HMDB0000689	NA
+isoleucine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	ISOLEUCINE	TRUE	HMDB0000172	C00407
+isoleucylglycine	Peptide	Dipeptide	ISOLEUCYLGLYCINE	TRUE	HMDB0028907	NA
+isoursodeoxycholate	Lipid	Secondary Bile Acid Metabolism	ISOURSODEOXYCHOLATE	TRUE	HMDB0000686	C17662
+isovalerate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	ISOVALERATE	TRUE	HMDB0000718	C08262
+isovalerylglycine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	ISOVALERYLGLYCINE	TRUE	HMDB0000678	NA
+kynurenate	Amino Acid	Tryptophan Metabolism	KYNURENATE	TRUE	HMDB0000715	C01717
+L-urobilin	Cofactors and Vitamins	Hemoglobin and Porphyrin Metabolism	L_UROBILIN	TRUE	HMDB0004159	C05793
+lactate	Carbohydrate	Glycolysis, Gluconeogenesis, and Pyruvate Metabolism	LACTATE	TRUE	HMDB0000190	C00186
+lactosyl-N-palmitoyl-sphingosine (d18:1/16:0)	Lipid	Sphingolipid Metabolism	LACTOSYL_N_PALMITOYL_SPHINGOS	TRUE	HMDB0006750	C01290
+lanosterol	Lipid	Sterol	LANOSTEROL	TRUE	HMDB0001251	C01724
+laurate (12:0)	Lipid	Medium Chain Fatty Acid	LAURATE__12_0_	TRUE	NA	NA
+leucine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	LEUCINE	TRUE	HMDB0000687	C00123
+leucylalanine	Peptide	Dipeptide	LEUCYLALANINE	TRUE	HMDB0028922	NA
+leucylglutamine*	Peptide	Dipeptide	LEUCYLGLUTAMINE	FALSE	HMDB0028927	NA
+leucylglycine	Peptide	Dipeptide	LEUCYLGLYCINE	TRUE	NA	NA
+lignoceroyl ethanolamide (24:0)*	Lipid	Endocannabinoid	LIGNOCEROYL_ETHANOLAMIDE__24_	FALSE	NA	NA
+linoleate (18:2n6)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	LINOLEATE__18_2N6_	TRUE	NA	NA
+linolenate [alpha or gamma; (18:3n3 or 6)]	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	LINOLENATE_ALPHA_OR_GAMMA	TRUE	NA	NA
+linoleoyl ethanolamide	Lipid	Endocannabinoid	LINOLEOYL_ETHANOLAMIDE	TRUE	HMDB0012252	NA
+lithocholate	Lipid	Secondary Bile Acid Metabolism	LITHOCHOLATE	TRUE	HMDB0000717	C17658
+lysine	Amino Acid	Lysine Metabolism	LYSINE	TRUE	HMDB0000182	C00047
+lysylleucine	Peptide	Dipeptide	LYSYLLEUCINE	TRUE	HMDB0028955	NA
+m-tyramine	Amino Acid	Tyrosine Metabolism	M_TYRAMINE	TRUE	HMDB0004989	NA
+malate	Energy	TCA Cycle	MALATE	TRUE	HMDB0000156	C00149
+maleate	Lipid	Fatty Acid, Dicarboxylate	MALEATE	TRUE	HMDB0000176	C01384
+malonate	Lipid	Fatty Acid Synthesis	MALONATE	TRUE	NA	C00383
+maltose	Carbohydrate	Glycogen Metabolism	MALTOSE	TRUE	HMDB0000163	C00897
+mannitol/sorbitol	Carbohydrate	Fructose, Mannose and Galactose Metabolism	MANNITOL_SORBITOL	FALSE	NA	NA
+mannose	Carbohydrate	Fructose, Mannose and Galactose Metabolism	MANNOSE	TRUE	HMDB0000169	C00936
+margarate (17:0)	Lipid	Long Chain Fatty Acid	MARGARATE__17_0_	TRUE	NA	NA
+mead acid (20:3n9)	Lipid	Polyunsaturated Fatty Acid (n3 and n6)	MEAD_ACID__20_3N9_	TRUE	NA	NA
+methionine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	METHIONINE	TRUE	HMDB0000696	C00073
+methionine sulfoxide	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	METHIONINE_SULFOXIDE	TRUE	HMDB0002005	C02989
+methylmalonate (MMA)	Lipid	Fatty Acid Metabolism (also BCAA Metabolism)	METHYLMALONATE__MMA_	TRUE	NA	C02170
+methylphosphate	Nucleotide	Purine and Pyrimidine Metabolism	METHYLPHOSPHATE	TRUE	HMDB0061711	NA
+methylsuccinate	Amino Acid	Leucine, Isoleucine and Valine Metabolism	METHYLSUCCINATE	TRUE	HMDB0001844	C08645
+mevalonate	Lipid	Mevalonate Metabolism	MEVALONATE	TRUE	HMDB0000227	C00418
+myo-inositol	Lipid	Inositol Metabolism	MYO_INOSITOL	TRUE	HMDB0000211	C00137
+myristate (14:0)	Lipid	Long Chain Fatty Acid	MYRISTATE__14_0_	TRUE	NA	NA
+myristoleate (14:1n5)	Lipid	Long Chain Fatty Acid	MYRISTOLEATE__14_1N5_	TRUE	NA	NA
+N-2-hydroxypalmitoyl-sphingosine (d18:1/16:0(2OH))	Lipid	Sphingolipid Metabolism	N_2_HYDROXYPALMITOYL_SPHINGOS	TRUE	NA	NA
+N-acetyl-3-methylhistidine*	Amino Acid	Histidine Metabolism	N_ACETYL_3_METHYLHISTIDINE	FALSE	HMDB0240341	NA
+N-acetyl-beta-glucosaminylamine	Carbohydrate	Aminosugar Metabolism	N_ACETYL_BETA_GLUCOSAMINYLAMI	TRUE	HMDB0001104	C01239
+N-acetyl-cadaverine	Amino Acid	Lysine Metabolism	N_ACETYL_CADAVERINE	TRUE	NA	NA
+N-acetylalanine	Amino Acid	Alanine and Aspartate Metabolism	N_ACETYLALANINE	TRUE	HMDB0000766	NA
+N-acetylarginine	Amino Acid	Urea cycle; Arginine and Proline Metabolism	N_ACETYLARGININE	FALSE	HMDB0004620	NA
+N-acetylasparagine	Amino Acid	Alanine and Aspartate Metabolism	N_ACETYLASPARAGINE	TRUE	HMDB0006028	NA
+N-acetylaspartate (NAA)	Amino Acid	Alanine and Aspartate Metabolism	N_ACETYLASPARTATE__NAA_	TRUE	HMDB0000812	C01042
+N-acetylcitrulline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	N_ACETYLCITRULLINE	FALSE	HMDB0000856	NA
+N-acetylcysteine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	N_ACETYLCYSTEINE	TRUE	HMDB0001890	C06809
+N-acetylglucosamine/N-acetylgalactosamine	Carbohydrate	Aminosugar Metabolism	N_ACETYLGLUCOSAMINE_N_ACETYLG	FALSE	NA	NA
+N-acetylglucosaminylasparagine 	Carbohydrate	Aminosugar Metabolism	N_ACETYLGLUCOSAMINYLASPARAGIN	TRUE	HMDB0000489	C04540
+N-acetylglutamate	Amino Acid	Glutamate Metabolism	N_ACETYLGLUTAMATE	TRUE	HMDB0001138	C00624
+N-acetylglutamine	Amino Acid	Glutamate Metabolism	N_ACETYLGLUTAMINE	TRUE	HMDB0006029	NA
+N-acetylglycine	Amino Acid	Glycine, Serine and Threonine Metabolism	N_ACETYLGLYCINE	TRUE	HMDB0000532	NA
+N-acetylhistamine	Amino Acid	Histidine Metabolism	N_ACETYLHISTAMINE	TRUE	HMDB0013253	C05135
+N-acetylhistidine	Amino Acid	Histidine Metabolism	N_ACETYLHISTIDINE	TRUE	HMDB0032055	C02997
+N-acetylisoleucine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	N_ACETYLISOLEUCINE	TRUE	HMDB0061684	NA
+N-acetylleucine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	N_ACETYLLEUCINE	TRUE	HMDB0011756	C02710
+N-acetylmethionine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	N_ACETYLMETHIONINE	TRUE	HMDB0011745	C02712
+N-acetylmethionine sulfoxide	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	N_ACETYLMETHIONINE_SULFOXIDE	TRUE	HMDB0240343	NA
+N-acetylmuramate	Carbohydrate	Aminosugar Metabolism	N_ACETYLMURAMATE	TRUE	HMDB0060493	C02713
+N-acetylneuraminate	Carbohydrate	Aminosugar Metabolism	N_ACETYLNEURAMINATE	TRUE	NA	C00270
+N-acetylphenylalanine	Amino Acid	Phenylalanine Metabolism	N_ACETYLPHENYLALANINE	TRUE	HMDB0000512	C03519
+N-acetylproline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	N_ACETYLPROLINE	TRUE	HMDB0094701	NA
+N-acetylputrescine	Amino Acid	Polyamine Metabolism	N_ACETYLPUTRESCINE	TRUE	HMDB0002064	C02714
+N-acetylserine	Amino Acid	Glycine, Serine and Threonine Metabolism	N_ACETYLSERINE	TRUE	HMDB0002931	NA
+N-acetyltryptophan	Amino Acid	Tryptophan Metabolism	N_ACETYLTRYPTOPHAN	TRUE	HMDB0013713	NA
+N-acetyltyrosine	Amino Acid	Tyrosine Metabolism	N_ACETYLTYROSINE	TRUE	HMDB0000866	C01657
+N-acetylvaline	Amino Acid	Leucine, Isoleucine and Valine Metabolism	N_ACETYLVALINE	TRUE	HMDB0011757	NA
+N-alpha-acetylornithine	Amino Acid	Urea cycle; Arginine and Proline Metabolism	N_ALPHA_ACETYLORNITHINE	TRUE	HMDB0003357	C00437
+N-carbamoylalanine	Amino Acid	Alanine and Aspartate Metabolism	N_CARBAMOYLALANINE	TRUE	NA	NA
+N-carbamoylsarcosine	Amino Acid	Creatine Metabolism	N_CARBAMOYLSARCOSINE	TRUE	HMDB0012265	C01043
+N-delta-acetylornithine	Amino Acid	Urea cycle; Arginine and Proline Metabolism	N_DELTA_ACETYLORNITHINE	TRUE	HMDB0240589	NA
+N-formylanthranilic acid	Amino Acid	Tryptophan Metabolism	N_FORMYLANTHRANILIC_ACID	TRUE	HMDB0004089	C05653
+N-formylmethionine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	N_FORMYLMETHIONINE	TRUE	HMDB0001015	C03145
+N-formylphenylalanine	Amino Acid	Tyrosine Metabolism	N_FORMYLPHENYLALANINE	TRUE	HMDB0240317	NA
+N-methylalanine	Amino Acid	Alanine and Aspartate Metabolism	N_METHYLALANINE	TRUE	HMDB0094692	C02721
+N-methylglutamate	Amino Acid	Glutamate Metabolism	N_METHYLGLUTAMATE	TRUE	HMDB0062660	C01046
+N-methylleucine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	N_METHYLLEUCINE	TRUE	NA	NA
+N-methylphenylalanine	Amino Acid	Phenylalanine Metabolism	N_METHYLPHENYLALANINE	TRUE	HMDB0029224	NA
+N-methylpipecolate	Xenobiotics	Chemical	N_METHYLPIPECOLATE	TRUE	NA	NA
+N-methylproline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	N_METHYLPROLINE	TRUE	HMDB0094696	NA
+N-palmitoyl-sphinganine (d18:0/16:0)	Lipid	Sphingolipid Metabolism	N_PALMITOYL_SPHINGANINE__D18_	TRUE	HMDB0011760	NA
+N-palmitoyl-sphingosine (d18:1/16:0)	Lipid	Sphingolipid Metabolism	N_PALMITOYL_SPHINGOSINE__D18_	TRUE	NA	NA
+N-palmitoylserine	Lipid	Endocannabinoid	N_PALMITOYLSERINE	TRUE	NA	NA
+N-propionylmethionine	Xenobiotics	Chemical	N_PROPIONYLMETHIONINE	TRUE	HMDB0094704	NA
+N-stearoyl-sphinganine (d18:0/18:0)*	Lipid	Sphingolipid Metabolism	N_STEAROYL_SPHINGANINE__D18_0	FALSE	NA	NA
+N-stearoyl-sphingosine (d18:1/18:0)*	Lipid	Sphingolipid Metabolism	N_STEAROYL_SPHINGOSINE__D18_1	FALSE	NA	NA
+N-trimethyl 5-aminovalerate	Amino Acid	Lysine Metabolism	N_TRIMETHYL_5_AMINOVALERATE	TRUE	NA	NA
+N('1)-acetylspermidine	Amino Acid	Polyamine Metabolism	N__1__ACETYLSPERMIDINE	TRUE	HMDB0001276	C00612
+N2-acetyllysine	Amino Acid	Lysine Metabolism	N2_ACETYLLYSINE	TRUE	HMDB0000446	C12989
+N6-acetyllysine	Amino Acid	Lysine Metabolism	N6_ACETYLLYSINE	TRUE	HMDB0000206	C02727
+N6-carboxymethyllysine	Carbohydrate	Advanced Glycation End-product	N6_CARBOXYMETHYLLYSINE	TRUE	HMDB0240347	NA
+N6-formyllysine	Amino Acid	Lysine Metabolism	N6_FORMYLLYSINE	TRUE	NA	NA
+N6,N6,N6-trimethyllysine	Amino Acid	Lysine Metabolism	N6_N6_N6_TRIMETHYLLYSINE	TRUE	NA	NA
+nicotianamine	Xenobiotics	Food Component/Plant	NICOTIANAMINE	TRUE	NA	C05324
+nicotinamide	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	NICOTINAMIDE	TRUE	HMDB0001406	C00153
+nicotinamide riboside	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	NICOTINAMIDE_RIBOSIDE	TRUE	HMDB0000855	C03150
+nicotinate	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	NICOTINATE	TRUE	HMDB0001488	C00253
+nicotinate ribonucleoside	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	NICOTINATE_RIBONUCLEOSIDE	TRUE	HMDB0006809	C05841
+nonadecanoate (19:0)	Lipid	Long Chain Fatty Acid	NONADECANOATE__19_0_	TRUE	HMDB0000772	C16535
+norvaline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	NORVALINE	TRUE	HMDB0013716	C01799
+octadecanedioate	Lipid	Fatty Acid, Dicarboxylate	OCTADECANEDIOATE	TRUE	HMDB0000782	NA
+oleate/vaccenate (18:1)	Lipid	Long Chain Fatty Acid	OLEATE_VACCENATE__18_1_	FALSE	NA	NA
+oleoyl ethanolamide	Lipid	Endocannabinoid	OLEOYL_ETHANOLAMIDE	TRUE	HMDB0002088	NA
+ornithine	Amino Acid	Urea cycle; Arginine and Proline Metabolism	ORNITHINE	TRUE	HMDB0000214	C00077
+orotate	Nucleotide	Pyrimidine Metabolism, Orotate containing	OROTATE	TRUE	HMDB0000226	C00295
+oxalate (ethanedioate)	Cofactors and Vitamins	Ascorbate and Aldarate Metabolism	OXALATE__ETHANEDIOATE_	TRUE	NA	C00209
+p-cresol	Xenobiotics	Benzoate Metabolism	P_CRESOL	TRUE	HMDB0001858	C01468
+p-cresol sulfate	Xenobiotics	Benzoate Metabolism	P_CRESOL_SULFATE	TRUE	HMDB0011635	NA
+palmitate (16:0)	Lipid	Long Chain Fatty Acid	PALMITATE__16_0_	FALSE	NA	C00249
+palmitoleate (16:1n7)	Lipid	Long Chain Fatty Acid	PALMITOLEATE__16_1N7_	FALSE	NA	C08362
+palmitoyl dihydrosphingomyelin (d18:0/16:0)*	Lipid	Sphingolipid Metabolism	PALMITOYL_DIHYDROSPHINGOMYELI	FALSE	NA	NA
+palmitoyl ethanolamide	Lipid	Endocannabinoid	PALMITOYL_ETHANOLAMIDE	TRUE	HMDB0002100	C16512
+palmitoyl sphingomyelin (d18:1/16:0)	Lipid	Sphingolipid Metabolism	PALMITOYL_SPHINGOMYELIN	TRUE	NA	NA
+pantothenate	Cofactors and Vitamins	Pantothenate and CoA Metabolism	PANTOTHENATE	TRUE	HMDB0000210	C00864
+pentadecanoate (15:0)	Lipid	Long Chain Fatty Acid	PENTADECANOATE__15_0_	TRUE	NA	NA
+phenethylamine	Amino Acid	Phenylalanine Metabolism	PHENETHYLAMINE	TRUE	HMDB0012275	C05332
+phenylacetate	Amino Acid	Phenylalanine Metabolism	PHENYLACETATE	TRUE	HMDB0000209	C07086
+phenylalanine	Amino Acid	Phenylalanine Metabolism	PHENYLALANINE	TRUE	HMDB0000159	C00079
+phenylalanylalanine	Peptide	Dipeptide	PHENYLALANYLALANINE	TRUE	HMDB0028988	NA
+phenylalanylglycine	Peptide	Dipeptide	PHENYLALANYLGLYCINE	TRUE	HMDB0028995	NA
+phenyllactate (PLA)	Amino Acid	Phenylalanine Metabolism	PHENYLLACTATE__PLA_	TRUE	HMDB0000779	C05607
+pheophorbide A	Xenobiotics	Food Component/Plant	PHEOPHORBIDE_A	TRUE	METPA1634	C18021
+phosphate	Energy	Oxidative Phosphorylation	PHOSPHATE	TRUE	HMDB0001429	C00009
+phytosphingosine	Lipid	Sphingolipid Metabolism	PHYTOSPHINGOSINE	TRUE	HMDB0004610	C12144
+pimelate (heptanedioate)	Lipid	Fatty Acid, Dicarboxylate	PIMELATE__HEPTANEDIOATE_	TRUE	HMDB0000857	C02656
+pipecolate	Amino Acid	Lysine Metabolism	PIPECOLATE	TRUE	HMDB0000070	C00408
+piperidine	Xenobiotics	Food Component/Plant	PIPERIDINE	TRUE	HMDB0034301	C01746
+piperine	Xenobiotics	Food Component/Plant	PIPERINE	TRUE	HMDB0029377	C03882
+proline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	PROLINE	TRUE	HMDB0000162	C00148
+propionylglutamine	Amino Acid	Glutamate Metabolism	PROPIONYLGLUTAMINE	TRUE	NA	NA
+pseudouridine	Nucleotide	Pyrimidine Metabolism, Uracil containing	PSEUDOURIDINE	TRUE	HMDB0000767	C02067
+pterin	Cofactors and Vitamins	Pterin Metabolism	PTERIN	TRUE	HMDB0000802	C00715
+pyridoxal	Cofactors and Vitamins	Vitamin B6 Metabolism	PYRIDOXAL	TRUE	HMDB0001545	C00250
+pyridoxamine	Cofactors and Vitamins	Vitamin B6 Metabolism	PYRIDOXAMINE	TRUE	HMDB0001431	C00534
+pyridoxate	Cofactors and Vitamins	Vitamin B6 Metabolism	PYRIDOXATE	TRUE	HMDB0000017	C00847
+pyroglutamine*	Amino Acid	Glutamate Metabolism	PYROGLUTAMINE	FALSE	HMDB0062558	NA
+pyrraline	Xenobiotics	Food Component/Plant	PYRRALINE	TRUE	HMDB0033143	NA
+pyruvate	Carbohydrate	Glycolysis, Gluconeogenesis, and Pyruvate Metabolism	PYRUVATE	TRUE	HMDB0000243	C00022
+quinate	Xenobiotics	Food Component/Plant	QUINATE	TRUE	HMDB0003072	C00296
+riboflavin (Vitamin B2)	Cofactors and Vitamins	Riboflavin Metabolism	RIBOFLAVIN__VITAMIN_B2_	TRUE	HMDB0000244	C00255
+ribulose/xylulose	Carbohydrate	Pentose Metabolism	RIBULOSE_XYLULOSE	FALSE	NA	NA
+saccharopine	Amino Acid	Lysine Metabolism	SACCHAROPINE	TRUE	HMDB0000279	C00449
+sebacate (decanedioate)	Lipid	Fatty Acid, Dicarboxylate	SEBACATE__DECANEDIOATE_	TRUE	NA	NA
+sedoheptulose	Carbohydrate	Pentose Metabolism	SEDOHEPTULOSE	TRUE	HMDB0003219	C08355
+serine	Amino Acid	Glycine, Serine and Threonine Metabolism	SERINE	TRUE	HMDB0062263	C00716
+serotonin	Amino Acid	Tryptophan Metabolism	SEROTONIN	TRUE	HMDB0000259	C00780
+solanidine	Xenobiotics	Food Component/Plant	SOLANIDINE	TRUE	HMDB0003236	C06543
+spermidine	Amino Acid	Polyamine Metabolism	SPERMIDINE	TRUE	HMDB0001257	C00315
+sphinganine	Lipid	Sphingolipid Metabolism	SPHINGANINE	TRUE	HMDB0000269	C00836
+sphingosine	Lipid	Sphingolipid Metabolism	SPHINGOSINE	TRUE	HMDB0000252	C00319
+stachydrine	Xenobiotics	Food Component/Plant	STACHYDRINE	TRUE	HMDB0004827	C10172
+stearate (18:0)	Lipid	Long Chain Fatty Acid	STEARATE__18_0_	TRUE	NA	NA
+stearoyl ethanolamide	Lipid	Endocannabinoid	STEAROYL_ETHANOLAMIDE	TRUE	HMDB0013078	NA
+suberate (octanedioate)	Lipid	Fatty Acid, Dicarboxylate	SUBERATE__OCTANEDIOATE_	TRUE	NA	NA
+succinate	Energy	TCA Cycle	SUCCINATE	TRUE	HMDB0000254	C00042
+succinimide	Xenobiotics	Chemical	SUCCINIMIDE	TRUE	METPA1878	C07273
+succinylcarnitine (C4-DC)	Energy	TCA Cycle	SUCCINYLCARNITINE	FALSE	HMDB0061717	NA
+sulfate*	Xenobiotics	Chemical	SULFATE	FALSE	NA	NA
+taurine	Amino Acid	Methionine, Cysteine, SAM and Taurine Metabolism	TAURINE	TRUE	HMDB0000251	C00245
+theanine	Xenobiotics	Food Component/Plant	THEANINE	TRUE	HMDB0034365	C01047
+thiamin (Vitamin B1)	Cofactors and Vitamins	Thiamine Metabolism	THIAMIN__VITAMIN_B1_	TRUE	HMDB0000235	C00378
+thioproline	Xenobiotics	Chemical	THIOPROLINE	TRUE	HMDB0062164	NA
+threonate	Cofactors and Vitamins	Ascorbate and Aldarate Metabolism	THREONATE	TRUE	HMDB0000943	C01620
+threonine	Amino Acid	Glycine, Serine and Threonine Metabolism	THREONINE	TRUE	HMDB0000167	C00188
+threonylphenylalanine	Peptide	Dipeptide	THREONYLPHENYLALANINE	TRUE	HMDB0029068	NA
+thymidine	Nucleotide	Pyrimidine Metabolism, Thymine containing	THYMIDINE	TRUE	HMDB0000273	C00214
+thymine	Nucleotide	Pyrimidine Metabolism, Thymine containing	THYMINE	TRUE	HMDB0000262	C00178
+trans-4-hydroxyproline	Amino Acid	Urea cycle; Arginine and Proline Metabolism	TRANS_4_HYDROXYPROLINE	TRUE	HMDB0000725	C01157
+trans-nonadecenoate (tr 19:1)*	Lipid	Long Chain Fatty Acid	TRANS_NONADECENOATE__TR_19_1_	FALSE	NA	NA
+trans-urocanate	Amino Acid	Histidine Metabolism	TRANS_UROCANATE	TRUE	HMDB0062562	NA
+tricarballylate	Energy	TCA Cycle	TRICARBALLYLATE	TRUE	HMDB0031193	C19806
+trigonelline (N'-methylnicotinate)	Cofactors and Vitamins	Nicotinate and Nicotinamide Metabolism	TRIGONELLINE__N__METHYLNICOTI	TRUE	HMDB0000875	C01004
+trimethylamine N-oxide	Lipid	Phospholipid Metabolism	TRIMETHYLAMINE_N_OXIDE	TRUE	HMDB0000925	C01104
+tryptamine	Amino Acid	Tryptophan Metabolism	TRYPTAMINE	TRUE	HMDB0000303	C00398
+tryptophan	Amino Acid	Tryptophan Metabolism	TRYPTOPHAN	TRUE	HMDB0000929	C00078
+tryptophylglycine	Peptide	Dipeptide	TRYPTOPHYLGLYCINE	TRUE	HMDB0029083	NA
+tyramine	Amino Acid	Tyrosine Metabolism	TYRAMINE	TRUE	HMDB0000306	C00483
+tyramine O-sulfate	Amino Acid	Tyrosine Metabolism	TYRAMINE_O_SULFATE	TRUE	HMDB0006409	NA
+tyrosine	Amino Acid	Tyrosine Metabolism	TYROSINE	TRUE	HMDB0000158	C00082
+tyrosol	Xenobiotics	Food Component/Plant	TYROSOL	TRUE	HMDB0004284	C06044
+tyrosylglycine	Peptide	Dipeptide	TYROSYLGLYCINE	TRUE	HMDB0029105	NA
+undecanedioate	Lipid	Fatty Acid, Dicarboxylate	UNDECANEDIOATE	TRUE	HMDB0000888	NA
+uracil	Nucleotide	Pyrimidine Metabolism, Uracil containing	URACIL	TRUE	HMDB0000300	C00106
+urate	Nucleotide	Purine Metabolism, (Hypo)Xanthine/Inosine containing	URATE	TRUE	HMDB0000289	C00366
+uridine	Nucleotide	Pyrimidine Metabolism, Uracil containing	URIDINE	TRUE	HMDB0000296	C00299
+ursocholate	Lipid	Secondary Bile Acid Metabolism	URSOCHOLATE	TRUE	HMDB0000917	C17644
+ursodeoxycholate	Lipid	Secondary Bile Acid Metabolism	URSODEOXYCHOLATE	TRUE	HMDB0000946	C07880
+valerate	Lipid	Short Chain Fatty Acid	VALERATE	TRUE	HMDB0000892	C00803
+valine	Amino Acid	Leucine, Isoleucine and Valine Metabolism	VALINE	TRUE	HMDB0000883	C00183
+valylglutamine	Peptide	Dipeptide	VALYLGLUTAMINE	TRUE	HMDB0029125	NA
+valylglycine	Peptide	Dipeptide	VALYLGLYCINE	TRUE	HMDB0029127	NA
+valylleucine	Peptide	Dipeptide	VALYLLEUCINE	TRUE	HMDB0029131	NA
+xanthine	Nucleotide	Purine Metabolism, (Hypo)Xanthine/Inosine containing	XANTHINE	TRUE	HMDB0000292	C00385
+xanthosine	Nucleotide	Purine Metabolism, (Hypo)Xanthine/Inosine containing	XANTHOSINE	TRUE	HMDB0000299	C01762
+xylose	Carbohydrate	Pentose Metabolism	XYLOSE	TRUE	HMDB0000098	C00181

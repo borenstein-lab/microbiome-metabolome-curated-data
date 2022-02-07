@@ -13,7 +13,7 @@ all.data <- load.all.datasets("prelim_data")
 for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
 rm(all.data)
 datasets <- basename(data.dirs)
-gtdb.map <- get.gtdb.mapper()
+# gtdb.map <- get.gtdb.mapper()
 
 # --------------------------------
 # 1. Remove non-bacteria
@@ -117,59 +117,11 @@ for (dataset in datasets) {
 rm(new.names)
 
 
-
-
-
-
-
-
-
-
-
-
-x2 <- gsub(".*;g__", "", x)
-
-yy <- gtdb.map %>% 
-  group_by(gtdb_genus, ref_db, ref_genus) %>% 
-  summarise(n_avail_genomes = n()) %>%
-  mutate(gtdb_genus_short = gsub(".*;g__", "", gtdb_genus)) %>%
-  filter(gtdb_genus_short %in% x2) %>%
-  group_by(gtdb_genus, ref_db) %>% 
-  summarise(n_distinct_ref_genera = n_distinct(ref_genus)) %>%
-  
-
-xx <- gtdb.map %>% 
-  group_by(gtdb_genus, ref_db, ref_genus) %>% 
-  summarise(N = n()) %>%
-  mutate(gtdb_genus_short = gsub(".*;g__", "", gtdb_genus)) %>%
-  mutate(ref_genus_short = gsub(".*;g__", "", ref_genus)) %>%
-  filter(gtdb_genus_short %in% x2)
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 3.2. Regroup unclassified genera
   
 # We label unclassified entities as "Unclassified".
 # Note: in cases where the entity is classified to a higher-level taxonomy 
 #  (e.g. class-level, order-level, etc.), we leave it as is.
-
-# Examples of entities that we leave untouched:
-#  "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;__"
-#  "d__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Lachnospiraceae_noname"
-#  "d__Bacteria;p__Proteobacteria;__;__;__;__" 
 
 # Examples of entities we rename as "Unclassified":
 #  "d__Bacteria;__;__;__;__;__"
@@ -503,6 +455,7 @@ strings.to.correct$Plesiomonas <-
   list(new.string = "d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;f__Enterobacteriaceae;g__Plesiomonas",
        old.strings = c("d__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacterales;__;g__Plesiomonas"))
 
+# For debugging
 debug.unify.genera <- data.frame()
 
 for (dataset in datasets) {
@@ -514,13 +467,13 @@ for (dataset in datasets) {
     new.string <- strings.to.correct[[fix.genus]]$new.string
     tmp <- tmp %>%
       mutate(Genus = ifelse(Genus %in% old.strings, 
-                            new.string,
-                            Genus))
+                            new.string, Genus))
   }
   
   message(paste(dataset, "- renamed",
                 sum(tmp$Genus != genera.new[[dataset]]$Genus),
                 "out of", nrow(tmp), "genus entities"))
+  
   debug.unify.genera <- 
     bind_rows(debug.unify.genera,
               data.frame(dataset = dataset,
@@ -549,73 +502,17 @@ rm(old.strings, new.string, fix.genus)
 # write.table(xx, "tmp.tsv", sep="\t", row.names = F)
 
 
-# 3.4. Reference database discrepancies
-
-# In some cases, same genera are labeled with different order/class/family names
-#  (due to discrepancies between annotation methods/databases).
-
-# Example: 
-#  "d__Bacteria;p__Actinobacteria;c__Coriobacteriia;o__Coriobacteriales;f__Atopobiaceae;g__Atopobium" vs.
-#  "d__Bacteria;p__Actinobacteria;c__Actinobacteria;o__Coriobacteriales;f__Coriobacteriaceae;g__Atopobium"
-
-# We identify these cases by looking for the same genus name but different overall string, and we then choose a single representation.
-
-## First, we extract only Genus names and create one long list of full names and genus names
-x <- c(); for(dataset in datasets) {x <- c(x, genera.new[[dataset]]$Genus)}; x <- unique(x)
-genera.names.mapping <- data.frame(Genus = x)
-genera.names.mapping <- genera.names.mapping %>%
-  mutate(Genus.short = gsub(".*;g__", "", Genus)) %>%
-  mutate(Genus.short = ifelse(grepl(".*;g__", Genus), 
-                              Genus.short, 
-                              gsub(".*;f__", "", Genus))) %>%
-  mutate(Genus.short = ifelse(grepl(".*;[gf]__", Genus), 
-                              Genus.short, 
-                              gsub(".*;o__", "", Genus))) %>%
-  mutate(Genus.short = ifelse(grepl(".*;[gfo]__", Genus), 
-                              Genus.short, 
-                              gsub(".*;c__", "", Genus))) %>%
-  mutate(Genus.short = ifelse(grepl(".*;[gfoc]__", Genus), 
-                              Genus.short, 
-                              gsub(".*;p__", "", Genus))) 
-
-duplicated.taxa <- genera.names.mapping$Genus.short[duplicated(genera.names.mapping$Genus.short)]
-
-message(paste("A total of",nrow(genera.names.mapping),
-              "unique genera strings (full taxonomy) were found"))
-message(paste(length(unique(genera.names.mapping$Genus.short)),
-              "of which are actually unique taxa, and",
-              length(duplicated.taxa),"are duplicates"))
-
-## Create a mapping between current names and unified names
-# First we create a table with mapping info
-genera.names.mapping <- genera.names.mapping %>% 
-  group_by(Genus.short) %>% 
-  dplyr::mutate(Genus.new = first(Genus)) %>%
-  ungroup()
-
-# We now turn the mapping into a named vector
-map.genera.names <- genera.names.mapping$Genus.new
-names(map.genera.names) <- genera.names.mapping$Genus
-
-# Finally, use this mapping vector to map current genera names into unified ones
-for (dataset in datasets) {
-  tmp <- unname(map.genera.names[genera.new[[dataset]]$Genus])
-  genera.new[[dataset]]$Genus <- tmp
-  message(paste("Cleaned",dataset))
-}
-rm(genera.names.mapping, duplicated.taxa, map.genera.names, dataset, tmp)
-
 # --------------------------------
 # 4. Save
 # --------------------------------
 
-# Override RData files and "genera" text tables
+# We copy the new unified tables to the "data/processed_data" folder in which final tables will be stored.
 
-require(cgwtools)
 source("load_original_data/utils.R")
+file.copy(data.dirs, "../data/processed_data", recursive = TRUE)
 
 for(dataset in data.dirs) {
   genera <- genera.new[[basename(dataset)]]
-  resave(genera, file = file.path(dataset, ".RData")) ##### Need to first copy files from prelim to processed. Then run these 2 lines + update to new save.to.rdata
-  save.to.files(basename(dataset), genera = genera)
+  save.to.files(basename(dataset), "processed_data", genera = genera)
+  save.to.rdata(basename(dataset), "processed_data", genera = genera)
 }

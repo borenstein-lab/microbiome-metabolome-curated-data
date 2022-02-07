@@ -39,3 +39,8 @@ save.to.files("YACHIDA_CRC_2019", "prelim_data", metadata = metadata.yach)
 save.to.rdata("YACHIDA_CRC_2019", "prelim_data", metadata = metadata.yach)
 save.to.files("ERAWIJANTARI_GASTRIC_CANCER_2020", "prelim_data", metadata = metadata.eraw)
 save.to.rdata("ERAWIJANTARI_GASTRIC_CANCER_2020", "prelim_data", metadata = metadata.eraw)
+
+# Remove MetaboAnalyst unneeded files
+for (f in c("master_compound_db.qs", "master_syn_nms.qs", "name_map.csv")) {
+  if (file.exists(f)) file.remove(f)
+}

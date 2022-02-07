@@ -5,9 +5,12 @@
 
 require(tibble)
 require(dplyr)
-require(cgwtools)
-source("load_all_datasets.R")
+source("utils.R")
 source("load_original_data/utils.R")
+
+all.data <- load.all.datasets("processed_data")
+for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
+rm(all.data)
 datasets <- basename(data.dirs)
 
 curr_genera <- genera; rm(genera)
@@ -36,12 +39,12 @@ for(dataset in data.dirs) {
   
   if (has_species[basename(dataset)]) {
     species <- transpose.feat.table(curr_species[[basename(dataset)]])
-    resave(genera, mtb, species, file = file.path(dataset, ".RData"))
-    save.to.files(basename(dataset), genera = genera, mtb = mtb, species = species)
+    save.to.files(basename(dataset), "processed_data", genera = genera, mtb = mtb, species = species)
+    save.to.rdata(basename(dataset), "processed_data", genera = genera, mtb = mtb, species = species)
     message("Saved transposed genera, species and mtb tables")
   } else {
-    resave(genera, mtb, file = file.path(dataset, ".RData"))
-    save.to.files(basename(dataset), genera = genera, mtb = mtb)
+    save.to.files(basename(dataset), "processed_data", genera = genera, mtb = mtb)
+    save.to.rdata(basename(dataset), "processed_data", genera = genera, mtb = mtb)
     message("Saved transposed genera and mtb tables")
   }
 }
