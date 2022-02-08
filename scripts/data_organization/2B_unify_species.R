@@ -6,7 +6,8 @@
 require(vegan)
 require(dplyr)
 require(cgwtools)
-source("utils.R")
+source("data_organization/utils.R")
+
 all.data <- load.all.datasets("processed_data")
 for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
 rm(all.data)
@@ -87,7 +88,6 @@ rm(new.names)
 # --------------------------------
 
 # Override RData files and "genera" text tables
-source("load_original_data/utils.R")
 
 for (dataset in data.dirs[basename(data.dirs) %in% datasets]) {
   species <- species.new[[basename(dataset)]]

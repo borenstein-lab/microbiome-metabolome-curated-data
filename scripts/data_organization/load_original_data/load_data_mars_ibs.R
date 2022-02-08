@@ -17,7 +17,7 @@ require(gdata)
 require(dplyr)
 options("scipen"=100, "digits"=4)
 
-source("load_original_data/utils.R")
+source("data_organization/utils.R")
 
 # --------------------------------
 # Required files & info

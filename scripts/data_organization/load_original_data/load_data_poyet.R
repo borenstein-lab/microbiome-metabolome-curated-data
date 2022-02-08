@@ -16,7 +16,7 @@ require(gdata)
 require(readr)
 require(dplyr)
 require(MetaboAnalystR)
-source("load_original_data/utils.R")
+source("data_organization/utils.R")
 
 # --------------------------------
 # Required files & info

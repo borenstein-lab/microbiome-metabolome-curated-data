@@ -5,9 +5,11 @@
 #  processed data in "data/processed_data" directory.
 # ----------------------------------------------------------------
 
-load.data.scripts <- list.files("load_original_data")
+source("data_organization/utils.R")
+
+load.data.scripts <- list.files("data_organization/load_original_data")
 load.data.scripts <- grep("^load_data_.*\\.R", load.data.scripts, value = TRUE)
-load.data.scripts <- file.path(getwd(),"load_original_data",load.data.scripts)
+load.data.scripts <- file.path(getwd(),"data_organization/load_original_data",load.data.scripts)
 
 tmp <- sapply(load.data.scripts,
        FUN = function(x) {
@@ -34,7 +36,6 @@ shared.subjects <- intersect(gsub("\\..*","",metadata.eraw$Sample),
 metadata.yach$Shared.w.ERAWIJANTARI_2020 <- as.character(metadata.yach$Sample) %in% shared.subjects
 metadata.eraw$Shared.w.YACHIDA_2019 <- gsub("\\..*","",metadata.eraw$Sample) %in% shared.subjects
 
-source("load_original_data/utils.R")
 save.to.files("YACHIDA_CRC_2019", "prelim_data", metadata = metadata.yach)
 save.to.rdata("YACHIDA_CRC_2019", "prelim_data", metadata = metadata.yach)
 save.to.files("ERAWIJANTARI_GASTRIC_CANCER_2020", "prelim_data", metadata = metadata.eraw)

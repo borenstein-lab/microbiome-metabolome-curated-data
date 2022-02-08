@@ -11,7 +11,7 @@ output:
 library(ggplot2)
 library(dplyr)
 library(gt)
-source("utils.R")
+source("data_organization/utils.R")
 options(scipen = 999)
 ```
 

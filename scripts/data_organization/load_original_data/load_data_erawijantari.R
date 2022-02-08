@@ -18,7 +18,7 @@ require(readr)
 require(dplyr)
 require(MetaboAnalystR) # See https://github.com/xia-lab/MetaboAnalystR
 
-source("load_original_data/utils.R")
+source("data_organization/utils.R")
 
 # --------------------------------
 # Required files & info

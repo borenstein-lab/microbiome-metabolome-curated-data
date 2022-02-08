@@ -6,7 +6,7 @@
 require(tibble)
 require(dplyr)
 source("utils.R")
-source("load_original_data/utils.R")
+source("data_organization/utils.R")
 
 all.data <- load.all.datasets("processed_data")
 for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])

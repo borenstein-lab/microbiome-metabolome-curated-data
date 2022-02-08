@@ -6,14 +6,13 @@
 require(vegan)
 require(dplyr)
 require(readr)
-source("utils.R")
+source("data_organization/utils.R")
 
 # Load data
 all.data <- load.all.datasets("prelim_data")
 for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
 rm(all.data)
 datasets <- basename(data.dirs)
-# gtdb.map <- get.gtdb.mapper()
 
 # --------------------------------
 # 1. Remove non-bacteria
@@ -508,8 +507,7 @@ rm(old.strings, new.string, fix.genus)
 
 # We copy the new unified tables to the "data/processed_data" folder in which final tables will be stored.
 
-source("load_original_data/utils.R")
-file.copy(data.dirs, "../data/processed_data", recursive = TRUE)
+file.copy(data.dirs, "../data/processed_data", recursive = TRUE, overwrite = TRUE)
 
 for(dataset in data.dirs) {
   genera <- genera.new[[basename(dataset)]]

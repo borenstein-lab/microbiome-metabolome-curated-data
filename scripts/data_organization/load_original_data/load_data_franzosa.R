@@ -17,7 +17,7 @@ require(gdata)
 require(readr)
 require(dplyr)
 
-source("load_original_data/utils.R")
+source("data_organization/utils.R")
 
 # --------------------------------
 # Required files & info
