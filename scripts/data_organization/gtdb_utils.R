@@ -1,6 +1,7 @@
 get.gtdb.mapper <- function() {
   require(stringr)
   require(readr)
+  require(dplyr)
   
   add.prefix.to.silva <- function(x) {
     if (is.na(x)) return(NA)
@@ -14,9 +15,21 @@ get.gtdb.mapper <- function() {
                                      escape_double = FALSE, 
                                      trim_ws = TRUE, 
                                      na = c(""," ","NA","none"))
+  
+  ar122_metadata_r202 <- read_delim("../references/gtdb/ar122_metadata_r202.tsv", 
+                                     delim = "\t", 
+                                     escape_double = FALSE, 
+                                     trim_ws = TRUE, 
+                                     na = c(""," ","NA","none"))
+  
+  bac120_metadata_r202 <- bind_rows(bac120_metadata_r202, ar122_metadata_r202)
+  
+  # Add taxonomy prefixes to silva taxonomy
   bac120_metadata_r202$ssu_silva_taxonomy <- sapply(bac120_metadata_r202$ssu_silva_taxonomy, 
                                                     add.prefix.to.silva, 
                                                     USE.NAMES = FALSE)
+  
+  # Organize table as a map from gtdb to the other databases
   bac120_metadata_r202 <- bac120_metadata_r202 %>%
     select(gtdb_taxonomy, 
            ssu_silva_taxonomy,
