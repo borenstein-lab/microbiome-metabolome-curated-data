@@ -47,9 +47,40 @@ get.gtdb.mapper <- function() {
   return(bac120_metadata_r202)
 }
 
+map.gtdb.short.to.long <- function(names.to.map, level = "species") {
+  gtdb.map <- get.gtdb.mapper()
+  
+  # Create mapping vector from short to long names
+  if (level == "species") {
+    gtdb.map <- gtdb.map %>% 
+      select(gtdb_taxonomy) %>% 
+      rename(long = gtdb_taxonomy) %>%
+      distinct() %>%
+      mutate(short = gsub(".*;s__", "s__", long))
+  } else if (level == "genera") {
+    gtdb.map <- gtdb.map %>% 
+      select(gtdb_genus) %>% 
+      rename(long = gtdb_genus) %>%
+      distinct() %>%
+      mutate(short = gsub(".*;g__", "g__", long))
+  } else return(NULL)
+  
+  unmappable <- sum(! names.to.map %in% gtdb.map$short)
+  if (unmappable > 0) {
+    print("Some names cannot be mapped")
+  }
+    
+  map.vec <- gtdb.map$long
+  names(map.vec) <- gtdb.map$short
+  
+  new.names <- unname(map.vec[names.to.map])
+  return(new.names)
+}
 
+# --------------------------------------------------------
 # Get the lowest level classified
 # 1 = domain, 2 = phylum, 3 = class, 4 = order, 5 = family, 6 = genus
+# --------------------------------------------------------
 get.classified.level <- function(genus.str) {
   level <- 6
   if (grepl("g__$", genus.str)) level <- 5
@@ -59,6 +90,8 @@ get.classified.level <- function(genus.str) {
   if (grepl("p__;c__;o__;f__;g__$", genus.str)) level <- 1
   return(level)
 }
+
+
 
 get.last.level <- function(genus.str, level) {
   if (level == 6) tmp <- gsub(".*;g__", "g__", genus.str)
@@ -82,13 +115,15 @@ make.unclassified.util <- function(level) {
 }
 
 # --------------------------------------------------------
-# Returns the GTDB taxonomy corresponding to a given genus name 
-#  (based on another DB  such as GG/Silva/NCBI).
+# Returns the (closest) GTDB taxonomy corresponding to a given 
+#  genus name (based on another DB  such as GG/Silva/NCBI).
 # For transparency regarding non-trivial mappings, a "comment" 
 #  string is returned as well, i.e. both the mapping itself 
 #  and a comment are returned as a string vector.
+# Only to be used when it is not possible to directly use
+#  GTDB when assigning taxonomy to raw data!
 # --------------------------------------------------------
-get.gtdb.genus <- function(genus.str, gtdb.map, use.ncbi = T, use.ncbi.id = F, use.gg = F, use.silva = T) {
+map.other.ref.to.gtdb.genus <- function(genus.str, gtdb.map, use.ncbi = T, use.ncbi.id = F, use.gg = F, use.silva = T) {
   level <- get.classified.level(genus.str)
   
   # Filter mapping table to relevant DBs only

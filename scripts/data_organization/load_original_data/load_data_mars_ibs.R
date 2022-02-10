@@ -18,6 +18,7 @@ require(dplyr)
 options("scipen"=100, "digits"=4)
 
 source("data_organization/utils.R")
+source("data_organization/gtdb_utils.R")
 
 # --------------------------------
 # Required files & info
@@ -25,7 +26,10 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/MARS_IBS_2020/1-s2.0-S0092867420309983-mmc1.xlsx"
-TAXONOMY_FILE <- "../data/original_data/MARS_IBS_2020/Supplementary data I Microbiome data tables stool and biopsy - tab 1 only.xlsx"
+#TAXONOMY_FILE <- "../data/original_data/MARS_IBS_2020/Supplementary data I Microbiome data tables stool and biopsy - tab 1 only.xlsx"
+TAXONOMY_FILE_SP <- '../data/original_data/MARS_IBS_2020/kraken/species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/MARS_IBS_2020/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_SAMPLE_MAP <- '../data/original_data/MARS_IBS_2020/kraken/PRJEB37924.txt'
 METABOLOMICS_FILE_1 <- "../data/original_data/MARS_IBS_2020/Supplementary data II source data NMR metabolomics.xlsx"
 METABOLOMICS_FILE_2 <- "../data/original_data/MARS_IBS_2020/Supplementary data IV source data Tryptophan metabolomics.xlsx"
 METABOLOMICS_FILE_3 <- "../data/original_data/MARS_IBS_2020/Supplementary data V source data bile acid metabolomics.xlsx"
@@ -65,42 +69,76 @@ metadata <- metadata %>%
   relocate(c(Dataset, Sample, Subject, Study.Group, 
              Age, Age.Units, Gender, BMI, DOI, Publication.Name)) 
 
-
 # --------------------------------
 # Load taxonomic profiles 
 # --------------------------------
 
-# This version is without viruses and without bacterial plasmids
-mtg <- read.xls(TAXONOMY_FILE, 
-                sheet = 'taxatable stool', 
-                header = TRUE,
-                check.names = FALSE, 
-                stringsAsFactors = FALSE)
-names(mtg)[1] <- 'OTU'
+# # This version is without viruses and without bacterial plasmids
+# mtg <- read.xls(TAXONOMY_FILE, 
+#                 sheet = 'taxatable stool', 
+#                 header = TRUE,
+#                 check.names = FALSE, 
+#                 stringsAsFactors = FALSE)
+# names(mtg)[1] <- 'OTU'
+# 
+# # We remove samples with less than 50K reads (arbitrary cutoff)
+# low.depth.samples <- names(which(colSums(mtg %>% select(-OTU)) < 50000))
+# mtg <- mtg[,! names(mtg) %in% low.depth.samples]
+# 
+# species <- mtg %>%
+#   mutate(Species = gsub(";t__.*$", "", OTU)) %>%
+#   select(-OTU) %>%
+#   # Mark unclassified
+#   mutate(Species = ifelse(Species == "k__Bacteria;p__;c__;o__;f__;g__;s__", 
+#                         "Unclassified", Species)) %>%
+#   group_by(Species) %>%
+#   summarise_all(sum)
+# 
+# genera <- mtg %>%
+#   mutate(Genus = gsub(";s__.*$", "",OTU)) %>%
+#   select(-OTU) %>%
+#   # Mark unclassified
+#   mutate(Genus = ifelse(Genus == "k__Bacteria;p__;c__;o__;f__;g__", 
+#                         "Unclassified", Genus)) %>%
+#   group_by(Genus) %>%
+#   summarise_all(sum) 
+#   
+# # hist(colSums(species %>% select(-Species)), breaks = 50)
 
-# We remove samples with less than 50K reads (arbitrary cutoff)
-low.depth.samples <- names(which(colSums(mtg %>% select(-OTU)) < 50000))
-mtg <- mtg[,! names(mtg) %in% low.depth.samples]
+species <- read_delim(TAXONOMY_FILE_SP, "\t", 
+                      escape_double = FALSE, 
+                      trim_ws = TRUE)
+names(species)[1] <- 'Species'
 
-species <- mtg %>%
-  mutate(Species = gsub(";t__.*$", "", OTU)) %>%
-  select(-OTU) %>%
-  # Mark unclassified
-  mutate(Species = ifelse(Species == "k__Bacteria;p__;c__;o__;f__;g__;s__", 
-                        "Unclassified", Species)) %>%
-  group_by(Species) %>%
-  summarise_all(sum)
+genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
+                     escape_double = FALSE, 
+                     trim_ws = TRUE)
+names(genera)[1] <- 'Genus'
 
-genera <- mtg %>%
-  mutate(Genus = gsub(";s__.*$", "",OTU)) %>%
-  select(-OTU) %>%
-  # Mark unclassified
-  mutate(Genus = ifelse(Genus == "k__Bacteria;p__;c__;o__;f__;g__", 
-                        "Unclassified", Genus)) %>%
-  group_by(Genus) %>%
-  summarise_all(sum) 
-  
-# hist(colSums(species %>% select(-Species)), breaks = 50)
+tax.map <- read_delim(TAXONOMY_SAMPLE_MAP, 
+                      delim = "\t", 
+                      col_select = c("run_accession", "submitted_ftp"), 
+                      escape_double = FALSE, 
+                      trim_ws = TRUE) %>%
+  mutate(Sample = gsub(".*Study\\.ID\\.", "", submitted_ftp)) %>%
+  mutate(Sample = gsub("\\.S[0-9]*\\.R1\\.001\\.fq\\.gz$","",Sample)) %>%
+  filter(run_accession %in% names(genera))
+
+tax.map.vec <- c("Species", "Genus", tax.map$Sample)
+names(tax.map.vec) <- c("Species", "Genus", tax.map$run_accession)
+
+# Map file names to sample id's
+names(species) <- unname(tax.map.vec[names(species)])
+names(genera) <- unname(tax.map.vec[names(genera)])
+
+# We remove samples with less than 50K reads 
+low.depth.samples <- names(which(colSums(genera %>% select(-Genus)) < 50000))
+species <- species[,! names(species) %in% low.depth.samples]
+genera <- genera[,! names(genera) %in% low.depth.samples]
+
+# Map species/genus short names to long versions
+species$Species <- map.gtdb.short.to.long(species$Species, level = "species")
+genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 
 # --------------------------------
 # Load metabolomic profiles

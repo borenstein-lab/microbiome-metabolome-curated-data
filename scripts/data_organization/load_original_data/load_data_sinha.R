@@ -93,12 +93,12 @@ genera$Genus <- gsub("c__Erysipelotrichi;","c__Erysipelotrichia;",genera$Genus)
 # Get mappings to GTDB
 gtdb.map <- get.gtdb.mapper()
 gtdb.data.map <- sapply(genera$Genus, 
-                          get.gtdb.genus, 
-                          gtdb.map, 
-                          use.ncbi = F, 
-                          use.gg = T, 
-                          use.silva = F, 
-                          simplify = T)
+                        map.other.ref.to.gtdb.genus, 
+                        gtdb.map, 
+                        use.ncbi = F, 
+                        use.gg = T, 
+                        use.silva = F, 
+                        simplify = T)
 gtdb.data.map <- data.frame(t(gtdb.data.map)) %>%
   tibble::rownames_to_column("genus.orig")
 

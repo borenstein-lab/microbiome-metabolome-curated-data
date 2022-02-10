@@ -18,6 +18,7 @@ require(readr)
 require(dplyr)
 
 source("data_organization/utils.R")
+source("data_organization/gtdb_utils.R")
 
 # --------------------------------
 # Required files & info
@@ -25,7 +26,10 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- '../data/original_data/FRANZOSA_IBD_2019/Metobolites.xlsx'  
-TAXONOMY_FILE <- '../data/original_data/FRANZOSA_IBD_2019/Microbial_species_relative_abundances.xlsx'
+TAXONOMY_FILE_SP <- '../data/original_data/FRANZOSA_IBD_2019/kraken/species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/FRANZOSA_IBD_2019/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_SAMPLE_MAP <- '../data/original_data/FRANZOSA_IBD_2019/kraken/PRJNA400072.txt'
+TAXONOMY_SAMPLE_MAP2 <- '../data/original_data/FRANZOSA_IBD_2019/Microbial_species_relative_abundances.xlsx'
 METABOLOMICS_INFO <- '../data/original_data/FRANZOSA_IBD_2019/Metabolites_metadata.xlsx'
 
 PUBLICATION_NAME <- 'Gut microbiome structure and metabolic activity in inflammatory bowel disease'
@@ -66,22 +70,63 @@ metadata <- metadata %>%
   relocate(c(Dataset, Sample, Subject, Study.Group, Age, Age.Units, DOI, Publication.Name)) 
 
 # --------------------------------
-# Load taxonomic profiles (species)
+# Load taxonomic profiles 
 # --------------------------------
 
-# Created by Metaphlan
-mtg <- read.xls(TAXONOMY_FILE,
+# # Created by Metaphlan
+# mtg <- read.xls(TAXONOMY_FILE,
+#                 header = TRUE,
+#                 skip = 1,
+#                 na.strings = c("#N/A"),
+#                 stringsAsFactors=FALSE)
+# names(mtg)[1] <- 'OTU'
+# mtg <- mtg[-(1:8),]
+# 
+# # Convert to numeric
+# for(i in c(2:ncol(mtg))) mtg[,i] <- as.numeric(as.character(mtg[,i]))
+# 
+# # Sanity (abundances sum to ~1): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,0.96,0.97,0.98,0.99,1.01)))
+
+species <- read_delim(TAXONOMY_FILE_SP, "\t", 
+                      escape_double = FALSE, 
+                      trim_ws = TRUE)
+names(species)[1] <- 'Species'
+names(species) <- gsub("_multi_omic_profiles_of_inflammatory_bowel_disease_adult_stool","",names(species))
+
+genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
+                     escape_double = FALSE, 
+                     trim_ws = TRUE)
+names(genera)[1] <- 'Genus'
+names(genera) <- gsub("_multi_omic_profiles_of_inflammatory_bowel_disease_adult_stool","",names(genera))
+
+tmp <- read.xls(TAXONOMY_SAMPLE_MAP2,
                 header = TRUE,
                 skip = 1,
-                na.strings = c("#N/A"), 
-                stringsAsFactors=FALSE)
-names(mtg)[1] <- 'OTU'
-mtg <- mtg[-(1:8),]
+                na.strings = c("#N/A"),
+                nrows = 1)
+sra.lib.map <- names(tmp)[-1] 
+names(sra.lib.map) <- unname(tmp[1,-1])
 
-# Convert to numeric
-for(i in c(2:ncol(mtg))) mtg[,i] <- as.numeric(as.character(mtg[,i]))
+tax.map <- read_csv(TAXONOMY_SAMPLE_MAP,
+                    col_select = c("Run", "Library Name")) %>%
+  mutate(Sample = sra.lib.map[`Library Name`]) %>%
+  filter(Run %in% names(genera))
 
-# Sanity (abundances sum to ~1): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,0.96,0.97,0.98,0.99,1.01)))
+tax.map.vec <- c("Species", "Genus", tax.map$Sample)
+names(tax.map.vec) <- c("Species", "Genus", tax.map$Run)
+
+# Map file names to sample id's
+names(species) <- unname(tax.map.vec[names(species)])
+names(genera) <- unname(tax.map.vec[names(genera)])
+
+# We remove samples with less than 50K reads 
+low.depth.samples <- names(which(colSums(genera %>% select(-Genus)) < 50000))
+species <- species[,! names(species) %in% low.depth.samples]
+genera <- genera[,! names(genera) %in% low.depth.samples]
+
+# Map species/genus short names to long versions
+species$Species <- map.gtdb.short.to.long(species$Species, level = "species")
+genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 
 # --------------------------------
 # Load metabolomic profiles
@@ -192,28 +237,13 @@ mtb.map$High.Confidence.Annotation[mtb.map$HMDB %in% hmdb.dups] <- FALSE
 # Keep only samples with all data
 # --------------------------------
 
-sample.intersect <- Reduce(intersect, list(names(mtb)[-1], names(mtg)[-1], metadata$Sample))
+sample.intersect <- Reduce(intersect, list(names(mtb)[-1], names(species)[-1], names(genera)[-1], metadata$Sample))
 message(paste(length(sample.intersect),"samples have all data types"))
 
 mtb <- mtb[,c("Compound",sample.intersect)]
-mtg <- mtg[,c("OTU",sample.intersect)]
+species <- species[,c("Species",sample.intersect)]
+genera <- genera[,c("Genus",sample.intersect)]
 metadata <- metadata[metadata$Sample %in% sample.intersect,]
-
-# --------------------------------
-# Collapse species to genera
-# --------------------------------
-
-# Get metaphlan species name mapper
-species.mapping <- get.metaphlan.species.mapper()
-
-# Convert current table to a species table + genus-level table
-l <- get.genus.level(mtg, species.mapping)
-species <- l$species
-genera <- l$genera
-
-# Remove Archea
-genera <- genera[!grepl("k__Archaea",genera$Genus),]
-species <- species[!grepl("k__Archaea",species$Species),]
 
 # --------------------------------
 # Save to files + R objects
