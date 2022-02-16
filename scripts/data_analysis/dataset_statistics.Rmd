@@ -3,11 +3,12 @@ title: "Dataset statistics"
 output:
   html_document:
     df_print: paged
+    code_folding: hide
 ---
 
 ### Load data
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(ggplot2)
 library(dplyr)
 library(gt)
@@ -20,8 +21,20 @@ all.data <- load.all.datasets()
 for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
 rm(all.data)
 datasets <- basename(data.dirs)
-```
 
+healthy.control.labels <- list("ERAWIJANTARI_GASTRIC_CANCER_2020" = "Healthy",
+                               "YACHIDA_CRC_2019" = "Healthy",
+                               "HE_INFANTS_MFGM_2019" = "Baseline",
+                               "WANDRO_PRETERMS_2018" = "control",
+                               "KIM_ADENOMAS_2020" = "Control",
+                               "FRANZOSA_IBD_2019" = "Control",
+                               "KOSTIC_INFANTS_DIABETES_2015" = "control",
+                               "MARS_IBS_2020" = "H", 
+                               "KANG_AUTISM_2017" = "Neurotypical", 
+                               "JACOBS_IBD_FAMILIES_2016" = "Normal", 
+                               "SINHA_CRC_2016" = 0, 
+                               "iHMP_IBDMDB_2019" = "nonIBD")
+```
 
 ### Datasets statistics
 
@@ -30,14 +43,38 @@ datasets <- basename(data.dirs)
 data.summary <- sapply(datasets, function(x) {
   num.samples <- nrow(metadata[[x]])
   num.subjects <- n_distinct(metadata[[x]]$Subject)
+  if ("Study.Group" %in% names(metadata[[x]])) {
+    num.hc.samples <- 
+      metadata[[x]] %>% 
+      filter(Study.Group == healthy.control.labels[[x]]) %>% 
+      nrow()
+    num.hc.subjects <- 
+      metadata[[x]] %>% 
+      filter(Study.Group == healthy.control.labels[[x]]) %>% 
+      pull(Subject) %>% 
+      n_distinct()
+  } else {
+    num.hc.samples <- NA
+    num.hc.subjects <- NA
+  }
   num.study.groups <- n_distinct(metadata[[x]]$Study.Group)
   num.genera <- ncol(genera[[x]]) - 1
   num.metab.orig <- ncol(mtb[[x]]) - 1
-  num.hmdb <- n_distinct(mtb.map[[x]] %>% filter(!is.na(HMDB)) %>% pull(HMDB))
-  num.kegg <- n_distinct(mtb.map[[x]] %>% filter(!is.na(KEGG)) %>% pull(KEGG))
+  num.hmdb <-
+    mtb.map[[x]] %>% 
+    filter(!is.na(HMDB)) %>% 
+    pull(HMDB) %>% 
+    n_distinct()
+  num.kegg <- 
+    mtb.map[[x]] %>% 
+    filter(!is.na(KEGG)) %>% 
+    pull(KEGG) %>% 
+    n_distinct()
   return(c("dataset" = x,
            "num_samples" = num.samples,
+           "num_samples_hc" = num.hc.samples,
            "num_subjects" = num.subjects,
+           "num_subjects_hc" = num.hc.subjects,
            "is_longitudinal" = num.samples > num.subjects,
            "num_study_groups" = num.study.groups,
            "num_genera" = num.genera,
@@ -70,7 +107,9 @@ data.summary %>%
   cols_label(
     dataset = "Dataset",
     num_samples = "No.\nsamples",
+    num_samples_hc = "No. control\nsamples",
     num_subjects = "No.\nsubjects",
+    num_subjects_hc = "No. control\nsubjects",
     is_longitudinal = "Longitudinal?",
     num_study_groups = "No. study\ngroups",
     num_genera = "No.\ngenera",
@@ -98,7 +137,7 @@ message(paste("-",sum(data.summary$num_samples),"samples"))
 
 #### Shared genera
 
-```{r fig.width=4.5, fig.height=3}
+```{r fig.width=6, fig.height=4}
 genera.dataset.stats <- get.genera.dataset.stats(genera, datasets)
 
 # We further summarize these stats to get basic statistics 
@@ -135,20 +174,23 @@ ggplot(tmp, aes(x = N.Datasets.Including.Taxon, y = cum.N)) +
   ggtitle("How common are genera among datasets?") +
   ylab("No. of genera") +
   xlab("No. of datasets") +
-  scale_x_continuous(breaks=c(2,4,6,8,10,12,14)) +
+  scale_x_continuous(breaks=c(1,3,5,7,9,11,13)) +
   annotate(geom = "curve", 
-           x = c(3,10), y = c(label1.x,label2.x)+100, 
-           xend = c(3,10)+0.5, yend = c(0.8*label.y, 0.6*label.y), 
+           x = c(3,10),
+           y = c(label1.x,label2.x)+900, 
+           xend = c(3,10)+0.5, 
+           yend = c(0.9*label.y, 0.7*label.y), 
            color = "#7E7F9A",
            curvature = -.3, 
            arrow = arrow(length = unit(2, "mm"))) +
   annotate("text", 
-           x = c(3,10), y = c(0.8*label.y, 0.6*label.y)+100, 
+           x = c(4.5,10), 
+           y = c(0.9*label.y, 0.76*label.y)+100, 
            label = c(label1, label2), 
            color = "#272838", 
            size = 3, hjust = 0.2) +
   annotate(geom = "point",
-           x = c(3,10), y = c(label1.x,label2.x)+100,
+           x = c(3,10), y = c(label1.x,label2.x)+900,
            color = "#7E7F9A", size = 2) +
   geom_text(aes(label=cum.N), vjust = -0.5, size = 2.6) +
   scale_y_continuous(limits = c(0, max(tmp$cum.N) + 7)) +
@@ -162,7 +204,7 @@ rm(label1.x, label2.x, label1, label2, label.y, tmp)
 
 #### Shared HMDB-identified metabolites
 
-```{r fig.width=4.5, fig.height=3}
+```{r fig.width=6, fig.height=4}
 metabolites.per.dataset <- 
   get.metab.dataset.stats(mtb.map, datasets)
 
@@ -200,7 +242,7 @@ ggplot(tmp, aes(x = N.Datasets.Including.Compound, y = cum.N)) +
   ggtitle("How common are HMDB-compounds among datasets?") +
   ylab("No. of compounds") +
   xlab("No. of datasets") +
-  scale_x_continuous(breaks=c(2,4,6,8,10,12,14)) +
+  scale_x_continuous(breaks=c(1,3,5,7,9,11,13)) +
   annotate(geom = "curve", 
            x = c(3,10), y = c(label1.x,label2.x)+120, 
            xend = c(3,10)+0.5, yend = c(0.8*label.y, 0.6*label.y), 
