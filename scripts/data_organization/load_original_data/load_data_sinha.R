@@ -126,7 +126,7 @@ gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Proteobacteria;c
 gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__'] <- 
   "d__Bacteria;p__Actinobacteriota;c__Coriobacteriia;o__Coriobacteriales;f__Coriobacteriaceae;g__Collinsella"
 gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Veillonellaceae;g__'] <- 
-  "d__Bacteria; p__Firmicutes_C; c__Negativicutes; o__Veillonellales; f__Veillonellaceae;g__"
+  "d__Bacteria;p__Firmicutes_C;c__Negativicutes;o__Veillonellales;f__Veillonellaceae;g__"
 gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Oscillospira'] <- 
   "d__Bacteria;p__Firmicutes_A;c__Clostridia;o__Oscillospirales;f__Oscillospiraceae;g__Flavonifractor"
 gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__'] <- 
@@ -152,7 +152,7 @@ gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Cl
 # 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__'
 # 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Lachnospiraceae;g__Blautia'
 # 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Ruminococcaceae;g__Ruminococcus'
-# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Veillonellaceae;g__Dialister' --> verify I get dialister after the sorting!!!!!!
+# 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Clostridiales;f__Veillonellaceae;g__Dialister' 
 # 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__;g__'
 # 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__Adlercreutzia'
 # 'k__Bacteria;p__Firmicutes;c__Clostridia;o__Coriobacteriales;f__Coriobacteriaceae;g__Eggerthella'
@@ -166,9 +166,14 @@ gtdb.data.map$genus[gtdb.data.map$genus.orig == 'k__Bacteria;p__Firmicutes;c__Cl
 # 'k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Enterobacteriales;f__Enterobacteriaceae;g__Klebsiella'
 # 'k__Bacteria;p__Proteobacteria;c__Gammaproteobacteria;o__Pasteurellales;f__Pasteurellaceae;g__Haemophilus'
 
-# write_delim(gtdb.data.map %>% filter(comment != "") %>% arrange(comment), file = "debug.tsv")
-# View(gtdb.map %>% filter(grepl("Anaerostipes", ref_taxonomy)))
-# View(gtdb.map.tmp %>% filter(grepl("\\[Eubacterium\\]", ref_taxonomy)))
+# Now update names
+genera <- genera %>% 
+  left_join(gtdb.data.map %>% 
+              select(genus.orig, genus), 
+            by = c("Genus" = "genus.orig")) %>% 
+  select(-Genus) %>% 
+  relocate(genus) %>% 
+  rename(Genus = genus)
 
 # No need to regroup --> genera are unique after mapping
 

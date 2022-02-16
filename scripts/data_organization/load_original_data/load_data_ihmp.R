@@ -18,6 +18,7 @@ require(dplyr)
 require(MetaboAnalystR)
 
 source("data_organization/utils.R")
+source("data_organization/gtdb_utils.R")
 
 # --------------------------------
 # Required files & info
@@ -25,7 +26,10 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/iHMP_IBDMDB_2019/hmp2_metadata.csv"
-TAXONOMY_FILE <- "../data/original_data/iHMP_IBDMDB_2019/taxonomic_profiles.tsv"
+#TAXONOMY_FILE <- "../data/original_data/iHMP_IBDMDB_2019/taxonomic_profiles.tsv"
+TAXONOMY_FILE_SP <- '../data/original_data/iHMP_IBDMDB_2019/kraken/species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/iHMP_IBDMDB_2019/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_SAMPLE_MAP <- '../data/original_data/iHMP_IBDMDB_2019/kraken/ena_download.txt'
 METABOLOMICS_FILE <- "../data/original_data/iHMP_IBDMDB_2019/iHMP_metabolomics.csv"
 
 PUBLICATION_NAME <- 'Multi-omics of the gut microbial ecosystem in inflammatory bowel diseases'
@@ -71,29 +75,68 @@ metadata <- metadata %>%
 # Load taxonomic profiles 
 # --------------------------------
 
-mtg <- read_delim(TAXONOMY_FILE, "\t", 
-                  escape_double = FALSE, trim_ws = TRUE)
-names(mtg)[1] <- 'OTU'
+# mtg <- read_delim(TAXONOMY_FILE, "\t", 
+#                   escape_double = FALSE, trim_ws = TRUE)
+# names(mtg)[1] <- 'OTU'
+# 
+# # Note that this metaphlan output includes all taxonomic levels.
+# # We extract species-only and genus-only levels
+# 
+# # Keep only species-level OTU's 
+# species <- mtg[grepl("s__",mtg$OTU),] # contains species
+# species <- species[!grepl("t__",species$OTU),] # does not contain strain
+# # Sanity (abundances sum to ~1): hist(colSums(species[,2:ncol(species)]), breaks = 20)
+# 
+# # Remove samples where species-level annotations (by Metaphlan2) account for 
+# #  less than 50% of reads (--> 7 samples total) (arbitrary choice)
+# species <- species[,!names(species) %in% names(which(colSums(species[,2:ncol(species)])<0.5))]
+# names(species)[1] <- 'Species'
+# 
+# # We now create a genus-level profile in a similar way
+# genera <- mtg[grepl("g__",mtg$OTU),] # contains genera
+# genera <- genera[!grepl("s__",genera$OTU),] # does not contain species
+# # Sanity (abundances sum to ~1): hist(colSums(genera[,2:ncol(genera)]), breaks = 20)
+# genera <- genera[,!names(genera) %in% names(which(colSums(genera[,2:ncol(genera)])<0.5))]
+# names(genera)[1] <- 'Genus'
 
-# Note that this metaphlan output includes all taxonomic levels.
-# We extract species-only and genus-only levels
-
-# Keep only species-level OTU's 
-species <- mtg[grepl("s__",mtg$OTU),] # contains species
-species <- species[!grepl("t__",species$OTU),] # does not contain strain
-# Sanity (abundances sum to ~1): hist(colSums(species[,2:ncol(species)]), breaks = 20)
-
-# Remove samples where species-level annotations (by Metaphlan2) account for 
-#  less than 50% of reads (--> 7 samples total) (arbitrary choice)
-species <- species[,!names(species) %in% names(which(colSums(species[,2:ncol(species)])<0.5))]
+# Load kraken files
+species <- read_delim(TAXONOMY_FILE_SP, "\t", 
+                      escape_double = FALSE, 
+                      trim_ws = TRUE)
 names(species)[1] <- 'Species'
 
-# We now create a genus-level profile in a similar way
-genera <- mtg[grepl("g__",mtg$OTU),] # contains genera
-genera <- genera[!grepl("s__",genera$OTU),] # does not contain species
-# Sanity (abundances sum to ~1): hist(colSums(genera[,2:ncol(genera)]), breaks = 20)
-genera <- genera[,!names(genera) %in% names(which(colSums(genera[,2:ncol(genera)])<0.5))]
+genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
+                     escape_double = FALSE, 
+                     trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
+
+tax.map <- read_delim(TAXONOMY_SAMPLE_MAP, 
+                       delim = "\t", 
+                       escape_double = FALSE, 
+                       trim_ws = TRUE, 
+                       col_select = c("run_accession", "experiment_title"))
+tax.map <- tax.map %>%
+  filter(grepl("WGS", experiment_title)) %>%
+  mutate(Sample = gsub("Illumina HiSeq 2000 sequencing; ", "", experiment_title)) %>%
+  mutate(Sample = gsub(" stool WGS", "", Sample)) %>%
+  filter(run_accession %in% names(genera)) %>%
+  select(-experiment_title)
+
+tax.map.vec <- c("Species", "Genus", tax.map$Sample)
+names(tax.map.vec) <- c("Species", "Genus", tax.map$run_accession)
+
+# Map file names to sample id's
+names(species) <- unname(tax.map.vec[names(species)])
+names(genera) <- unname(tax.map.vec[names(genera)])
+
+# We remove samples with less than 50K reads 
+low.depth.samples <- names(which(colSums(genera %>% select(-Genus)) < 50000))
+species <- species[,! names(species) %in% low.depth.samples]
+genera <- genera[,! names(genera) %in% low.depth.samples]
+
+# Map species/genus short names to long versions
+species$Species <- map.gtdb.short.to.long(species$Species, level = "species")
+genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 
 # --------------------------------
 # Load metabolomic profiles

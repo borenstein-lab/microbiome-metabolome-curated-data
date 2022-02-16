@@ -223,7 +223,7 @@ message(paste(length(sample.intersect),"samples have all data types"))
 
 mtb <- mtb[,c("Compound",sample.intersect)]
 genera <- genera[,c("Genus",sample.intersect)]
-species <- genera[,c("Species",sample.intersect)]
+species <- species[,c("Species",sample.intersect)]
 metadata <- metadata[metadata$Sample %in% sample.intersect,]
 
 # --------------------------------

@@ -19,8 +19,6 @@ datasets <- names(species)
 
 # We remove non-bacteria entities 
 #  (before re-normalizing each sample to 100%)
-# Note: this has already been performed in some datasets, 
-#  by authors/ depending on exact metagenomics processing.
 
 for (dataset in datasets) {
   tmp <- species[[dataset]]
@@ -46,45 +44,12 @@ for (dataset in datasets) {
   # Sanity: print(apply(tmp[,-1], 2, sum))
 }
 
-# --------------------------------
-# 3. Unify species names 
-# --------------------------------
-
-# 3.1. Format changes
-
-# x <- c(); for(dataset in datasets) {x <- c(x, species.new[[dataset]]$Species)}; x <- unique(x)
-
-for (dataset in datasets) {
-  new.names <- species.new[[dataset]]$Species
-  
-  new.names <- gsub("\\|p__",";p__",new.names)
-  new.names <- gsub("\\|c__",";c__",new.names)
-  new.names <- gsub("\\|o__",";o__",new.names)
-  new.names <- gsub("\\|f__",";f__",new.names)
-  new.names <- gsub("\\|g__",";g__",new.names)
-  new.names <- gsub("\\|s__",";s__",new.names)
-  new.names <- gsub("\\|__",";__",new.names)
-  
-  new.names <- gsub(";p__;",";__;",new.names)
-  new.names <- gsub(";c__;",";__;",new.names)
-  new.names <- gsub(";o__;",";__;",new.names)
-  new.names <- gsub(";f__;",";__;",new.names)
-  new.names <- gsub(";g__;",";__;",new.names)
-  new.names <- gsub(";s__$",";__",new.names)
-  
-  new.names <- gsub("[ocfg]__[0-9a-zA-Z_]*_noname;","__;",new.names)
-  
-  message(paste(dataset, "- reformatted",
-                sum(new.names != species.new[[dataset]]$Species),
-                "out of", length(new.names), "species entities"))
-  
-  species.new[[dataset]]$Species <- new.names
-  # print(paste("After:",new.names[1]))
-}
-rm(new.names)
+# Code for a quick indication of whether genus names are consistent:
+# x <- c(); for(dataset in datasets) {x <- c(x, species.new[[dataset]]$Species)}; 
+# x <- data.frame(sp = x) %>% group_by(sp) %>% summarise(N = n()) %>% tidyr::separate(col = "sp", into = c("d","p","c","o","f","g","s"), sep = ";", remove = FALSE)
 
 # --------------------------------
-# 4. Save
+# 3. Save
 # --------------------------------
 
 # Override RData files and "genera" text tables

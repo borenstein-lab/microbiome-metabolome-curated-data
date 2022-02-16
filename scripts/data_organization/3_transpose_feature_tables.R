@@ -5,7 +5,6 @@
 
 require(tibble)
 require(dplyr)
-source("utils.R")
 source("data_organization/utils.R")
 
 all.data <- load.all.datasets("processed_data")

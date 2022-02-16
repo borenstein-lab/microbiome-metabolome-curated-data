@@ -18,6 +18,7 @@ require(dplyr)
 require(MetaboAnalystR)
 
 source("data_organization/utils.R")
+source("data_organization/gtdb_utils.R")
 
 # --------------------------------
 # Required files & info
@@ -25,7 +26,10 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S2-1_Metadata.tsv" # I read the metadata table from S2-1 which is the metadata of subjects for which a metagenome sample was taken. 
-TAXONOMY_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S9_Metaphlan_Profiles.tsv"
+# TAXONOMY_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S9_Metaphlan_Profiles.tsv"
+TAXONOMY_FILE_SP <- '../data/original_data/YACHIDA_CRC_2019/kraken/species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/YACHIDA_CRC_2019/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_SAMPLE_MAP <- '../data/original_data/YACHIDA_CRC_2019/kraken/PRJDB4176.txt'
 METABOLOMICS_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S13_MS_Profiles.tsv"
 
 PUBLICATION_NAME <- 'Metagenomic and metabolomic analyses reveal distinct stage-specific phenotypes of the gut microbiota in colorectal cancer'
@@ -59,13 +63,51 @@ metadata <- metadata %>%
 # Load taxonomic profiles (species)
 # --------------------------------
 
-mtg <- read_delim(TAXONOMY_FILE, "\t", 
-                  escape_double = FALSE, 
-                  trim_ws = TRUE)
-names(mtg)[1] <- 'OTU'
-mtg$OTU <- gsub(" ","_",mtg$OTU)
+# mtg <- read_delim(TAXONOMY_FILE, "\t", 
+#                   escape_double = FALSE, 
+#                   trim_ws = TRUE)
+# names(mtg)[1] <- 'OTU'
+# mtg$OTU <- gsub(" ","_",mtg$OTU)
+# 
+# # Sanity (abundances sum to ~100): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,96,97,98,99,101)))
 
-# Sanity (abundances sum to ~100): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,96,97,98,99,101)))
+species <- read_delim(TAXONOMY_FILE_SP, "\t", 
+                      escape_double = FALSE, 
+                      trim_ws = TRUE)
+names(species)[1] <- 'Species'
+names(species) <- gsub("_Illumina.*","",names(species))
+
+genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
+                     escape_double = FALSE, 
+                     trim_ws = TRUE)
+names(genera)[1] <- 'Genus'
+names(genera) <- gsub("_Illumina.*","",names(genera))
+
+# Prepare mapping from file names to sample IDs (as in metadata)
+tax.map <- read_csv(TAXONOMY_SAMPLE_MAP, 
+                    col_select = c("Run", "sample_name")) %>% 
+  rename(Subject = sample_name)
+
+tax.map <- metadata  %>%
+  select(Sample, Subject) %>%
+  left_join(tax.map, by = "Subject")
+
+# Sanity: table(names(species)[-1] %in% tax.map$Run)
+tax.map.vec <- c("Species", "Genus", tax.map$Sample)
+names(tax.map.vec) <- c("Species", "Genus", tax.map$Run)
+
+# Map file names to sample id's
+names(species) <- unname(tax.map.vec[names(species)])
+names(genera) <- unname(tax.map.vec[names(genera)])
+
+# We remove samples with less than 50K reads 
+low.depth.samples <- names(which(colSums(genera %>% select(-Genus)) < 50000))
+species <- species[,! names(species) %in% low.depth.samples]
+genera <- genera[,! names(genera) %in% low.depth.samples]
+
+# Map species/genus short names to long versions
+species$Species <- map.gtdb.short.to.long(species$Species, level = "species")
+genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 
 # --------------------------------
 # Load metabolomic profiles
@@ -199,29 +241,13 @@ mtb.map <- mtb.map %>%
 # Keep only samples with all data
 # --------------------------------
 
-sample.intersect <- Reduce(intersect, list(names(mtb)[-1], names(mtg)[-1], metadata$Sample))
+sample.intersect <- Reduce(intersect, list(names(mtb)[-1], names(genera)[-1], names(species)[-1], metadata$Sample))
 message(paste(length(sample.intersect),"samples have all data types"))
 
 mtb <- mtb[,c("Compound",sample.intersect)]
-mtg <- mtg[,c("OTU",sample.intersect)]
+genera <- genera[,c("Genus",sample.intersect)]
+species <- species[,c("Species",sample.intersect)]
 metadata <- metadata[metadata$Sample %in% sample.intersect,]
-
-# --------------------------------
-# Collapse species to genera
-# --------------------------------
-
-# Get metaphlan species name mapper
-species.mapping <- get.metaphlan.species.mapper()
-
-# Convert current table to a species table + genus-level table
-l <- get.genus.level(mtg, species.mapping)
-species <- l$species
-genera <- l$genera
-
-species <- species %>% 
-  filter(!grepl("k__Archaea", Species)) 
-
-# Sanity: hist(apply(species[,-1], 2, sum))
 
 # --------------------------------
 # Save to files + R objects

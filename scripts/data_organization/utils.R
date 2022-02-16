@@ -368,3 +368,16 @@ enrichment <- function(correlated.genera, all.genera, genus.groups, adj = "fdr")
   
   return(fish.per.group)
 }
+
+# Get significant marks given p values, for plotting
+get.signif.marks <- function(p.vals) {
+  signif.marks <- sapply(p.vals,
+                         function(x) {
+                           ifelse(x <= 0.001, "***", 
+                                  ifelse(x <= 0.01, "**", 
+                                         ifelse(x <= 0.05, "*", 
+                                                ifelse(x <= 0.1, "^", ""))))
+                         })
+  signif.marks[is.na(signif.marks)] <- ""
+  return(signif.marks)
+}
