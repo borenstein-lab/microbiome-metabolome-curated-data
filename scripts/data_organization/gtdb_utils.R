@@ -14,13 +14,15 @@ get.gtdb.mapper <- function() {
                                      delim = "\t", 
                                      escape_double = FALSE, 
                                      trim_ws = TRUE, 
-                                     na = c(""," ","NA","none"))
+                                     na = c(""," ","NA","none"),
+                                     show_col_types = FALSE)
   
   ar122_metadata_r202 <- read_delim("../references/gtdb/ar122_metadata_r202.tsv", 
                                      delim = "\t", 
                                      escape_double = FALSE, 
                                      trim_ws = TRUE, 
-                                     na = c(""," ","NA","none"))
+                                     na = c(""," ","NA","none"),
+                                    show_col_types = FALSE)
   
   bac120_metadata_r202 <- bind_rows(bac120_metadata_r202, ar122_metadata_r202)
   
