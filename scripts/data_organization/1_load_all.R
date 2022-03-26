@@ -2,7 +2,7 @@
 # Run all dataset-specific load_data scripts, found in the
 #  "load_original_data" directory.
 # After completing, each dataset should have a folder with all 
-#  processed data in "data/processed_data" directory.
+#  processed data in "data/prelim_data" directory.
 # ----------------------------------------------------------------
 
 source("data_organization/utils.R")

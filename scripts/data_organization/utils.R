@@ -34,140 +34,9 @@ map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name"
   return(MA.matches)
 }
 
-# --------------------------------------------------------
-# Prepare a map between metaphlan species name to full taxonomy
-#  based on the file in: 
-#  https://bitbucket.org/biobakery/metaphlan2/downloads/mpa_v20_m200_marker_info.txt.bz2
-# The new map will be saved to the file: 
-#  species_to_full_taxonomy_map.tsv
-# --------------------------------------------------------
-make.metaphlan.species.mapper <- function() {
-  
-  # Load a table with full metaphlan species names 
-  species.mapping <- read_delim("../references/metaphlan/parsed_marker_gene_info.tab", 
-                                "\t", escape_double = FALSE, 
-                                trim_ws = TRUE, 
-                                comment = "#")
-  # We only need the list of taxa, discarding other columns
-  species.mapping <- species.mapping[,c("taxon")]
-  
-  # Remove strains, noted with t__ prefix
-  species.mapping$taxon <- gsub("\\|t__.*","",species.mapping$taxon) 
-  
-  # Remove duplicates (metaphlan may have several marker genes per species/strain)
-  species.mapping <- species.mapping %>% distinct(taxon)
-  
-  # Add a column for taxonomy at genus level (will have duplicates)
-  species.mapping$taxon.genus <- gsub("\\|s__.*","",species.mapping$taxon) 
-  
-  # Extract the "short names" to be able to merge with this data
-  short.names <- unname(sapply(species.mapping$taxon, 
-                               FUN = function(x) {
-                                 tmp <- tail(strsplit(x, split = '__', fixed = TRUE)[[1]],1)
-                                 return(tmp)}))
-  species.mapping$species.short <- short.names
-  
-  write_delim(x = species.mapping, 
-              file = "../references/metaphlan/species_to_full_taxonomy_map.tsv",
-              delim = "\t")
-}
-
-get.metaphlan.species.mapper <- function() {
-  read_delim("../references/metaphlan/species_to_full_taxonomy_map.tsv", 
-             delim = "\t", escape_double = FALSE, 
-             trim_ws = TRUE)
-}
-
-# --------------------------------------------------------
-# Map original metaphlan species labels to full 
-#  genus-level taxonomy.
-# --------------------------------------------------------
-get.genus.level <- function(species, species.mapping) {
-  #  The "tmp" table will hold all these intermediate mappings. 
-  #  Due to the messiness of the raw data, 
-  #  and mapping file limitations, we use a 
-  #  few different mapping "patches".
-  
-  # 1. We map the raw data table to metaphlan genera labels 
-  #  (ideally everything should have been mapped here)
-  tmp <- merge(species, species.mapping, 
-               by.x = "OTU", 
-               by.y = "species.short", 
-               all.x = T, all.y = FALSE) # For classified species
-  
-  # 2. Now create a mapping to genus level, 
-  #  ONLY FOR ENTITIES IN THE METAPHLAN TABLE WHERE THE 
-  #  GENUS IS CLASSIFIED BUT THE SPECIES IS NOT.
-  #  (so the metaphlan entities are in the form of 
-  #  "<genus_name>_unclassified")
-  
-  # First create a table that maps original OTU strings to full genus name
-  genus.mapping <- species.mapping[,"taxon.genus"]
-  
-  # Remove duplicates (from multiple species in same genera)
-  genus.mapping <- genus.mapping[!duplicated(genus.mapping),] 
-  
-  # Remove taxa that do not have a classified genus (family level or above only)
-  genus.mapping <- genus.mapping[grepl("g__",genus.mapping$taxon.genus),] 
-  
-  # We add this dummy "unclassified" in order to match the "unclassified" entities in raw data 
-  genus.mapping$genus.short <- paste0(gsub(".*g__","",genus.mapping$taxon.genus),"_unclassified") 
-  
-  # Match
-  tmp <- merge(tmp, genus.mapping, 
-               by.x = "OTU", 
-               by.y = "genus.short", 
-               all.x = T, all.f = FALSE) 
-  
-  # We now take the mapping from #1 or #2 above (whatever found)
-  tmp$Genus <- ifelse(is.na(tmp$taxon.genus.y), tmp$taxon.genus.x, tmp$taxon.genus.y) 
-  
-  # 3. Some species are not in our metaphlan mapping 
-  #  file but their genera are. 
-  #  (verison issue? need to re-process with metaphlan3)  
-  # In these cases the species are of form <known_genus>_<unknown_species>, 
-  #  and there's only a ...g__<known_genus> record in the species.mapping file. 
-  # The code below is a patch for these cases.
-  for (unmapped.otu in tmp[is.na(tmp$Genus),"OTU"]) {
-    genus.only <- strsplit(unmapped.otu, split = "_")[[1]][1]
-    candidate.full.taxonomy <- grep(genus.only, 
-                                    species.mapping$taxon, 
-                                    value = TRUE)
-    if (length(candidate.full.taxonomy)==0) { message(paste("Couldn't find a mapping for",unmapped.otu)); next; }
-    if (length(candidate.full.taxonomy)>1) { message(paste("Found more than one mapping for",unmapped.otu)); next; }
-    # print(paste("Mapping",unmapped.otu,"to",candidate.full.taxonomy))
-    tmp$Genus[tmp$OTU == unmapped.otu] <- candidate.full.taxonomy
-  }
-  
-  # Lastly, we add a few manual mappings
-  # View(tmp[is.na(tmp$Genus),c("OTU","taxon","taxon.genus.x","taxon.genus.y","Genus")])
-  # Note: some of these are unclassified genera, given by names such as "Bacteroidales_bacterium_ph8". 
-  #  Some are viruses/phages, so we skip their mappings.
-  tmp$Genus[tmp$OTU == "Eubacterium_infirmum"] <- "k__Bacteria|p__Firmicutes|c__Clostridia|o__Clostridiales|f__Eubacteriaceae|g__Eubacterium"
-  tmp$Genus[tmp$OTU == "Morganella_morganii"] <- "k__Bacteria|p__Proteobacteria|c__Gammaproteobacteria|o__Enterobacteriales|f__Enterobacteriaceae|g__Morganella"
-  tmp$Genus[tmp$OTU == "Tropheryma_whipplei"] <- "k__Bacteria|p__Actinobacteria|c__Actinobacteria|o__Actinomycetales|f__Microbacteriaceae|g__Tropheryma"
-  
-  # Unclassified genera (bacteria only) are labeled "unclassified"
-  tmp$Genus[is.na(tmp$Genus)] <- 'Unclassified'
-  
-  # Lastly, we group into genera. 
-  genera <- tmp %>%
-    select(-one_of(c("taxon","taxon.genus.y","taxon.genus.x","OTU"))) %>%
-    filter(!is.na(Genus)) %>%
-    group_by(Genus) %>%
-    summarise_all(sum)
-  # Sanity: hist(apply(genera[,-1], 2, sum), breaks = 20)
-  
-  # Here we add a species table, with full names instead of short names. We aggregate entities where species-level was unclassified 
-  species <- tmp %>%
-    rename(Species = taxon) %>%
-    relocate(Species) %>%
-    select(-one_of(c("OTU","taxon.genus.y","taxon.genus.x","Genus"))) %>%
-    filter(!is.na(Species)) 
-  # Sanity: hist(apply(species[,-1], 2, sum))
-  
-  return(list(species = species, genera = genera))
-}
+# ----------------------------------------------------------------
+# Utility functions for saving processed data
+# ----------------------------------------------------------------
 
 save.to.files <- function(new.folder, 
                           parent.folder,
@@ -228,28 +97,6 @@ save.to.rdata <- function(new.folder,
 # ----------------------------------------------------------------
 # Utility functions for data processing and data analysis
 # ----------------------------------------------------------------
-
-# load.gtdb.taxonomy <- function() {
-#   # Load GTDB table, obtained from https://data.gtdb.ecogenomic.org/releases/latest/
-#   bac120_taxonomy <- read_delim("../references/gtdb/bac120_taxonomy.tsv", 
-#                                 delim = "\t", escape_double = FALSE, 
-#                                 col_names = FALSE, trim_ws = TRUE)
-#   tax.mapper <- bac120_taxonomy %>%
-#     select(-1) %>%
-#     distinct() %>%
-#     rename(full.name = 1) %>%
-#     mutate(species = gsub(".*;s__", "", full.name)) %>%
-#     mutate(full.name.no.species = gsub(";s__.*", "", full.name)) %>%
-#     mutate(genus = gsub(".*;g__", "", full.name.no.species))
-#   
-#   return(list(tax.mapper.sp = tax.mapper %>% 
-#                 select(full.name, species) %>% 
-#                 distinct(), 
-#               tax.mapper.ge = tax.mapper %>% 
-#                 select(full.name.no.species, genus) %>% 
-#                 distinct()))
-# }
-
 
 load.all.datasets <- function(parent.folder = "processed_data") {
   # Get all processed datasets
@@ -335,40 +182,6 @@ get.metab.dataset.stats <- function(mtb.map, datasets) {
   return(metabolites.per.dataset)
 }
 
-enrichment <- function(correlated.genera, all.genera, genus.groups, adj = "fdr") {
-  # Calculate one-sided Fisher exact test per group
-  fish.per.group <- lapply(genus.groups, function(gg) {
-    
-    # Build 2X2 confusion matrix for fisher.test
-    non.cor.genera <- all.genera[!all.genera %in% correlated.genera]
-    N.ncor.in.group  <- sum(non.cor.genera %in% gg)
-    N.ncor.nin.group <- length(non.cor.genera) - N.ncor.in.group
-    N.cor.in.group   <- sum(correlated.genera %in% gg)
-    N.cor.nin.group  <- length(correlated.genera) - N.cor.in.group
-    fmat <- matrix(c(N.cor.in.group, N.ncor.in.group, 
-                     N.cor.nin.group, N.ncor.nin.group), nrow = 2, 
-                   ncol = 2, byrow = F)
-    colnames(fmat) <- c("in.group", "not.in.group")
-    rownames(fmat) <- c("correlated", "not.correlated")
-    
-    # Calculate Fisher
-    fish <- fisher.test(fmat, alternative = "greater")
-    
-    # Organize results
-    p.value <- fish$p.value
-    N.in.group <- N.ncor.in.group + N.cor.in.group
-    data.frame("N.genera.correlated.in.phylum" = N.cor.in.group, 
-               "N.genera.in.phylum" = N.in.group, 
-               "enrichment.p.value" = p.value)
-  })
-  
-  fish.per.group <- bind_rows(fish.per.group, .id = "phylum") %>%
-    arrange(enrichment.p.value) %>%
-    mutate(enrichment.fdr = p.adjust(enrichment.p.value, method = adj))
-  
-  return(fish.per.group)
-}
-
 # Get significant marks given p values, for plotting
 get.signif.marks <- function(p.vals) {
   signif.marks <- sapply(p.vals,
@@ -380,4 +193,10 @@ get.signif.marks <- function(p.vals) {
                          })
   signif.marks[is.na(signif.marks)] <- ""
   return(signif.marks)
+}
+
+add.var.to.formula <- function(form, new.var) {
+  require(formula.tools)
+  new.form.str <- paste(as.character(form), "+", new.var)
+  return(as.formula(new.form.str))
 }

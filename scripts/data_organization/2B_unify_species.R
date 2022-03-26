@@ -55,6 +55,7 @@ for (dataset in datasets) {
 # Override RData files and "genera" text tables
 
 for (dataset in data.dirs[basename(data.dirs) %in% datasets]) {
+  message(paste("Saving:", basename(dataset)))
   species <- species.new[[basename(dataset)]]
   save.to.files(basename(dataset), "processed_data", species = species)
   save.to.rdata(basename(dataset), "processed_data", species = species)

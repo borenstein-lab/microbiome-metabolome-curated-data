@@ -125,6 +125,7 @@ file.copy(data.dirs,
           overwrite = TRUE)
 
 for(dataset in data.dirs) {
+  message(paste("Saving:", basename(dataset)))
   genera <- genera.new[[basename(dataset)]]
   save.to.files(basename(dataset), 
                 "processed_data", 

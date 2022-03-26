@@ -48,7 +48,9 @@ metadata <- read_delim(METADATA_FILE,
 # Organize column names & order
 metadata <- metadata %>%
   filter(`Characteristics[Organism part]` == "feces") %>%
-  select(`Sample Name`,
+  filter(! grepl("\\-Fb$", `Sample Name`)) %>%
+  mutate(Sample = gsub("\\-F", "", `Sample Name`)) %>%
+  select(Sample,
          `Factor Value[ESRD status]`,
          `Factor Value[Age]`,
          `Factor Value[Gender]`,
@@ -58,8 +60,7 @@ metadata <- metadata %>%
          `Factor Value[Dialysis frequency]`,
          `Factor Value[Urea]`,
          `Factor Value[eGFR]`) %>%
-  rename(Sample = `Sample Name`) %>%
-  mutate(Subject = gsub("\\-(F|Fb)","",Sample)) %>%
+  mutate(Subject = Sample) %>%
   rename(Study.Group = `Factor Value[ESRD status]`) %>%
   mutate(Study.Group = ifelse(Study.Group == 0, "Control", "ESRD")) %>%
   rename(Age = `Factor Value[Age]`) %>%
@@ -101,11 +102,16 @@ tax.map <- read_csv(TAXONOMY_SAMPLE_MAP,
                     col_select = c("Run", "Sample Name"),
                     show_col_types = FALSE) %>% 
   rename(Sample = `Sample Name`) %>%
-  filter(Sample %in% metadata$Subject) # The 3 samples that drop here do not have metabolomic data anyway
+  # The 3 samples that drop here do not have metabolomic data anyway
+  filter(Sample %in% metadata$Sample)
 
 # Sanity: table(names(species)[-1] %in% tax.map$Run)
 tax.map.vec <- c("Species", "Genus", tax.map$Sample)
 names(tax.map.vec) <- c("Species", "Genus", tax.map$Run)
+
+# Discard these 3 samples (for ease of subsequent sample name conversion)
+genera <- genera %>% select(any_of(names(tax.map.vec)))
+species <- species %>% select(any_of(names(tax.map.vec)))
 
 # Map file names to sample id's
 names(species) <- unname(tax.map.vec[names(species)])
