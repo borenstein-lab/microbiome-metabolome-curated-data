@@ -40,13 +40,14 @@ DATASET_NAME <- 'iHMP_IBDMDB_2019'
 # Load metadata
 # --------------------------------
 
-metadata <- read_csv(METADATA_FILE, guess_max = 7000)
-
-# Keep only metagenomics+metabolomics samples
-metadata <- metadata[metadata$data_type %in% c('metabolomics','metagenomics'),]
+metadata <- read_csv(METADATA_FILE, 
+                     guess_max = 7000, 
+                     show_col_types = FALSE)
 
 # Organize column names & order
 metadata <- metadata %>%
+  # Keep only metagenomics+metabolomics samples
+  filter(data_type %in% c('metabolomics','metagenomics')) %>%
   select(`External ID`,`Participant ID`,
          site_sub_coll, ProjectSpecificID,
          week_num, date_of_receipt,
@@ -55,8 +56,7 @@ metadata <- metadata %>%
          diagnosis, Antibiotics, Weight, BMI,
          Height, Weight.1, is_inflamed, race,
          sex, `smoking status`, stool_id, 
-         fecalcal, fecalcal_ng_ml,
-         Disease_course) %>%
+         fecalcal) %>%
   distinct() %>%
   rename(Sample = `External ID`) %>%
   rename(Subject = `Participant ID`) %>%
@@ -68,41 +68,23 @@ metadata <- metadata %>%
   mutate(DOI = DOI) %>%
   mutate(Publication.Name = PUBLICATION_NAME) %>%
   # Reorder
-  relocate(c(Dataset, Sample, Subject, Study.Group, Gender, BMI, DOI, Publication.Name)) 
-
+  relocate(c(Dataset, Sample, Subject, Study.Group, Gender, BMI, DOI, Publication.Name, consent_age, Age.Units)) %>%
+  # Deal with some cases where a record is duplicated due to the fecalcal value 
+  mutate(fecalcal_dummy = ifelse(is.na(fecalcal),0,fecalcal)) %>%
+  group_by(Dataset, Sample, Subject) %>%
+  slice_min(fecalcal_dummy) %>%
+  ungroup() %>%
+  select(-fecalcal_dummy)
 
 # --------------------------------
 # Load taxonomic profiles 
 # --------------------------------
 
-# mtg <- read_delim(TAXONOMY_FILE, "\t", 
-#                   escape_double = FALSE, trim_ws = TRUE)
-# names(mtg)[1] <- 'OTU'
-# 
-# # Note that this metaphlan output includes all taxonomic levels.
-# # We extract species-only and genus-only levels
-# 
-# # Keep only species-level OTU's 
-# species <- mtg[grepl("s__",mtg$OTU),] # contains species
-# species <- species[!grepl("t__",species$OTU),] # does not contain strain
-# # Sanity (abundances sum to ~1): hist(colSums(species[,2:ncol(species)]), breaks = 20)
-# 
-# # Remove samples where species-level annotations (by Metaphlan2) account for 
-# #  less than 50% of reads (--> 7 samples total) (arbitrary choice)
-# species <- species[,!names(species) %in% names(which(colSums(species[,2:ncol(species)])<0.5))]
-# names(species)[1] <- 'Species'
-# 
-# # We now create a genus-level profile in a similar way
-# genera <- mtg[grepl("g__",mtg$OTU),] # contains genera
-# genera <- genera[!grepl("s__",genera$OTU),] # does not contain species
-# # Sanity (abundances sum to ~1): hist(colSums(genera[,2:ncol(genera)]), breaks = 20)
-# genera <- genera[,!names(genera) %in% names(which(colSums(genera[,2:ncol(genera)])<0.5))]
-# names(genera)[1] <- 'Genus'
-
 # Load kraken files
 species <- read_delim(TAXONOMY_FILE_SP, "\t", 
                       escape_double = FALSE, 
-                      trim_ws = TRUE)
+                      trim_ws = TRUE,
+                      show_col_types = FALSE)
 names(species)[1] <- 'Species'
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
@@ -114,7 +96,8 @@ tax.map <- read_delim(TAXONOMY_SAMPLE_MAP,
                        delim = "\t", 
                        escape_double = FALSE, 
                        trim_ws = TRUE, 
-                       col_select = c("run_accession", "experiment_title"))
+                       col_select = c("run_accession", "experiment_title"),
+                      show_col_types = FALSE)
 tax.map <- tax.map %>%
   filter(grepl("WGS", experiment_title)) %>%
   mutate(Sample = gsub("Illumina HiSeq 2000 sequencing; ", "", experiment_title)) %>%
@@ -142,7 +125,7 @@ genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 # Load metabolomic profiles
 # --------------------------------
 
-mtb <- read_csv(METABOLOMICS_FILE)
+mtb <- read_csv(METABOLOMICS_FILE, show_col_types = FALSE)
 mtb$Compound <- paste(mtb$Compound, mtb$Metabolite, sep = "__")
 
 mtb.map <- data.frame(Compound = mtb$Compound,
@@ -153,7 +136,8 @@ mtb.map <- data.frame(Compound = mtb$Compound,
                       High.Confidence.Annotation = TRUE,
                       stringsAsFactors = FALSE)
 
-# Use representative HMDB ID's as final ID's, but mark them with low confidence... (erase stars and non-HMDB ID's)
+# Use representative HMDB ID's as final ID's, but mark them with low confidence... 
+#  (erase stars and non-HMDB ID's)
 mtb.map$High.Confidence.Annotation[grepl("\\*",mtb.map$HMDB)] <- FALSE
 mtb.map$HMDB <- gsub("\\*","",mtb.map$HMDB)
 mtb.map$HMDB <- gsub("HMDB","HMDB00",mtb.map$HMDB)
