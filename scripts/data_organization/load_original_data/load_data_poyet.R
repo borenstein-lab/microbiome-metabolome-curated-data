@@ -87,11 +87,11 @@ names(genera)[1] <- 'Genus'
 # Load metabolomic profiles
 # --------------------------------
 
-mtb1 <- read_delim(METABOLOMICS_FILE1, 
+mtb1 <- read_delim(METABOLOMICS_FILE1, show_col_types = FALSE,
                    "\t", escape_double = FALSE, trim_ws = TRUE, comment = "Factors")
 names(mtb1)[1] <- "Compound"
 mtb1$Method <- "HILIC_NEG"
-mtb2 <- read_delim(METABOLOMICS_FILE2, 
+mtb2 <- read_delim(METABOLOMICS_FILE2, show_col_types = FALSE,
                    "\t", escape_double = FALSE, trim_ws = TRUE, comment = "Factors")
 names(mtb2)[1] <- "Compound"
 mtb2$Method <- "HILIC_POS"
@@ -154,7 +154,8 @@ mtb.map[mtb.map$Compound == 'REV_POS_palmithoylethanolamide','HMDB'] <- 'HMDB000
 mtb.map[mtb.map$Compound == 'REV_POS_palmithoylethanolamide','KEGG'] <- 'C16512'
 mtb.map[mtb.map$Compound == 'HILIC_NEG_tetrahydro-1-methyl-beta-carboline-3-carboxylate','HMDB'] <- 'HMDB0037942'
 mtb.map[mtb.map$Compound == 'HILIC_NEG_tetrahydro-1-methyl-beta-carboline-3-carboxylate','High.Confidence.Annotation'] <- FALSE
-    
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
+
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence 
 # (These are mostly caused by overlap between MS methods)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])

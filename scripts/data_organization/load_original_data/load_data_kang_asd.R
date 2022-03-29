@@ -60,6 +60,7 @@ metadata <- metadata %>%
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
                      "\t", escape_double = FALSE, 
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
@@ -97,6 +98,9 @@ mtb.map <- merge(mtb.map, MA.matches,
                  by.y = "Query", all = T)
 mtb.map$MA.Name.Match <- NULL
 mtb.map$High.Confidence.Annotation <- TRUE
+
+# Manual fixes
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])

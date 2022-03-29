@@ -453,6 +453,7 @@ mtb.map[mtb.map$Compound == '_2_HYDROXYBUTYRATE__AHB','HMDB'] <- 'HMDB0000008'
 mtb.map[mtb.map$Compound == '_2_HYDROXYBUTYRATE__AHB','KEGG'] <- 'C05984'
 mtb.map[mtb.map$Compound == '_5_6_DIHYDROURACIL','HMDB'] <- 'HMDB0000076'	
 mtb.map[mtb.map$Compound == '_5_6_DIHYDROURACIL','KEGG'] <- 'C00429'
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 
 # Fix bad mappings (discovered due to duplicated mappings)
 mtb.map[mtb.map$Compound == 'LEUCYLGLYCINE','HMDB'] <- 'HMDB0028929'

@@ -36,7 +36,7 @@ DATASET_NAME <- 'KIM_ADENOMAS_2020'
 # Load metadata
 # --------------------------------
 
-metadata <- read_csv(METADATA_FILE)
+metadata <- read_csv(METADATA_FILE, show_col_types = FALSE)
 
 # Organize column names & order
 metadata <- metadata %>%
@@ -61,6 +61,7 @@ metadata <- metadata %>%
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
                      "\t", escape_double = FALSE, 
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
@@ -104,6 +105,7 @@ mtb.map$MA.Name.Match <- NULL
 # Manually add more mappings
 ## View(mtb.map[is.na(mtb.map$HMDB),c("Compound","High.Confidence.Annotation","HMDB","KEGG")])
 ## sum(is.na(mtb.map$HMDB)); sum(is.na(mtb.map$KEGG)); 
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 mtb.map$HMDB[which(mtb.map$Compound == "1-oleoyl-GPE (18:1)")] <- "HMDB0011506"
 mtb.map$HMDB[which(mtb.map$Compound == "1-oleoyl-GPC (18:1)")] <- "HMDB0240602"
 mtb.map$HMDB[which(mtb.map$Compound == "1,2-dilinoleoyl-GPC (18:2/18:2)")] <- "HMDB0008138"

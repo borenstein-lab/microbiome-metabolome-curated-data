@@ -43,7 +43,7 @@ DATASET_NAME <- 'FRANZOSA_IBD_2019'
 supp.tmp <- read.xls(METADATA_FILE,
                      header = TRUE,
                      skip = 1,
-                     na.strings = c("0","#N/A"), 
+                     na.strings = c("0","#N/A"),
                      stringsAsFactors = FALSE)
 # Split metadata rows
 metadata <- supp.tmp[1:7,]
@@ -89,12 +89,14 @@ metadata <- metadata %>%
 
 species <- read_delim(TAXONOMY_FILE_SP, "\t", 
                       escape_double = FALSE, 
+                      show_col_types = FALSE,
                       trim_ws = TRUE)
 names(species)[1] <- 'Species'
 names(species) <- gsub("_multi_omic_profiles_of_inflammatory_bowel_disease_adult_stool","",names(species))
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
-                     escape_double = FALSE, 
+                     escape_double = FALSE,
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 names(genera) <- gsub("_multi_omic_profiles_of_inflammatory_bowel_disease_adult_stool","",names(genera))
@@ -185,6 +187,7 @@ mtb.map <- mtb.map %>%
 #  View(mtb.map[!is.na(mtb.map$Compound.Name) & (is.na(mtb.map$HMDB) | is.na(mtb.map$KEGG)),c("Compound","m.z","HMDB","KEGG")])
 # Verify drop in na annotations after running the below: 
 #  sum(is.na(mtb.map$KEGG)) + sum(is.na(mtb.map$HMDB))
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 mtb.map[mtb.map$Compound == "HILIC-neg_Cluster_0169: 2-hydroxyglutarate","KEGG"] <- 'C02630'
 mtb.map[mtb.map$Compound == "C18-neg_Cluster_0927: alpha-muricholate","KEGG"] <- 'C17647'
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0480: 1-3-7-trimethylurate','HMDB'] <- 'HMDB0002123'	

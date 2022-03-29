@@ -73,50 +73,21 @@ metadata <- metadata %>%
 # Load taxonomic profiles 
 # --------------------------------
 
-# # This version is without viruses and without bacterial plasmids
-# mtg <- read.xls(TAXONOMY_FILE, 
-#                 sheet = 'taxatable stool', 
-#                 header = TRUE,
-#                 check.names = FALSE, 
-#                 stringsAsFactors = FALSE)
-# names(mtg)[1] <- 'OTU'
-# 
-# # We remove samples with less than 50K reads (arbitrary cutoff)
-# low.depth.samples <- names(which(colSums(mtg %>% select(-OTU)) < 50000))
-# mtg <- mtg[,! names(mtg) %in% low.depth.samples]
-# 
-# species <- mtg %>%
-#   mutate(Species = gsub(";t__.*$", "", OTU)) %>%
-#   select(-OTU) %>%
-#   # Mark unclassified
-#   mutate(Species = ifelse(Species == "k__Bacteria;p__;c__;o__;f__;g__;s__", 
-#                         "Unclassified", Species)) %>%
-#   group_by(Species) %>%
-#   summarise_all(sum)
-# 
-# genera <- mtg %>%
-#   mutate(Genus = gsub(";s__.*$", "",OTU)) %>%
-#   select(-OTU) %>%
-#   # Mark unclassified
-#   mutate(Genus = ifelse(Genus == "k__Bacteria;p__;c__;o__;f__;g__", 
-#                         "Unclassified", Genus)) %>%
-#   group_by(Genus) %>%
-#   summarise_all(sum) 
-#   
-# # hist(colSums(species %>% select(-Species)), breaks = 50)
-
 species <- read_delim(TAXONOMY_FILE_SP, "\t", 
                       escape_double = FALSE, 
+                      show_col_types = FALSE,
                       trim_ws = TRUE)
 names(species)[1] <- 'Species'
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
                      escape_double = FALSE, 
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
 tax.map <- read_delim(TAXONOMY_SAMPLE_MAP, 
                       delim = "\t", 
+                      show_col_types = FALSE,
                       col_select = c("run_accession", "submitted_ftp"), 
                       escape_double = FALSE, 
                       trim_ws = TRUE) %>%

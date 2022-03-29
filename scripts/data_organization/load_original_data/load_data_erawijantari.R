@@ -42,7 +42,7 @@ DATASET_NAME <- 'ERAWIJANTARI_GASTRIC_CANCER_2020'
 # Load metadata
 # --------------------------------
 
-metadata <- read_delim(METADATA_FILE, "\t", escape_double = FALSE, trim_ws = TRUE)
+metadata <- read_delim(METADATA_FILE, "\t", show_col_types = FALSE, escape_double = FALSE, trim_ws = TRUE)
 
 # Organize column names & order
 metadata <- metadata %>%
@@ -63,21 +63,23 @@ metadata <- metadata %>%
 # --------------------------------
 
 # Load kraken files
-species <- read_delim(TAXONOMY_FILE_SP, "\t", 
+species <- read_delim(TAXONOMY_FILE_SP, "\t",
+                      show_col_types = FALSE,
                       escape_double = FALSE, 
                       trim_ws = TRUE)
 names(species)[1] <- 'Species'
 names(species) <- gsub("_Illumina.*","",names(species))
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
-                       escape_double = FALSE, 
-                       trim_ws = TRUE)
+                     escape_double = FALSE, 
+                     show_col_types = FALSE,
+                     trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 names(genera) <- gsub("_Illumina.*","",names(genera))
 
 # Prepare mapping from file names to sample IDs (as in metadata)
-tax.map.1 <- read_csv(TAXONOMY_SAMPLE_MAP1, col_select = c("Run", "sample_name"))
-tax.map.2 <- read_csv(TAXONOMY_SAMPLE_MAP2, col_select = c("Run", "sample_name")) %>%
+tax.map.1 <- read_csv(TAXONOMY_SAMPLE_MAP1, col_select = c("Run", "sample_name"), show_col_types = FALSE)
+tax.map.2 <- read_csv(TAXONOMY_SAMPLE_MAP2, col_select = c("Run", "sample_name"), show_col_types = FALSE) %>%
   mutate(sample_name = as.character(sample_name))
 tax.map <- bind_rows(tax.map.1, tax.map.2)
 names(tax.map)[2] <- "Subject.Num"
@@ -108,6 +110,7 @@ genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 
 mtb <- read_delim(METABOLOMICS_FILE, "\t", 
                   escape_double = FALSE, 
+                  show_col_types = FALSE,
                   trim_ws = TRUE)
 names(mtb)[1] <- "Compound"
 

@@ -73,20 +73,20 @@ names(genera)[1] <- 'Genus'
 # --------------------------------
 
 mtb1 <- read.xls(METABOLOMICS_FILE, 
-                sheet = 2, 
-                header = TRUE, 
-                stringsAsFactors = FALSE)
+                 sheet = 2, 
+                 header = TRUE, 
+                 stringsAsFactors = FALSE)
 mtb2 <- read.xls(METABOLOMICS_FILE, 
-                sheet = 3, 
-                header = TRUE, 
-                stringsAsFactors = FALSE)
+                 sheet = 3, 
+                 header = TRUE, 
+                 stringsAsFactors = FALSE)
 mtb2 <- mtb2 %>% 
   rename(Metabolite = Accepted.Compound.ID) %>%
   mutate(Compound = as.character(Compound))
 mtb3 <- read.xls(METABOLOMICS_FILE, 
-                sheet = 4, 
-                header = TRUE, 
-                stringsAsFactors = FALSE)
+                 sheet = 4, 
+                 header = TRUE, 
+                 stringsAsFactors = FALSE)
 mtb <- bind_rows(mtb1,mtb2,mtb3)
 rm(mtb1,mtb2,mtb3)
 
@@ -132,6 +132,7 @@ mtb.map[mtb.map$Compound == "NMMA","KEGG"] <- 'C03884'
 mtb.map[mtb.map$Compound == "NMMA","HMDB"] <- 'HMDB0029416'
 mtb.map[mtb.map$Compound == "8.11.14-Eicosatrienoic acid","KEGG"] <- 'C03242'
 mtb.map[mtb.map$Compound == "8.11.14-Eicosatrienoic acid","HMDB"] <- 'HMDB0002925'
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])

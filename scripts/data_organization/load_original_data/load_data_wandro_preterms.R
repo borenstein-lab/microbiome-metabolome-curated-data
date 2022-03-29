@@ -157,6 +157,7 @@ mtb.map[mtb.map$Compound == "conduritol-beta-epoxide","HMDB"] <- 'HMDB0247281'
 mtb.map[mtb.map$Compound == "tagatose","KEGG"] <- 'C00795' 
 mtb.map[mtb.map$Compound == "tagatose","HMDB"] <- 'HMDB0003418' 
 mtb.map$High.Confidence.Annotation[mtb.map$Compound == "tagatose"] <- FALSE
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])

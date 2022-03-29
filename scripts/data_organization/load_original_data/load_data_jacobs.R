@@ -40,6 +40,7 @@ DATASET_NAME <- 'JACOBS_IBD_FAMILIES_2016'
 
 metadata <- read_delim(METADATA_FILE, 
                        "\t", escape_double = FALSE, 
+                       show_col_types = FALSE,
                        trim_ws = TRUE)
 
 # Organize column names & order
@@ -63,6 +64,7 @@ metadata <- metadata %>%
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
                      "\t", escape_double = FALSE, 
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
@@ -72,9 +74,11 @@ names(genera)[1] <- 'Genus'
 
 mtb_POS <- read_delim(METABOLOMICS_FILE1, 
                       "\t", escape_double = FALSE, 
+                      show_col_types = FALSE,
                       trim_ws = TRUE)
 mtb_NEG <- read_delim(METABOLOMICS_FILE2, 
                       "\t", escape_double = FALSE, 
+                      show_col_types = FALSE,
                       trim_ws = TRUE)
 mtb <- bind_rows("Positive" = mtb_POS, "Negative" = mtb_NEG, .id = "POS.NEG")
 rm(mtb_NEG, mtb_POS)

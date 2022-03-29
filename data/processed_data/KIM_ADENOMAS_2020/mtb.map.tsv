@@ -410,7 +410,7 @@ ribulose/xylulose	Carbohydrate	Pentose Metabolism	RIBULOSE_XYLULOSE	FALSE	NA	NA
 saccharopine	Amino Acid	Lysine Metabolism	SACCHAROPINE	TRUE	HMDB0000279	C00449
 sebacate (decanedioate)	Lipid	Fatty Acid, Dicarboxylate	SEBACATE__DECANEDIOATE_	TRUE	NA	NA
 sedoheptulose	Carbohydrate	Pentose Metabolism	SEDOHEPTULOSE	TRUE	HMDB0003219	C08355
-serine	Amino Acid	Glycine, Serine and Threonine Metabolism	SERINE	TRUE	HMDB0062263	C00716
+serine	Amino Acid	Glycine, Serine and Threonine Metabolism	SERINE	TRUE	HMDB0000187	C00716
 serotonin	Amino Acid	Tryptophan Metabolism	SEROTONIN	TRUE	HMDB0000259	C00780
 solanidine	Xenobiotics	Food Component/Plant	SOLANIDINE	TRUE	HMDB0003236	C06543
 spermidine	Amino Acid	Polyamine Metabolism	SPERMIDINE	TRUE	HMDB0001257	C00315

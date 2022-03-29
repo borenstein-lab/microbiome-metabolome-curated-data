@@ -418,8 +418,8 @@ HILIC-neg_Cluster_0332: saccharin	HMDB0029723	C12283	TRUE	saccharin	3.810657	181
 HILIC-neg_Cluster_0129: salicylate	HMDB0000840	C07588	TRUE	salicylate	3.955146	137.024184	NA	Benzoic acids and derivatives	[M-H]-
 C18-neg_Cluster_0064: sebacate	HMDB0000792	C08277	FALSE	sebacate	6.184348	201.112299	6	Fatty acids and conjugates	[M-H]-
 HILIC-neg_Cluster_0441: sebacate	HMDB0000792	C08277	FALSE	sebacate	7.092408	201.113094	6	Fatty acids and conjugates	[M-H]-
-HILIC-pos_Cluster_0024: serine	HMDB0062263	C00716	FALSE	serine	7.67572	106.049891	NA	Amino acids, peptides, and analogues	[M+H]+
-HILIC-neg_Cluster_0035: serine	HMDB0062263	C00716	FALSE	serine	4.041081	104.035333	NA	Amino acids, peptides, and analogues	[M-H]-
+HILIC-pos_Cluster_0024: serine	HMDB0000187	C00716	FALSE	serine	7.67572	106.049891	NA	Amino acids, peptides, and analogues	[M+H]+
+HILIC-neg_Cluster_0035: serine	HMDB0000187	C00716	FALSE	serine	4.041081	104.035333	NA	Amino acids, peptides, and analogues	[M-H]-
 HILIC-neg_Cluster_0283: shikimate	HMDB0003070	C00493	TRUE	shikimate	4.737642	173.044913	NA	NA	[M-H]-
 HILIC-neg_Cluster_0331: sorbitol	HMDB0000247	C00794	TRUE	sorbitol	2.01362	181.071617	NA	Sugar alcohols	[M-H]-
 HILIC-pos_Cluster_1017: sphinganine	HMDB0000269	C00836	TRUE	sphinganine	5.7067310000000004	302.303848	NA	Organonitrogen compounds	[M+H]+

@@ -37,7 +37,8 @@ DATASET_NAME <- 'HE_INFANTS_MFGM_2019'
 metadata <- read_delim(METADATA_FILE, 
                        "\t", escape_double = FALSE, 
                        col_types = cols(gender = col_character(), 
-                                        host_age = col_integer()), 
+                                        host_age = col_integer()),
+                       show_col_types = FALSE,
                        trim_ws = TRUE)
 
 # Organize column names & order
@@ -66,6 +67,7 @@ metadata <- metadata %>%
 # Read genus-level abundances from qiime analysis
 genera <- read_delim(TAXONOMY_FILE, 
                      "\t", escape_double = FALSE, 
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
@@ -141,6 +143,7 @@ mtb.map$MA.Name.Match <- NULL
 
 # Few manual corrections/completions
 # View(mtb.map %>% filter(is.na(HMDB) | is.na(KEGG)))
+mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 mtb.map[mtb.map$Compound == "DL-methionine-sulfoxide","KEGG"] <- 'C02989'
 mtb.map[mtb.map$Compound == "Ethyl-beta-D-glucuronide","HMDB"] <- "HMDB0010325" 
 mtb.map[mtb.map$Compound == "Methylsuccinate","KEGG"] <- "C02614" # The ID given by MetaboAnalyst does not appear in KEGG DB anymore (C08645)
