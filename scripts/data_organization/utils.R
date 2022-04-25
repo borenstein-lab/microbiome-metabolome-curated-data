@@ -210,6 +210,7 @@ get.signif.marks <- function(p.vals) {
   return(signif.marks)
 }
 
+# Add a new predictor variable to an existing formula object
 add.var.to.formula <- function(form, new.var) {
   require(formula.tools)
   new.form.str <- paste(as.character(form), "+", new.var)
