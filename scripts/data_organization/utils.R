@@ -4,6 +4,8 @@ require(readr)
 # Utility functions for data loading
 # ----------------------------------------------------------------
 
+# Receives a list of metabolite names (or other identifiers) and 
+#  uses MetaboAnalyst's conversion utility to map names to HMDB + KEGG identifiers.
 map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name") {
   require(MetaboAnalystR)
   
@@ -38,6 +40,8 @@ map.compound.names.MetaboAnalyst <- function(cmpds.to.search, search.by = "name"
 # Utility functions for saving processed data
 # ----------------------------------------------------------------
 
+# Saves resource data tables to text files, in the @new.folder folder.
+# Will override existing files if exist.
 save.to.files <- function(new.folder, 
                           parent.folder,
                           metadata = NULL, 
@@ -66,6 +70,11 @@ save.to.files <- function(new.folder,
   message("Wrote data to text files")
 }
 
+# Saves resource data tables into one single RData file, 
+#  in the @new.folder folder.
+# Will override existing files if @override.all is set to TRUE.
+# Otherwise, only the data tables provided will be updated in the 
+#  RData files and other objects in it will be kept untouched.
 save.to.rdata <- function(new.folder,
                           parent.folder,
                           metadata = NULL, 
@@ -98,6 +107,12 @@ save.to.rdata <- function(new.folder,
 # Utility functions for data processing and data analysis
 # ----------------------------------------------------------------
 
+# Load all datasets within @parent.folder.
+# @parent.folder is expected to contain a child folder per dataset,
+#  and the folders name is taken as dataset name.
+# The returned object is a list of data types (mtb, mtb.map, genera, 
+#  species, metadata) where each data type is a list of tables 
+#  named by dataset name
 load.all.datasets <- function(parent.folder = "processed_data") {
   # Get all processed datasets
   data.dirs <- list.dirs(file.path("../data", parent.folder))[-1]
