@@ -1,0 +1,1031 @@
+---
+title: "A meta-analysis of genus-metabolite associations"
+output:
+  html_document:
+    css: Custom_Formatting.css
+    toc: true
+    toc_depth: 3
+    df_print: paged
+    code_folding: show
+---
+
+## Preparations
+
+```{r collapse=TRUE}
+library(ggplot2)
+library(viridis)
+library(broom)
+library(dplyr)
+library(gt)
+library(formula.tools)
+library(logger)
+library(future.apply)
+library(meta)
+library(kableExtra)
+
+# Notebook settings
+future::plan("multisession", workers = 4)
+options(scipen = 999)
+
+# Load utility scripts
+source("data_organization/utils.R")
+source("data_analysis/hmdb_utils.R")
+```
+
+### Load all data
+
+Load all data available in the curated gut microbiome-metabolome data resource:  
+
+```{r}
+all.data <- load.all.datasets()
+for(i in 1:length(all.data)) assign(names(all.data)[i], all.data[[i]])
+rm(all.data)
+```
+
+***  
+
+### Analysis settings
+
+Limit the analysis to non-infants cohorts only.  
+We allow multiple samples per subject (in longitudinal studies).  
+
+```{r}
+datasets <- c("ERAWIJANTARI_GASTRIC_CANCER_2020",
+              "YACHIDA_CRC_2019",
+              "KIM_ADENOMAS_2020",
+              "FRANZOSA_IBD_2019",
+              "MARS_IBS_2020",
+              "KANG_AUTISM_2017",
+              "JACOBS_IBD_FAMILIES_2016",
+              "SINHA_CRC_2016",
+              "iHMP_IBDMDB_2019",
+              "WANG_ESRD_2020",
+              "POYET_BIO_ML_2019")
+```
+
+Remove subjects from YACHIDA_CRC_2019 study that are also in ERAWIJANTARI_GASTRIC_CANCER_2020 study:
+
+```{r}
+metadata$YACHIDA_CRC_2019 <- metadata$YACHIDA_CRC_2019 %>%
+  filter(! Shared.w.ERAWIJANTARI_2020)
+updated.yachida.sample.list <- metadata$YACHIDA_CRC_2019$Sample
+mtb$YACHIDA_CRC_2019 <- mtb$YACHIDA_CRC_2019 %>% filter(Sample %in% updated.yachida.sample.list)
+genera$YACHIDA_CRC_2019 <- genera$YACHIDA_CRC_2019 %>% filter(Sample %in% updated.yachida.sample.list)
+```
+
+File names for analysis results:
+
+```{r}
+# If the file exists, it will be loaded instead of re-computed
+file.lm.results.raw <- "data_analysis/linear_models_genus_metabolite.tsv"
+file.rem.results <- "data_analysis/rem_results.tsv"
+file.hmdb.data <- "data_analysis/hmdb_info.tsv"
+file.cytoscape.network <- "data_analysis/cytoscape_network.tsv"
+file.cytoscape.nodes <- "data_analysis/cytoscape_node_attributes.tsv"
+```
+
+***  
+
+## Get genus-metabolite pairs 
+
+Here we prepare a list of genus-metabolite pairs that appear in at least 3 datasets. We also require that the genera are not rare (see definition below) and that metabolites have an HMDB identification and are not constant over samples.  
+  
+We start by marking for each genus and each metabolite which datasets they are in:
+
+```{r}
+# Metabolite-dataset statistics
+metabolites.per.dataset <- 
+  get.metab.dataset.stats(mtb.map, datasets)
+
+# Genera-dataset statistics
+genera.dataset.stats <- 
+  get.genera.dataset.stats(genera, datasets) %>%
+  # Add averaged statistics (over datasets)
+  group_by(Taxon) %>%
+  mutate(Averaged.Taxon.Mean.Abundance = 
+           weighted.mean(Taxon.Mean.Abundance, Dataset.N),
+         Averaged.Taxon.Perc.of.Non.Zeros = 
+           weighted.mean(Taxon.Perc.of.Non.Zeros, Dataset.N),
+         N.Datasets = n_distinct(Dataset))
+```
+
+Discard rare genera (defined here as <25% non-zero values or average abundance <0.1% over all datasets in this analysis):  
+
+```{r}
+genera.dataset.stats <- genera.dataset.stats %>%
+  filter(Averaged.Taxon.Perc.of.Non.Zeros >= 25) %>%
+  filter(Averaged.Taxon.Mean.Abundance >= 0.001)
+
+# We additionally discard genera from individual datasets if they 
+#  are mostly zero's there. See for example:
+#  View(genera.dataset.stats %>% filter(grepl("g__Clostridioides",Taxon)))
+genera.dataset.stats <- genera.dataset.stats %>%
+  filter(Taxon.Perc.of.Non.Zeros >= 10) 
+
+# And lastly discard ambiguous/unidentified genera
+genera.dataset.stats <- genera.dataset.stats %>%
+  filter(! grepl("g__$", Taxon))
+```
+
+Discard metabolites with no HMDB annotation or metabolites with constant values:  
+
+```{r}
+metabolites.per.dataset <- metabolites.per.dataset %>%
+  filter(Type == "HMDB") %>%
+  select(-Type)
+
+# Also remove metabolites with constant values across cohort
+is.constant <- apply(metabolites.per.dataset, MARGIN = 1, function(r) {
+  # Get vector of values of a metabolite
+  tmp <- mtb[[unname(r["Dataset"])]][,unname(r["Orig.Compound"])]
+  
+  # Return true if constant
+  return(var(tmp, na.rm = TRUE) == 0)
+})
+metabolites.per.dataset <- metabolites.per.dataset[!is.constant,]
+```
+
+Retrieve a list of genus-metabolite *pairs* that appear in at least 3 datasets. Save the list in the `common.pairs` table.  
+
+Note: some metabolites may appear more than once in a dataset (for example in the case of low-confidence in annotation or multiple MS runs). We deal with these cases later on.  
+
+```{r results='hold'}
+common.pairs <- inner_join(genera.dataset.stats,
+                           metabolites.per.dataset,
+                           by = "Dataset") %>%
+  relocate(Dataset, Dataset.N) %>%
+  group_by(Taxon, Compound) %>%
+  filter(n_distinct(Dataset) >= 3) %>% 
+  mutate(Pair = paste(Compound, 
+                      gsub(".*;f__","f__",Taxon),
+                      sep = "~"))
+
+# Print statistics
+paste(n_distinct(common.pairs$Pair), 
+      "unique genus-metabolite pairs will be analyzed")
+paste("These include", n_distinct(common.pairs$Compound), 
+      "metabolites and", n_distinct(common.pairs$Taxon), "genera")
+```
+
+***  
+
+## Get genus-metabolite associations per dataset, controlling for study group
+
+To assess the genus-metabolite association, independently of disease state, we train linear models where the "study group" variable is added as a term to the formula.  
+
+### Organize data
+
+We first create a "thin" table with the relevant data from each dataset.  
+We apply a log-transformation (with pseudo count 1) to metabolomic data and an arcsine square root transformation to taxa relative abundances, as often applied to such data before fitting linear regressions (for example in https://www.nature.com/articles/s41586-019-1237-9).   
+
+```{r results='hold'}
+# Metadata fields to include (if exist)
+metadata.fields <- c("Sample", 
+                     "Age", 
+                     "Gender", 
+                     "Subject", 
+                     "Study.Group", 
+                     "BMI")
+
+data.for.lm <- lapply(datasets, function(d) {
+  log_info(sprintf("Preparing data for %s", d))
+  
+  # For compactness we fetch only relevant genera and metabolites,
+  #  included in our pairs of interest.
+  
+  # Get relevant genera
+  relevant.genera <- common.pairs %>% 
+    filter(Dataset == d) %>% 
+    pull(Taxon) %>% 
+    unique()
+  relevant.genera <- genera[[d]] %>%
+    select("Sample", any_of(relevant.genera))
+  
+  # Arcsine square root relative abundance values
+  relevant.genera[-1] <- asin(sqrt(relevant.genera[-1]))
+  
+  # Get relevant metabolites
+  relevant.cmpd <- common.pairs %>% 
+    filter(Dataset == d) %>% 
+    pull(Orig.Compound) %>% 
+    unique()
+  relevant.cmpd <- mtb[[d]] %>% 
+    select("Sample", any_of(relevant.cmpd))
+  
+  # Log scale metabolomics (unless already scaled)
+  if (min(relevant.cmpd %>% 
+            summarise(across(-1, min, na.rm = T)), 
+          na.rm = T) >= 0)
+    relevant.cmpd[-1] <- log1p(relevant.cmpd[-1])
+  
+  # Combine all variables in one table
+  tmp <- metadata[[d]] %>% 
+    select(any_of(metadata.fields)) %>%
+    mutate(Sample = as.character(Sample)) %>%
+    left_join(relevant.cmpd, by = "Sample") %>%
+    left_join(relevant.genera, by = "Sample")
+  
+  return(tmp)
+})
+names(data.for.lm) <- datasets
+```
+
+***  
+
+### Fit linear models
+
+Fit a linear regression model (LM) for each genus-metabolite pair, using the following formula:  
+`Compound ~ (Intercept) + Taxon [+ Study.Group]`  
+  
+We also fit a second LM adjusting for additional covariates, when available:  
+`Compound ~ (Intercept) + Taxon [+ Study.Group] [+ Age] [+ Gender] [+ BMI]`  
+  
+Per LM we record the following statistics:   
+
+* Adjusted R^2 (can be interpreted as the % of variation in metabolite levels explained by genus abundance and other factors controlled for)  
+* Overall model P value (based on the F-statistic)  
+* Model coefficient for genus abundance (if positive, an increase in genus abundance is associated with an increase in metabolite levels, and vice versa)  
+* Model coefficient P value  
+  
+Finally we apply an FDR correction to all P values in a specific dataset.
+
+To enable a proper synthesize of results across multiple studies in downstream analysis, we also compute the r_sp (semi-partial correlation) as described in __Formula 2__ in [Aloe, Ariel M., and Betsy Jane Becker. "An effect size for regression predictors in meta-analysis." Journal of Educational and Behavioral Statistics 37.2 (2012): 278-297.](https://journals.sagepub.com/doi/full/10.3102/1076998610396901)
+
+```{r results='hold'}
+if (file.exists(file.lm.results.raw)) {
+  lm.results <- read_delim(file.lm.results.raw, 
+                           delim = "\t", 
+                           show_col_types = FALSE,
+                           escape_double = FALSE, 
+                           trim_ws = TRUE)
+} else {
+  # Iterate over datasets (in parallel - future_lapply)
+  lm.results <- future_lapply(datasets, function(d) {
+    # Example: d = datasets[10] 
+    print(sprintf("Fitting LM models for genus-metabolite pairs in dataset: %s", d))
+    
+    # Get dataset data and list of pairs to check
+    tmp <- data.for.lm[[d]]
+    pairs.to.check <- common.pairs %>% 
+      filter(Dataset == d) 
+    
+    # For each pair - fit a linear model and record results
+    # Example: r = unlist(pairs.to.check[11634,])
+    lms <- data.frame(
+      t(apply(pairs.to.check, MARGIN = 1, function(r) { 
+        
+        metab.in.pair <- unname(r["Orig.Compound"])
+        genus.in.pair <- unname(r["Taxon"])
+        tmp.data.for.lm <- tmp %>%
+          select(all_of(c(metab.in.pair, genus.in.pair)), 
+                 any_of(metadata.fields)) %>%
+          rename("Compound" = 1, "Taxon" = 2) %>% 
+          select(where(~sum(!is.na(.x)) > 0))
+        
+        # Generate the regression formula, 
+        #  add study.group covariate if available
+        lm.formula <- as.formula("Compound ~ Taxon")
+        if ("Study.Group" %in% names(tmp.data.for.lm))
+          lm.formula <- add.var.to.formula(lm.formula, "Study.Group")
+        
+        # Fit the model
+        lm.model <- lm(lm.formula, data = tmp.data.for.lm)
+        lm.model.sum <- summary(lm.model)
+        
+        # Get the semi-partial correlation between genus 
+        #  abundance and metabolite using Equation 2 from
+        #  Aloe and Becker, 2012 (cited above).
+        r.sp <- 
+          (lm.model.sum$coefficients["Taxon", "t value"] * 
+             sqrt(1 - lm.model.sum$r.squared)) /
+          (sqrt(nrow(tmp.data.for.lm) - 
+                  (length(lm.formula)-1) - 1))
+          
+        # Fit a second model that also controls for Age, 
+        #  BMI and Gender when available
+        lm.formula2 <- lm.formula
+        if ("Age" %in% names(tmp.data.for.lm))
+          lm.formula2 <- add.var.to.formula(lm.formula2, "Age")
+        if ("BMI" %in% names(tmp.data.for.lm))
+          lm.formula2 <- add.var.to.formula(lm.formula2, "BMI")
+        if ("Gender" %in% names(tmp.data.for.lm))
+          lm.formula2 <- add.var.to.formula(lm.formula2, "Gender")
+        lm.model2 <- lm(lm.formula2, data = tmp.data.for.lm)
+        lm.model.sum2 <- summary(lm.model2)
+        
+        c("Dataset" = d,
+          "Taxon" = genus.in.pair,
+          "Orig.Compound" = metab.in.pair,
+          "LM.Formula" = as.character(lm.formula),
+          "LM.Adj.R2" = lm.model.sum$adj.r.squared,
+          # Extract the F-statistic P value from LM model summary (goodness of fit measure)
+          "LM.PVal" = unname(glance(lm.model.sum)$p.value),
+          # Extract the coefficient and its P value for the taxon variable in the regression
+          "LM.Taxon.Coef" = lm.model.sum$coefficients["Taxon", "Estimate"],
+          "LM.Taxon.PVal" = lm.model.sum$coefficients["Taxon", "Pr(>|t|)"],
+          "LM.Taxon.r.sp" = r.sp,
+          "LM2.Formula" = as.character(lm.formula2),
+          "LM2.Adj.R2" = lm.model.sum2$adj.r.squared,
+          # Extract the F-statistic P value from LM model summary (goodness of fit measure)
+          "LM2.PVal" = unname(glance(lm.model.sum2)$p.value),
+          # Extract the coefficient and its P value for the taxon variable in the regression
+          "LM2.Taxon.Coef" = lm.model.sum2$coefficients["Taxon", "Estimate"],
+          "LM2.Taxon.PVal" = lm.model.sum2$coefficients["Taxon", "Pr(>|t|)"])
+    })))
+    
+    # Sanity
+    sprintf("Sanity: fitted %i/%i requested models", nrow(pairs.to.check), nrow(lms))
+    
+    # Convert numbers back to numeric
+    lms <- lms %>% mutate_at(c("LM.Adj.R2","LM2.Adj.R2",
+                               "LM.Taxon.PVal","LM2.Taxon.PVal",
+                               "LM.Taxon.Coef","LM2.Taxon.Coef",
+                               "LM.PVal","LM2.PVal","LM.Taxon.r.sp"), 
+                             as.numeric)
+    
+    # Apply FDR
+    lms$LM.Taxon.FDR <- p.adjust(lms$LM.Taxon.PVal, method = "fdr")
+    lms$LM2.Taxon.FDR <- p.adjust(lms$LM2.Taxon.PVal, method = "fdr")
+    
+    n.models <- nrow(lms)
+    n.sig.models <- sum(lms$LM.Taxon.FDR < 0.05)
+    sprintf("Of %i LM models, %i (%.2f%%) resulted in significant associations", 
+            n.models, n.sig.models, 100*n.sig.models/n.models)
+    
+    return(lms)
+  }, future.packages = c("logger", "formula.tools", "broom"))
+  
+  # Merge into one big table
+  lm.results <- bind_rows(lm.results)
+  
+  # Add details per pair
+  lm.results <- lm.results %>%
+    left_join(common.pairs, by = c("Dataset","Taxon","Orig.Compound"))
+  
+  # Per dataset, take only the best model per genus-metabolite pair
+  # (for cases where a compound was measured more than once, for example when running multiple MS methods)
+  lm.results <- lm.results %>%
+    group_by(Dataset, Pair) %>%
+    slice_min(order_by = LM.Taxon.FDR, with_ties = FALSE) %>% 
+    ungroup()
+  
+  write_delim(lm.results, file = file.lm.results.raw, delim = "\t")
+}
+```
+
+```{r results='hold'}
+paste0("A total of ", nrow(lm.results), " linear models were fitted")
+n.lm.signif <- lm.results %>% filter(LM.Taxon.FDR < 0.05) %>% nrow()
+paste0(n.lm.signif, " (", round(100*n.lm.signif/nrow(lm.results),2), "%) of which had a FDR<0.05 for the genus coefficient")
+```
+
+***  
+
+### Summarize results & add HMDB information
+
+```{r message=FALSE}
+if (file.exists(file.hmdb.data)) { 
+  hmdb.data <- read_delim(file.hmdb.data, 
+                          delim = "\t", 
+                          show_col_types = FALSE,
+                          escape_double = FALSE, 
+                          trim_ws = TRUE)
+} else {
+  hmdb.ids <- unique(lm.results$Compound)
+  hmdb.data <- get.hmdb.data.by.ids(hmdb.ids) 
+  hmdb.data <- hmdb.data %>% rename(Compound = HMDB)
+  
+  # Manually fill-in some missing KEGG's
+  hmdb.data$KEGG[hmdb.data$Compound == "HMDB0000043"] <- "D07523"
+  hmdb.data$KEGG[hmdb.data$Compound == "HMDB0000613"] <- "C21593"
+  hmdb.data$KEGG[hmdb.data$Compound == "HMDB0004704"] <- "C14828"
+   
+  # ... and some missing classes
+  hmdb.data$HMDB.Class[hmdb.data$Compound == "HMDB0000357"] <- 
+    "Hydroxy acids and derivatives"
+  hmdb.data$HMDB.Super.Class[hmdb.data$Compound == "HMDB0000357"] <- 
+    "Organic acids and derivatives"
+  hmdb.data$HMDB.Class[hmdb.data$Compound == "METPA0797"] <- 
+    "Carboxylic acids and derivatives"
+  hmdb.data$HMDB.Super.Class[hmdb.data$Compound == "METPA0797"] <- 
+    "Amino acids, peptides, and analogues"
+  
+  write_delim(hmdb.data, file = file.hmdb.data, delim = "\t")
+}
+```
+
+Show agreement/disagreement between datasets for a sample of metabolites and microbes:
+
+```{r fig.height=8, fig.width=16}
+not.assoc.label <- "Not associated"
+pos.assoc.label <- "Positively associated"
+neg.assoc.label <- "Negatively associated"
+cat.colors <- c("lightgrey", "#1CA59F", "#C05475")
+names(cat.colors) <- c(not.assoc.label, pos.assoc.label, neg.assoc.label)
+
+# Choose taxa and metabolites that are most associated
+taxa.to.plot <- lm.results %>%
+ group_by(Taxon) %>%
+ summarise(N = n(), N.Signif = sum(LM.Taxon.FDR < 0.05), .groups = "drop") %>%
+ slice_max(order_by = N.Signif, n = 15) %>%
+ mutate(Genus = gsub(".*;g__","g__",Taxon)) %>%
+ pull(Genus)
+
+mtb.to.plot <- lm.results %>%
+ group_by(Compound) %>%
+ summarise(N = n(), N.Signif = sum(LM.Taxon.FDR < 0.05), .groups = "drop") %>%
+ slice_max(order_by = N.Signif, n = 25) %>%
+ pull(Compound)
+
+# Plot data
+tmp <- lm.results %>%
+  ungroup() %>%
+  mutate(Category = ifelse(LM.Taxon.FDR > 0.05, 
+                           not.assoc.label,
+                           ifelse(LM.Taxon.Coef > 0, 
+                                  pos.assoc.label, 
+                                  neg.assoc.label))) %>%
+  select(Taxon, Compound, Dataset, Category) %>%
+  mutate(Value = 1) %>%
+  mutate(Genus = gsub(".*;g__","g__",Taxon)) %>%
+  filter(Genus %in% taxa.to.plot) %>%
+  filter(Compound %in% mtb.to.plot) %>%
+  left_join(hmdb.data, by = "Compound") %>%
+  mutate(Compound = factor(Compound, levels = mtb.to.plot)) %>%
+  mutate(Genus = factor(Genus, levels = taxa.to.plot))
+
+
+ggplot(tmp, aes(x = "", y = Value, fill = Category)) +
+  geom_bar(stat = "identity", width = 1, color = "black", size = 0.6, position = "fill") +
+  coord_polar("y", start = 0) +
+  theme_void() +
+  scale_fill_manual(values = cat.colors) +
+  facet_grid(Genus ~ Compound, switch = "both") +
+  theme(legend.position = "top") +
+  theme(strip.background = element_blank()) +
+  theme(strip.text.x = element_text(angle = 90, size = 10, hjust = 1, vjust = 0.55)) +
+  theme(strip.text.y.left = element_text(size = 10, hjust = 1, angle = 0)) +
+  theme(panel.spacing = unit(0, "lines")) +
+  theme(legend.title = element_blank()) +
+  theme(legend.text = element_text(size = 12))
+```
+
+Create a table with summarized results per genus-metabolite pair:  
+
+```{r}
+lm.results.sum <- lm.results %>%
+  group_by(Pair, Taxon, Compound) %>%
+  summarise(Taxon.Mean.Abundance = 
+              weighted.mean(Taxon.Mean.Abundance, Dataset.N),
+            Taxon.Perc.of.Non.Zeros = 
+              weighted.mean(Taxon.Perc.of.Non.Zeros, Dataset.N),
+            N.Datasets = n_distinct(Dataset),
+            N.Signif = sum(LM.Taxon.FDR < 0.05),
+            N.Signif.Pos = sum(LM.Taxon.FDR < 0.05 & LM.Taxon.Coef > 0),
+            N.Signif.Neg = sum(LM.Taxon.FDR < 0.05 & LM.Taxon.Coef < 0),
+            .groups = "drop") %>%
+  tidyr::separate(Taxon, 
+                  into = c("Taxon.Domain",
+                           "Taxon.Phylum",
+                           "Taxon.Class",
+                           "Taxon.Order",
+                           "Taxon.Family",
+                           "Taxon.Genus"), 
+                  sep = ";", 
+                  fill = "right",
+                  remove = FALSE) %>%
+  select(-Taxon.Domain) %>%
+  left_join(hmdb.data, by = "Compound")
+```
+
+Show another overview of LM results:
+
+```{r fig.height=5.5, fig.width=11.2}
+# Plot only taxa and metabolites that are most associated
+taxa.to.plot <- lm.results.sum %>%
+ group_by(Taxon) %>%
+ summarise(Portion.Associated = sum(N.Signif)/sum(N.Datasets), .groups = "drop") %>%
+ slice_max(order_by = Portion.Associated, n = 40) %>%
+ pull(Taxon)
+
+mtb.to.plot <- lm.results.sum %>%
+ group_by(Compound) %>%
+ summarise(Portion.Associated = sum(N.Signif)/sum(N.Datasets), .groups = "drop") %>%
+ slice_max(order_by = Portion.Associated, n = 70) %>%
+ pull(Compound)
+
+tmp <- lm.results.sum %>%
+  filter(Taxon %in% taxa.to.plot & Compound %in% mtb.to.plot) %>%
+  # Point colors
+  mutate(Point.Color = 
+           round(pmax((100*N.Signif.Pos/N.Datasets), 
+                      (100*N.Signif.Neg/N.Datasets)), 2)) %>%
+  mutate(Point.Color = ifelse(N.Signif.Pos > N.Signif.Neg, 
+                              Point.Color, -Point.Color)) %>%
+  mutate(Mark.Conflict = ifelse(N.Signif.Pos > 0 & 
+                                  N.Signif.Neg > 0,
+                                "?", "")) %>%
+  select(Compound, HMDB.Name, HMDB.Class,
+         HMDB.Sub.Class, HMDB.Super.Class,
+         Taxon, Taxon.Phylum,
+         N.Datasets, Point.Color,
+         Mark.Conflict) %>%
+  # To sort bacterial orders by their phyla we use full ('F') order name
+  mutate(Taxon.Order.Full = gsub(";f__.*$", "", Taxon))
+
+# We manually re-group metabolite classes for plotting clarity
+# See: View(data.frame(table(hmdb.data %>% filter(Compound %in% mtb.to.plot) %>% select(HMDB.Sub.Class, HMDB.Class, HMDB.Super.Class), useNA = "ifany")) %>% filter(Freq>0))
+
+tmp <- tmp %>%
+  mutate(HMDB.Class2 = HMDB.Class) %>%
+  mutate(HMDB.Class2 = ifelse(HMDB.Super.Class == "Benzenoids", 
+                              "Benzenoids", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class == "Fatty acids and conjugates", 
+                              "Fatty acids and conjugates", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class == "Bile acids, alcohols and derivatives", 
+                              "Bile acids, alcohols and derivatives", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class %in% 
+                                c("Cholestane steroids","Stigmastanes and derivatives"), 
+                              "Other steroids and steroid derivatives", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class == "Carboximidic acids", 
+                              "Carboximidic acids", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class == "Amino acids, peptides, and analogues", 
+                              "Amino acids, peptides, and analogues", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class %in% c("Carboxylic acid derivatives",
+                                                    "Dicarboxylic acids and derivatives",
+                                                    "Alpha hydroxy acids and derivatives",
+                                                    "Ureas", 
+                                                    "Organosulfonic acids and derivatives"), 
+                              "Other organic acids and derivatives", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse((!is.na(HMDB.Sub.Class)) & 
+                                HMDB.Sub.Class == "Carbohydrates and carbohydrate conjugates", 
+                              "Carbohydrates and carbohydrate conjugates", HMDB.Class2)) %>%
+  mutate(HMDB.Class2 = ifelse(HMDB.Super.Class == "Organoheterocyclic compounds", 
+                              "Organoheterocyclic compounds", HMDB.Class2)) %>%
+  # Order according to super classes
+  mutate(HMDB.Class2 = 
+           factor(HMDB.Class2, 
+                  levels = c("Benzenoids", 
+                             "Fatty acids and conjugates",
+                             "Bile acids, alcohols and derivatives",
+                             "Other steroids and steroid derivatives",
+                             "Carboximidic acids",
+                             "Carboxylic acids and derivatives",
+                             "Amino acids, peptides, and analogues",
+                             "Other organic acids and derivatives",
+                             "Organonitrogen compounds",
+                             "Carbohydrates and carbohydrate conjugates",
+                             "Organoheterocyclic compounds",
+                             "Phenylpropanoic acids"),
+                  labels = c("Ben.", 
+                            "Fatty acids and conjugates",
+                            "Bile acids",
+                            "OS",
+                            "Cbxm.",
+                            "COOH",
+                            "AA",
+                            "OO",
+                            "ONC",
+                            "CHO",
+                            "OHC",
+                            "PPA"))) %>%
+  mutate(Taxon.Order.Full = 
+           factor(Taxon.Order.Full, 
+                  levels = sort(unique(tmp$Taxon.Order.Full)),
+                  labels = c("Act.",
+                             "Bac.",
+                             "Lac.",
+                             "Osc.",
+                             "Chr.",
+                             "Vei.",
+                             "Ent.")))
+
+# Inspect re-grouping: View(tmp %>% select(Compound, HMDB.Name, HMDB.Sub.Class, HMDB.Class, HMDB.Super.Class, HMDB.Class2) %>% distinct() %>% rename(Class.for.Plotting = HMDB.Class2) %>% arrange(Class.for.Plotting))
+
+ggplot(tmp, aes(y = Taxon, 
+                x = Compound, 
+                color = Point.Color, 
+                size = N.Datasets,
+                label = Mark.Conflict)) +
+  geom_point() +
+  geom_text(size = 3, 
+            color = "black", 
+            hjust = 0.5, 
+            vjust = 0.5) +
+  scale_color_gradient2(low = "firebrick3", 
+                        high = "blue4", 
+                        mid = "lightgrey", 
+                        midpoint = 0,
+                        name = "",
+                        labels = c("100% negative\nassociations", "", 
+                                   "0% significant\nassociations", "", 
+                                   "100% positive\nassociations"),
+                        guide = guide_colorbar(frame.colour = "black", 
+                                               ticks.colour = "black"),
+                        limits = c(-100,100),
+                        na.value = "white") +
+  scale_size_continuous(breaks = 3:10, range = c(2,4), name = "No. datasets") +
+  scale_y_discrete(position = "right") +
+  xlab("Metabolite") +
+  ylab("Genus") +
+  theme_bw() +
+  facet_grid(cols = vars(HMDB.Class2),
+             rows = vars(Taxon.Order.Full),
+             scales = "free", space = "free", switch = "y") +
+  theme(panel.spacing = unit(0.2, "lines")) +
+  theme(axis.text = element_blank()) +
+  theme(axis.title = element_text(size = 13)) +
+  theme(strip.background.y = element_rect(fill = '#8CBA80')) +
+  theme(strip.background.x = element_rect(fill = '#FDAE6B')) +
+  theme(strip.text = element_text(size = 9)) +
+  theme(strip.text.y.left = element_text(angle = 0)) +
+  theme(panel.grid.major = element_line(colour = "gray90")) +
+  theme(legend.text = element_text(size = 9)) +
+  theme(plot.margin = margin(r = 0))
+```
+
+***  
+
+## Identify consistent associations
+
+### Fit a random-effects model per pair
+
+```{r}
+if (file.exists(file.rem.results)) {
+  rems <- read_delim(file.rem.results, 
+                     delim = "\t", 
+                     show_col_types = FALSE,
+                     escape_double = FALSE, 
+                     trim_ws = TRUE)
+} else {
+  rem.pairs <- lm.results %>% 
+    select(Pair, Compound, Taxon, 
+           Dataset, Dataset.N, LM.Taxon.r.sp) %>%
+    nest_by(Pair, Compound, Taxon, .key = "REM.Data")
+    
+  # Iterate over pairs to fit an REM per pair
+  rems <- lapply(1:nrow(rem.pairs), function(i) { 
+    if (i%%100 == 0) cat('.')
+    if (i%%1000 == 0) cat('|')
+    
+    # Fetch relevant data
+    data.for.rem <- rem.pairs[i,] %>% tidyr::unnest(REM.Data)
+    
+    # Fit a REM
+    rem <- metacor(cor = data.for.rem$LM.Taxon.r.sp,
+                   n = data.for.rem$Dataset.N,
+                   studlab = data.for.rem$Dataset,
+                   hakn = FALSE,
+                   fixed = FALSE,
+                   random = TRUE)
+    
+    rem.w.hakn <- metacor(cor = data.for.rem$LM.Taxon.r.sp,
+                         n = data.for.rem$Dataset.N,
+                         studlab = data.for.rem$Dataset,
+                         hakn = TRUE,
+                         fixed = FALSE,
+                         random = TRUE)
+    
+    # Report main statistics per REM
+    return(data.frame(Compound = rem.pairs[i,"Compound"],
+                      Taxon = rem.pairs[i,"Taxon"],
+                      Pair = rem.pairs[i,"Pair"],
+                      N.Datasets = rem$k,
+                      REM.TE = rem$TE.random,
+                      REM.TE.Upper = rem$upper.random,
+                      REM.TE.Lower = rem$lower.random,
+                      REM.P = rem$pval.random,
+                      REM.P.HAKN = rem.w.hakn$pval.random,
+                      REM.I2 = rem$I2,
+                      REM.I2.Upper = rem$upper.I2,
+                      REM.I2.Lower = rem$lower.I2))
+  })
+  
+  # Merge into one big table
+  rems <- bind_rows(rems)
+  
+  # Correct for multiple testing
+  rems$REM.FDR <- p.adjust(rems$REM.P, method = "fdr")
+  rems$REM.FDR.HAKN <- p.adjust(rems$REM.P.HAKN, method = "fdr")
+  
+  # Save to file
+  write_delim(rems, file = file.rem.results, delim = "\t")
+}
+```
+
+Print statistics:
+
+```{r results='hold'}
+paste0("A total of ", nrow(rems), " random-effects models were fitted")
+n.rem.signif <- rems %>% filter(REM.FDR <= 0.05) %>% nrow()
+paste0(n.rem.signif, " (", round(100*n.rem.signif/nrow(rems),2), "%) of which had an FDR <= 0.05")
+n.rem.signif <- rems %>% filter(REM.FDR <= 0.1) %>% nrow()
+paste0(n.rem.signif, " (", round(100*n.rem.signif/nrow(rems),2), "%) of which had an FDR <= 0.1")
+n.rem.signif <- rems %>% filter(REM.FDR.HAKN <= 0.05) %>% nrow()
+paste0(n.rem.signif, " (", round(100*n.rem.signif/nrow(rems),2), "%) of which had an FDR <= 0.05 when using HAKN correction")
+n.rem.signif <- rems %>% filter(REM.FDR.HAKN <= 0.1) %>% nrow()
+paste0(n.rem.signif, " (", round(100*n.rem.signif/nrow(rems),2), "%) of which had an FDR <= 0.1 when using HAKN correction")
+```
+
+Define a criteria for considering a genus-metabolite as "consistently positively/negatively associated":
+
+```{r}
+lm.results.sum <- lm.results.sum %>%
+  left_join(rems, by = c("Pair","Taxon","Compound","N.Datasets")) %>%
+  mutate(Consis.Assoc.Pos = REM.FDR.HAKN <= 0.1 & REM.TE > 0) %>%
+  mutate(Consis.Assoc.Neg = REM.FDR.HAKN <= 0.1 & REM.TE < 0) %>%
+  mutate(Consis.Assoc = Consis.Assoc.Pos | Consis.Assoc.Neg) 
+```
+
+
+Print statistics providing an overview of results:
+
+```{r results='hold'}
+n.total <- lm.results.sum %>% nrow()
+sprintf("%i genus-metabolite pairs were analyzed", n.total)
+n <- lm.results.sum %>% filter(Consis.Assoc) %>% nrow()
+sprintf("%i (%.2f%%) of which were consistently associated in the analyzed datasets", n, 100*n/n.total)
+n <- lm.results.sum %>% filter(Consis.Assoc.Pos) %>% nrow()
+sprintf("%i (%.2f%%) of which were consistently positively associated in the analyzed datasets", n, 100*n/n.total)
+n <- lm.results.sum %>% filter(Consis.Assoc.Neg) %>% nrow()
+sprintf("%i (%.2f%%) of which were consistently negatively associated in the analyzed datasets", n, 100*n/n.total)
+n <- lm.results.sum %>% filter(N.Signif.Pos >= 1 & N.Signif.Neg >= 1) %>% nrow()
+sprintf("%i (%.2f%%) had conflicting significant associations across different datasets (>=1 positive associations and >=1 negative ones)", 
+                 n, 100*n/n.total)
+sprintf("")
+
+# Metabolite-level statistics
+n.total <- lm.results.sum %>% pull(Compound) %>% n_distinct()
+sprintf("%i unique metabolites were analyzed", n.total)
+mtb_assoc_counts <- lm.results.sum %>% 
+  group_by(Compound) %>% 
+  summarise(Count.Consis.Assoc = sum(Consis.Assoc))
+n <- sum(mtb_assoc_counts$Count.Consis.Assoc > 0)
+sprintf("%i (%.2f%%) of which were consistently associated with 1 or more genera", n, 100*n/n.total)
+n <- sum(mtb_assoc_counts$Count.Consis.Assoc >= 10)
+sprintf("%i (%.2f%%) of which were consistently associated with 10 or more genera", n, 100*n/n.total)
+n <- sum(mtb_assoc_counts$Count.Consis.Assoc >= 20)
+sprintf("%i (%.2f%%) of which were consistently associated with 20 or more genera", n, 100*n/n.total)
+sprintf("")
+
+# Genus-level statistics
+n.total <- lm.results.sum %>% pull(Taxon) %>% n_distinct()
+sprintf("%i unique genera were analyzed", n.total)
+tax_assoc_counts <- lm.results.sum %>% 
+  group_by(Taxon) %>% 
+  summarise(Count.Consis.Assoc = sum(Consis.Assoc))
+n <- sum(tax_assoc_counts$Count.Consis.Assoc > 0)
+sprintf("%i (%.2f%%) of which were consistently associated with 1 or more metabolites", n, 100*n/n.total)
+n <- sum(tax_assoc_counts$Count.Consis.Assoc >= 10)
+sprintf("%i (%.2f%%) of which were consistently associated with 10 or more metabolites", n, 100*n/n.total)
+n <- sum(tax_assoc_counts$Count.Consis.Assoc >= 20)
+sprintf("%i (%.2f%%) of which were consistently associated with 20 or more metabolites", n, 100*n/n.total)
+```
+
+***  
+
+### Explore consistent associations
+
+#### A bipartite network of consistent association
+
+Export to CytoScape to visualize consistent network of genus-metabolite links:
+
+```{r}
+cytoscape.network <- lm.results.sum %>%
+  filter(Consis.Assoc) %>%
+  select(Taxon, Compound, N.Datasets, REM.TE, REM.P.HAKN) %>%
+  mutate(interaction = ifelse(REM.TE > 0, "pos_assoc", "neg_assoc")) %>%
+  rename(source = Taxon) %>%
+  rename(target = Compound) %>%
+  relocate(source, interaction, target) %>%
+  rename(n_datasets = N.Datasets) 
+
+cytoscape.nodes.genera <- lm.results.sum %>%
+  filter(Consis.Assoc) %>%
+  select(Taxon, Taxon.Phylum, Taxon.Class, Taxon.Order, Taxon.Family, Taxon.Genus) %>%
+  distinct() %>%
+  left_join(genera.dataset.stats %>% 
+              select(Taxon, 
+                     Averaged.Taxon.Mean.Abundance, 
+                     Averaged.Taxon.Perc.of.Non.Zeros) %>%
+              distinct(),
+            by = "Taxon") %>%
+  rename(node = Taxon) %>%
+  mutate(node_type = "Genus") %>%
+  rename(taxon_phylum = Taxon.Phylum) %>%
+  rename(taxon_class = Taxon.Class) %>%
+  rename(taxon_order = Taxon.Order) %>%
+  rename(taxon_family = Taxon.Family) %>%
+  rename(taxon_genus = Taxon.Genus) %>%
+  rename(averaged_taxon_mean_abundance = Averaged.Taxon.Mean.Abundance) %>%
+  rename(averaged_taxon_perc_of_non_zeros = Averaged.Taxon.Perc.of.Non.Zeros) 
+
+cytoscape.nodes.metab <- lm.results.sum %>%
+  filter(Consis.Assoc) %>%
+  select(Compound, HMDB.Name, 
+         HMDB.Sub.Class, 
+         HMDB.Class, 
+         HMDB.Super.Class, 
+         HMDB.Source.Food, 
+         HMDB.Source.Microbial) %>%
+  distinct() %>%
+  rename(node = Compound) %>%
+  mutate(node_type = "Metabolite") %>%
+  rename(HMDB_name = HMDB.Name) %>%
+  rename(HMDB_sub_class = HMDB.Sub.Class) %>%
+  rename(HMDB_class = HMDB.Class) %>%
+  rename(HMDB_super_Class = HMDB.Super.Class) %>%
+  rename(HMDB_source_food = HMDB.Source.Food) %>%
+  rename(HMDB_source_microbial = HMDB.Source.Microbial) 
+  
+cytoscape.nodes <- 
+  bind_rows(cytoscape.nodes.genera, cytoscape.nodes.metab) %>%
+  mutate(taxon_phylum_or_hmdb_class = 
+           coalesce(taxon_phylum, HMDB_class)) %>%
+  mutate(node_size_factor = 
+           ifelse(is.na(averaged_taxon_mean_abundance), 
+                        0.002, 
+                        averaged_taxon_mean_abundance))
+
+write_delim(cytoscape.network, file = file.cytoscape.network, delim = "\t")
+write_delim(cytoscape.nodes, file = file.cytoscape.nodes, delim = "\t", na = "")
+```
+
+***  
+
+#### Are abundant genera also associated with more metabolites?
+
+We use a linear model to assess whether higher genus abundances are associated with a higher probability to come out significant in an association.  
+
+```{r fig.width=5, fig.height=3.5}
+tmp <- 
+  genera.dataset.stats %>% 
+  select(Taxon, 
+         Dataset,
+         Taxon.Mean.Abundance, 
+         Taxon.Perc.of.Non.Zeros) %>%
+  distinct() %>%
+  inner_join(lm.results %>%
+              group_by(Taxon, Dataset) %>%
+              summarise(N.Pairs = n(),
+                        N.Associations = sum(LM.Taxon.FDR < 0.05), 
+                        .groups = "drop"),
+            by = c("Taxon", "Dataset")) %>%
+  mutate(N.Associations = tidyr::replace_na(N.Associations, 0)) %>%
+  mutate(Perc.Consis.Assoc = 100 * N.Associations / N.Pairs)
+
+ggplot(tmp, aes(x = Taxon.Perc.of.Non.Zeros,
+                y = Perc.Consis.Assoc)) +
+  geom_point() +
+  stat_smooth(method = loess, color = "darkred", fill = "red") +
+  ylab("Percent of consistent associations\n(out of all analyzed pairs)") +
+  xlab("Averaged prevalence across datasets") +
+  theme_bw()
+
+summary(lm(Perc.Consis.Assoc ~ Taxon.Mean.Abundance + Taxon.Perc.of.Non.Zeros + N.Pairs, data = tmp))
+```
+
+Evidently, prevalent taxa are more likely to come out significantly associated to metabolites. We hypothesize that this is both due to a statistical reason - more zeros mean lower variance in the data, and a biological reason - very rare genera might have limited ability to alter the surrounding metabolome, making it harder to detect associations.
+
+***  
+
+#### Metabolite class enrichment analysis
+
+Are some metabolite classes (super classes) enriched in microbe-associated metabolites?  
+
+```{r results='hold'}
+mtb.enrich.analysis <- lm.results.sum %>%
+  select(Compound, HMDB.Super.Class, Consis.Assoc) %>%
+  group_by(Compound, HMDB.Super.Class) %>%
+  summarise(N.Genera = n(), Any.Associated = any(Consis.Assoc), .groups = "drop") 
+
+classes.to.analyze <- mtb.enrich.analysis %>%
+  group_by(HMDB.Super.Class) %>%
+  filter(n_distinct(Compound) >= 5) %>%
+  pull(HMDB.Super.Class) %>%
+  unique()
+
+# g = "Steroids and steroid derivatives"
+fishers <- lapply(classes.to.analyze, function(g) {
+  # Build 2X2 confusion matrix for fisher.test
+  N.assoc.in.group  <- mtb.enrich.analysis %>% 
+    filter(HMDB.Super.Class == g) %>% 
+    filter(Any.Associated) %>% nrow()
+  N.nassoc.in.group  <- mtb.enrich.analysis %>% 
+    filter(HMDB.Super.Class == g) %>% 
+    filter(!Any.Associated) %>% nrow()
+  N.assoc.nin.group  <- mtb.enrich.analysis %>% 
+    filter(HMDB.Super.Class != g) %>% 
+    filter(Any.Associated) %>% nrow()
+  N.nassoc.nin.group <- mtb.enrich.analysis %>% 
+    filter(HMDB.Super.Class != g) %>% 
+    filter(!Any.Associated) %>% nrow()
+  
+  fmat <- matrix(c(N.assoc.in.group, N.nassoc.in.group, 
+                   N.assoc.nin.group, N.nassoc.nin.group), 
+                 nrow = 2, ncol = 2, byrow = F)
+  colnames(fmat) <- c("associated", "non.associated")
+  rownames(fmat) <- c("in.group", "not.in.group")
+  
+  # Calculate Fisher
+  fish <- fisher.test(fmat, alternative = "greater")
+  
+  data.frame(Class = g,
+             N.assoc.in.group = N.assoc.in.group, 
+             N.nassoc.in.group = N.nassoc.in.group, 
+             N.assoc.nin.group = N.assoc.nin.group, 
+             N.nassoc.nin.group = N.nassoc.nin.group,
+             OR = unname(fish$estimate),
+             OR.95.CI.lower = fish$conf.int[1],
+             OR.95.CI.upper = fish$conf.int[2],
+             P = fish$p.value)
+})
+fishers <- bind_rows(fishers)
+fishers$FDR <- p.adjust(fishers$P, method = "fdr")
+
+# Print results
+fishers %>% 
+  arrange(P) %>%
+  kbl() %>%
+  kable_styling(font_size = 8)
+sprintf("Found %i enriched metabolite classes", sum(fishers$FDR<0.1))
+```
+
+Are some metabolite classes enriched in __specific-phylum__-associated metabolites? 
+
+```{r results='hold'}
+mtb.enrich.analysis2 <- lm.results.sum %>%
+  select(Compound, HMDB.Super.Class, Taxon.Phylum, Consis.Assoc) %>%
+  mutate(Taxon.Phylum = ifelse(is.na(Taxon.Phylum), "Unclassified", Taxon.Phylum)) %>%
+  group_by(Compound, HMDB.Super.Class, Taxon.Phylum) %>%
+  summarise(N.Genera = n(), Any.Associated = any(Consis.Assoc), .groups = "drop") %>%
+  tidyr::pivot_wider(id_cols = c(Compound, HMDB.Super.Class), 
+                     names_from = Taxon.Phylum, 
+                     values_from = Any.Associated, 
+                     values_fill = FALSE)
+
+phyla.to.analyze <- names(mtb.enrich.analysis2)[-1:-2]
+
+# Test: g = "Organic acids and derivatives"
+fishers <- lapply(classes.to.analyze, function(g) {
+  # Test: p = "Unclassified"
+  fishers.phylum <- lapply(phyla.to.analyze, function(p) {
+    # Build 2X2 confusion matrix for fisher.test
+    N.assoc.in.group  <- mtb.enrich.analysis2 %>% 
+      filter(HMDB.Super.Class == g) %>% 
+      filter(!!as.symbol(p)) %>% nrow()
+    N.nassoc.in.group  <- mtb.enrich.analysis2 %>% 
+      filter(HMDB.Super.Class == g) %>% 
+      filter(!(!!as.symbol(p))) %>% nrow()
+    N.assoc.nin.group  <- mtb.enrich.analysis2 %>% 
+      filter(HMDB.Super.Class != g) %>% 
+      filter(!!as.symbol(p)) %>% nrow()
+    N.nassoc.nin.group <- mtb.enrich.analysis2 %>% 
+      filter(HMDB.Super.Class != g) %>% 
+      filter(!(!!as.symbol(p))) %>% nrow()
+    
+    fmat <- matrix(c(N.assoc.in.group, N.nassoc.in.group, 
+                     N.assoc.nin.group, N.nassoc.nin.group), 
+                   nrow = 2, ncol = 2, byrow = F)
+    colnames(fmat) <- c("associated", "non.associated")
+    rownames(fmat) <- c("in.group", "not.in.group")
+    
+    # Calculate Fisher
+    fish <- fisher.test(fmat, alternative = "greater")
+    
+    # Return
+    data.frame(Class = g,
+               Phylum = p,
+               N.assoc.in.group = N.assoc.in.group, 
+               N.nassoc.in.group = N.nassoc.in.group, 
+               N.assoc.nin.group = N.assoc.nin.group, 
+               N.nassoc.nin.group = N.nassoc.nin.group,
+               OR = unname(fish$estimate),
+               OR.95.CI.lower = fish$conf.int[1],
+               OR.95.CI.upper = fish$conf.int[2],
+               P = fish$p.value)
+  })
+  
+  # Return
+  bind_rows(fishers.phylum)
+})
+
+# Organize results and apply FDR correction
+fishers <- bind_rows(fishers)
+fishers$FDR <- p.adjust(fishers$P, method = "fdr")
+
+# Print results
+fishers %>% 
+  select(Class, Phylum, OR, OR.95.CI.lower, OR.95.CI.upper, P, FDR) %>%
+  arrange(P) %>%
+  kbl() %>%
+  kable_styling(font_size = 8)
+sprintf("Found %i metabolite class enriched with specific phylum-associated metabolites", sum(fishers$FDR<0.1))
+```
+

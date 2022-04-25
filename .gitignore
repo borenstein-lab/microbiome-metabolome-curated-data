@@ -26,3 +26,7 @@ references/ncbi
 docs/~$*.xlsx
 scripts/.RData
 
+scripts/data_analysis/iPATH_selection.txt
+scripts/data_analysis/GLay_clusters_3.png
+scripts/data_analysis/GLay_clusters.png
+scripts/data_analysis/GLay_clusters_2.png

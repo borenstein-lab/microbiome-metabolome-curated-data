@@ -1,0 +1,315 @@
+Compound	KEGG	HMDB.Name	HMDB.Sub.Class	HMDB.Class	HMDB.Super.Class	HMDB.Kingdom	HMDB.Source.Endogenous	HMDB.Source.Food	HMDB.Source.Microbial
+HMDB0000008	C05984	2-Hydroxybutyric acid	Alpha hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000014	C00881	Deoxycytidine	Pyrimidine 2'-deoxyribonucleosides	Pyrimidine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000017	C00847	4-Pyridoxic acid	Pyridinecarboxylic acids and derivatives	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000019	C00141	alpha-Ketoisovaleric acid	Short-chain keto acids and derivatives	Keto acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000020	C00642	p-Hydroxyphenylacetic acid	1-hydroxy-2-unsubstituted benzenoids	Phenols	Benzenoids	Organic compounds	FALSE	TRUE	TRUE
+HMDB0000022	C05587	3-Methoxytyramine	Methoxyphenols	Phenols	Benzenoids	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000026	C02642	Ureidopropionic acid	Ureas	Organic carbonic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000030	C00120	Biotin	NA	Biotin and derivatives	Organoheterocyclic compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000033	C00386	Carnosine	Hybrid peptides	Peptidomimetics	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000034	C00147	Adenine	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000036	C05122	Taurocholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000039	C00246	Butyric acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000043	D07523	Betaine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000050	C00212	Adenosine	NA	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000056	C00099	beta-Alanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000062	C00318	L-Carnitine	Quaternary ammonium salts	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000064	C00300	Creatine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000070	C00408	Pipecolic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000071	C05512	Deoxyinosine	Purine 2'-deoxyribonucleosides	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000076	C00429	Dihydrouracil	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000085	C00330	Deoxyguanosine	Purine 2'-deoxyribonucleosides	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000086	C00670	Glycerophosphocholine	Glycerophosphocholines	Glycerophospholipids	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000089	C00475	Cytidine	NA	Pyrimidine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000092	C01026	Dimethylglycine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	TRUE
+HMDB0000094	C00158	Citric acid	Tricarboxylic acids and derivatives	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000097	C00114	Choline	Quaternary ammonium salts	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000112	C00334	gamma-Aminobutyric acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000118	C05582	Homovanillic acid	Methoxyphenols	Phenols	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000123	C00037	Glycine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000124	C00085	Fructose 6-phosphate	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000126	C00093	Glycerol 3-phosphate	Glycerophosphates	Glycerophospholipids	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000127	C00191	D-Glucuronic acid	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000128	C00581	Guanidoacetic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000131	C00116	Glycerol	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000132	C00242	Guanine	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000133	C00387	Guanosine	NA	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000134	C00122	Fumaric acid	Dicarboxylic acids and derivatives	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000138	C01921	Glycocholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000139	C00258	Glyceric acid	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000148	C00025	L-Glutamic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000152	C00628	Gentisic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000156	C00149	Malic acid	Beta hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000157	C00262	Hypoxanthine	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000158	C00082	L-Tyrosine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000159	C00079	L-Phenylalanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000161	C00041	L-Alanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000162	C00148	L-Proline	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000167	C00188	L-Threonine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000168	C00152	L-Asparagine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000172	C00407	L-Isoleucine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000177	C00135	L-Histidine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000182	C00047	L-Lysine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000187	C00065	L-Serine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000190	C00186	L-Lactic acid	Alpha hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000191	C00049	L-Aspartic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000192	C00491	L-Cystine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000194	C01262	Anserine	Hybrid peptides	Peptidomimetics	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000195	C00294	Inosine	NA	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000197	C00954	Indoleacetic acid	Indolyl carboxylic acids and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000201	NA	L-Acetylcarnitine	Fatty acid esters	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000206	C02727	N6-Acetyl-L-lysine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000208	C00026	Oxoglutaric acid	Gamma-keto acids and derivatives	Keto acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000210	C00864	Pantothenic acid	Alcohols and polyols	Organooxygen compounds	Organic oxygen compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000214	C00077	Ornithine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000215	C00140	N-Acetyl-D-glucosamine	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000216	C00547	Norepinephrine	Benzenediols	Phenols	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000226	C00295	Orotic acid	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000232	C03722	Quinolinic acid	Pyridinecarboxylic acids and derivatives	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000235	C00378	Thiamine	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000237	C00163	Propionic acid	Carboxylic acids	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	TRUE
+HMDB0000239	C00314	Pyridoxine	Pyridoxines	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000243	C00022	Pyruvic acid	Alpha-keto acids and derivatives	Keto acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000244	C00255	Riboflavin	Alloxazines and isoalloxazines	Pteridines and derivatives	Organoheterocyclic compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000245	C00931	Porphobilinogen	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000251	C00245	Taurine	Organosulfonic acids and derivatives	Organic sulfonic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000254	C00042	Succinic acid	Dicarboxylic acids and derivatives	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000259	C00780	Serotonin	Tryptamines and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000262	C00178	Thymine	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000267	C01879	Pyroglutamic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000271	C00213	Sarcosine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000273	C00214	Thymidine	Pyrimidine 2'-deoxyribonucleosides	Pyrimidine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000279	C00449	Saccharopine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000288	C00105	Uridine 5'-monophosphate	Pyrimidine ribonucleotides	Pyrimidine nucleotides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000289	C00366	Uric acid	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000292	C00385	Xanthine	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000294	C00086	Urea	Ureas	Organic carbonic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000296	C00299	Uridine	NA	Pyrimidine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000299	C01762	Xanthosine	NA	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000300	C00106	Uracil	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000301	C00785	Urocanic acid	Imidazoles	Azoles	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000303	C00398	Tryptamine	Tryptamines and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	NA	NA	NA
+HMDB0000306	C00483	Tyramine	Phenethylamines	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000355	C03761	3-Hydroxymethylglutaric acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000357	NA	NA	NA	Hydroxy acids and derivatives	Organic acids and derivatives	NA	NA	NA	NA
+HMDB0000402	C02504	2-Isopropylmalic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000448	C06104	Adipic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000450	C16741	5-Hydroxylysine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000452	C02356	L-alpha-Aminobutyric acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000472	C00643	5-Hydroxy-L-tryptophan	Tryptamines and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000479	C01152	3-Methylhistidine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000482	C06423	Caprylic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000500	C00156	4-Hydroxybenzoic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000510	C00956	Aminoadipic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000511	C01571	Capric acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000512	C03519	N-Acetyl-L-phenylalanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000517	C00062	L-Arginine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000535	C01585	Caproic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000562	C00791	Creatinine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000574	C00097	L-Cysteine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000609	NA	DL-Dopa	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000619	C00695	Cholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000623	C02678	Dodecanedioic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000625	C00257	Gluconic acid	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000626	C04483	Deoxycholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000630	C00380	Cytosine	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000638	C02679	Dodecanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000641	C00064	L-Glutamine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000666	C17714	Heptanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000671	C02043	Indolelactic acid	Indolyl carboxylic acids and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	TRUE
+HMDB0000682	NA	Indoxyl sulfate	Arylsulfates	Organic sulfuric acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	TRUE
+HMDB0000684	C00328	L-Kynurenine	Carbonyl compounds	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000687	C00123	L-Leucine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000695	C00233	Ketoleucine	Short-chain keto acids and derivatives	Keto acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000696	C00073	L-Methionine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000699	C02918	1-Methylnicotinamide	Pyridinecarboxylic acids and derivatives	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000700	C01013	Hydroxypropionic acid	Beta hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000711	NA	Hydroxyoctanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000714	C01586	Hippuric acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000718	C08262	Isovaleric acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000719	C00263	L-Homoserine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000720	NA	Levulinic acid	Gamma-keto acids and derivatives	Keto acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000729	NA	alpha-Hydroxyisobutyric acid	Alpha hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	FALSE	FALSE
+HMDB0000732	C02794	Hydroxykynurenine	Carbonyl compounds	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000759	C02155	Glycylleucine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000763	C05635	5-Hydroxyindoleacetic acid	Indolyl carboxylic acids and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000764	C05629	Hydrocinnamic acid	NA	Phenylpropanoic acids	Phenylpropanoids and polyketides	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000779	C01479	Phenyllactic acid	NA	Phenylpropanoic acids	Phenylpropanoids and polyketides	Organic compounds	TRUE	FALSE	TRUE
+HMDB0000784	C08261	Azelaic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000792	C08277	Sebacic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000802	C00715	Pterin	Pterins and derivatives	Pteridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000812	C01042	N-Acetyl-L-aspartic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000840	C07588	Salicyluric acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000857	C02656	Pimelic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000870	C00388	Histamine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000875	C01004	Trigonelline	NA	NA	Alkaloids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000881	C02470	Xanthurenic acid	Quinoline carboxylic acids	Quinolines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000883	C00183	L-Valine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000892	C00803	Valeric acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000895	C01996	Acetylcholine	Quaternary ammonium salts	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000897	C02242	7-Methylguanine	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000898	C05127	1-Methylhistamine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000904	C00327	Citrulline	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000905	C00360	Deoxyadenosine monophosphate	Purine deoxyribonucleotides	Purine nucleotides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000906	C00565	Trimethylamine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	FALSE	TRUE	TRUE
+HMDB0000925	C01104	Trimethylamine N-oxide	Aminoxides	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	FALSE	TRUE
+HMDB0000929	C00078	L-Tryptophan	Indolyl carboxylic acids and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000943	C01620	Threonic acid	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	FALSE	TRUE
+HMDB0000954	C01494	Ferulic acid	Hydroxycinnamic acids and derivatives	Cinnamic acids and derivatives	Phenylpropanoids and polyketides	Organic compounds	FALSE	TRUE	TRUE
+HMDB0000956	C00898	Tartaric acid	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	FALSE	TRUE	TRUE
+HMDB0000996	C00606	3-Sulfinoalanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001015	C03145	N-Formyl-L-methionine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	TRUE
+HMDB0001065	C02735	2-Hydroxyphenethylamine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001104	C01239	N-Acetyl-b-glucosaminylamine	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001123	C00108	2-Aminobenzoic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	FALSE	TRUE	FALSE
+HMDB0001138	C00624	N-Acetyl-L-glutamic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001149	C00430	5-Aminolevulinic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001161	C01181	4-Trimethylammoniobutanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001173	C00170	5'-Methylthioadenosine	5'-deoxy-5'-thionucleosides	5'-deoxyribonucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001185	C00019	S-Adenosylmethionine	5'-deoxy-5'-thionucleosides	5'-deoxyribonucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001186	C02567	N1-Acetylspermine	Carboxylic acid derivatives	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001202	C00239	dCMP	Pyrimidine deoxyribonucleotides	Pyrimidine nucleotides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001227	C00364	5-Thymidylic acid	Pyrimidine deoxyribonucleotides	Pyrimidine nucleotides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001257	C00315	Spermidine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001276	C00612	N1-Acetylspermidine	Carboximidic acids	Carboximidic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001325	C03793	N6,N6,N6-Trimethyl-L-lysine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001389	C01598	Melatonin	Indoles	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0001406	C00153	Niacinamide	Pyridinecarboxylic acids and derivatives	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001414	C00134	Putrescine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0001431	C00534	Pyridoxamine	Pyridoxamines	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001432	C00179	Agmatine	Guanidines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001476	C00632	3-Hydroxyanthranilic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001488	C00253	Nicotinic acid	Pyridinecarboxylic acids and derivatives	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001522	C02294	Methylguanidine	Guanidines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001539	C03626	Asymmetric dimethylarginine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001545	C00250	Pyridoxal	Pyridine carboxaldehydes	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001565	C00588	Phosphorylcholine	Quaternary ammonium salts	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001895	C00805	Salicylic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	FALSE	TRUE	TRUE
+HMDB0001921	C07151	1,1-Dimethylbiguanide	Guanidines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	FALSE	FALSE	FALSE
+HMDB0002005	C02989	Methionine sulfoxide	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002024	C02835	Imidazoleacetic acid	Imidazoles	Azoles	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002064	C02714	N-Acetylputrescine	Carboximidic acids	Carboximidic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	TRUE
+HMDB0002172	C03413	N1,N12-Diacetylspermine	Carboximidic acids	Carboximidic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0002199	C01744	Desaminotyrosine	NA	Phenylpropanoic acids	Phenylpropanoids and polyketides	Organic compounds	TRUE	TRUE	TRUE
+HMDB0002322	C01672	Cadaverine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0002466	C00587	3-Hydroxybenzoic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	FALSE	TRUE	TRUE
+HMDB0002658	C01020	6-Hydroxynicotinic acid	Pyridinecarboxylic acids and derivatives	Pyridines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	TRUE
+HMDB0002894	C02376	5-Methylcytosine	Pyrimidines and pyrimidine derivatives	Diazines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0003070	C00493	Shikimic acid	Alcohols and polyols	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0003072	C00296	Quinic acid	Alcohols and polyols	Organooxygen compounds	Organic oxygen compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0003331	C02494	1-Methyladenosine	NA	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	FALSE	FALSE
+HMDB0003334	NA	Symmetric dimethylarginine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0003355	C00431	5-Aminopentanoic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	TRUE
+HMDB0003357	C00437	N2-Acetylornithine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0003431	C00860	L-Histidinol	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0003459	C00993	D-Alanyl-D-alanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0003464	C01035	4-Guanidinobutanoic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0003911	C05145	3-Aminoisobutanoic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0004827	C10172	Proline betaine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0011733	C02037	Glycyl-glycine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0011745	C02712	N-Acetyl-L-methionine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0011756	C02710	N-Acetylleucine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0011757	NA	N-Acetylvaline	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0012275	C05332	Phenylethylamine	Phenethylamines	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0013253	C05135	N-Acetylhistamine	Carboxylic acid derivatives	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0013302	NA	Phenylalanylphenylalanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0013677	NA	3,5-Dihydroxybenzoic acid	Benzoic acids and derivatives	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	FALSE
+HMDB0028818	C01425	Glutamylglutamic acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0031404	C00571	Cyclohexylamine	Cyclohexylamines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0032055	C02997	N-Acetylhistidine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0032985	C04294	5-(2-Hydroxyethyl)-4-methylthiazole	Thiazoles	Azoles	Organoheterocyclic compounds	Organic compounds	FALSE	TRUE	FALSE
+HMDB0034365	C01047	L-Theanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0035196	C09209	Harman	NA	Harmala alkaloids	Alkaloids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0059655	C02630	2-Hydroxyglutarate	Short-chain hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	TRUE
+HMDB0060493	C02713	N-Acetylmuramate	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	FALSE	FALSE	FALSE
+HMDB0062660	C01046	N-methyl-L-glutamic Acid	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	FALSE	FALSE	FALSE
+HMDB0094692	C02721	N-Methylalanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	NA	NA	NA
+HMDB0240251	C01015	cis-4-Hydroxyproline	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	NA	NA	NA
+METPA0236	NA	NA	NA	NA	NA	NA	NA	NA	NA
+METPA0797	NA	NA	NA	Carboxylic acids and derivatives	Amino acids, peptides, and analogues	NA	NA	NA	NA
+HMDB0000054	C00486	Bilirubin	Bilirubins	Tetrapyrroles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000067	C00187	Cholesterol	Cholestane steroids	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000098	C00181	D-Xylose	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000101	C00559	Deoxyadenosine	Purine 2'-deoxyribonucleosides	Purine nucleosides	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000207	C00712	Oleic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000209	C07086	Phenylacetic acid	NA	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000220	C00249	Palmitic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000247	C00794	Sorbitol	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000252	C00319	Sphingosine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000269	C00836	Sphinganine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000391	NA	7-Ketodeoxycholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000506	C17647	alpha-Muricholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000518	C02528	Chenodeoxycholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000555	NA	3-Methyladipic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000613	C21593	Erythronic acid	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000631	C05464	Deoxycholic acid glycine conjugate	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000672	C19615	Hexadecanedioic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000673	C01595	Linoleic acid	Lineolic acids and derivatives	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000708	NA	Glycoursodeoxycholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000715	C01717	Kynurenic acid	Quinoline carboxylic acids	Quinolines and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000717	C17658	Isolithocholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000722	C02592	Lithocholyltaurine	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000766	NA	N-Acetyl-L-alanine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000767	C02067	Pseudouridine	NA	Nucleoside and nucleotide analogues	Nucleosides, nucleotides, and analogues	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000806	C06424	Myristic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000826	C16537	Pentadecanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000827	C01530	Stearic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000852	C01753	beta-Sitosterol	Stigmastanes and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000866	C01657	N-Acetyl-L-tyrosine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000872	NA	Tetradecanedioic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000888	NA	Undecanedioic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000893	C08278	Suberic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000896	C05463	Taurodeoxycholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000951	C05465	Taurochenodesoxycholic acid	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0001388	C06427	alpha-Linolenic acid	Lineolic acids and derivatives	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	FALSE	TRUE	FALSE
+HMDB0001847	C07481	Caffeine	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001924	C13235	Atenolol	Phenylacetamides	Benzene and substituted derivatives	Benzenoids	Organic compounds	FALSE	FALSE	FALSE
+HMDB0001976	NA	Docosapentaenoic acid (22n-6)	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0001999	C06428	Eicosapentaenoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002068	C08316	Erucic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002088	NA	Oleoylethanolamide	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002100	C16512	Palmitoylethanolamide	Carboximidic acids	Carboximidic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002121	C09069	Carnosol	Terpene lactones	Prenol lipids	Lipids and lipid-like molecules	Organic compounds	FALSE	TRUE	FALSE
+HMDB0002123	C16361	1,3,7-Trimethyluric acid	Purines and purine derivatives	Imidazopyrimidines	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002183	C06429	Docosahexaenoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002226	C16527	Adrenic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002231	C16526	11Z-Eicosenoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002259	NA	Heptadecanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002261	NA	2-Hydroxymyristic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002271	C20522	Imidazolepropionic acid	Imidazoles	Azoles	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0002329	C00209	Oxalic acid	Dicarboxylic acids and derivatives	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0002364	C17148	Oleanolic acid	Triterpenoids	Prenol lipids	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002392	C16939	Maslinic acid	Triterpenoids	Prenol lipids	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002925	C03242	Dihomo-gamma-linolenic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0003229	C08362	Palmitoleic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0004072	C05627	4-Hydroxystyrene	Styrenes	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	TRUE	FALSE
+HMDB0004400	C16366	5-Acetylamino-6-amino-3-methyluracil	N-arylamides	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0004610	C12144	Phytosphingosine	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0004620	NA	N-a-Acetyl-L-arginine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0004704	C14828	9,10-DHOME	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0004705	C14829	12,13-DHOME	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0011718	C00633	4-Hydroxybenzaldehyde	Carbonyl compounds	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0012252	NA	Linoleoyl ethanolamide	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0013078	NA	Stearoylethanolamide	Amines	Organonitrogen compounds	Organic nitrogen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0029377	C03882	Piperine	NA	NA	Alkaloids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0029723	C12283	Saccharin	NA	Benzothiazoles	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0031057	NA	2-Hydroxyhexadecanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0037942	NA	(1xi,3xi)-1,2,3,4-Tetrahydro-1-methyl-beta-carboline-3-carboxylic acid	NA	Harmala alkaloids	Alkaloids and derivatives	Organic compounds	FALSE	TRUE	FALSE
+HMDB0000122	C00221	D-Glucose	Carbohydrates and carbohydrate conjugates	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000637	C05466	Chenodeoxycholic acid glycine conjugate	Bile acids, alcohols and derivatives	Steroids and steroid derivatives	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000679	C02427	Homocitrulline	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000703	C01984	Mandelic acid	NA	Benzene and substituted derivatives	Benzenoids	Organic compounds	TRUE	FALSE	FALSE
+HMDB0000772	C16535	Nonadecanoic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	TRUE
+HMDB0001008	C00500	Biliverdin	Bilirubins	Tetrapyrroles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001859	C06804	Acetaminophen	1-hydroxy-2-unsubstituted benzenoids	Phenols	Benzenoids	Organic compounds	TRUE	FALSE	FALSE
+HMDB0002203	NA	3-Hydroxycapric acid	Medium-chain hydroxy acids and derivatives	Hydroxy acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0002212	C06425	Arachidic acid	Fatty acids and conjugates	Fatty Acyls	Lipids and lipid-like molecules	Organic compounds	TRUE	TRUE	FALSE
+HMDB0002302	NA	Indole-3-propionic acid	Indolyl carboxylic acids and derivatives	Indoles and derivatives	Organoheterocyclic compounds	Organic compounds	TRUE	TRUE	TRUE
+HMDB0006029	NA	N-Acetylglutamine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0011170	NA	gamma-Glutamylisoleucine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	FALSE
+HMDB0000042	C00033	Acetic acid	Carboxylic acids	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000532	NA	Acetylglycine	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
+HMDB0001858	C01468	p-Cresol	Cresols	Phenols	Benzenoids	Organic compounds	TRUE	TRUE	TRUE
+HMDB0000211	C00137	myo-Inositol	Alcohols and polyols	Organooxygen compounds	Organic oxygen compounds	Organic compounds	TRUE	TRUE	FALSE
+HMDB0013713	NA	N-Acetyltryptophan	Amino acids, peptides, and analogues	Carboxylic acids and derivatives	Organic acids and derivatives	Organic compounds	TRUE	FALSE	FALSE
