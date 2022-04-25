@@ -6,7 +6,7 @@ output:
     code_folding: hide
 ---
 
-### Load data
+## Load data
 
 ```{r message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -37,7 +37,7 @@ healthy.control.labels <- list("ERAWIJANTARI_GASTRIC_CANCER_2020" = "Healthy",
                                "WANG_ESRD_2020" = "Control")
 ```
 
-### Datasets statistics
+## Datasets statistics
 
 ```{r}
 # Collect statistics
@@ -131,7 +131,7 @@ data.summary %>%
   
 ```
 
-#### Overview statistics
+### Overview statistics
 
 ```{r}
 message("This collection includes:")
@@ -141,9 +141,9 @@ message(paste("-",sum(data.summary$num_samples),"samples"))
 ```
 
 
-### Shared features
+## Shared features
 
-#### Shared genera
+### Shared genera
 
 ```{r fig.width=6, fig.height=3.2}
 genera.dataset.stats <- get.genera.dataset.stats(genera, datasets)
@@ -177,7 +177,7 @@ label.y <- max(tmp$cum.N)
 
 ggplot(tmp, aes(x = N.Datasets.Including.Taxon, y = cum.N)) +
   geom_bar(stat="identity", color='black', 
-           fill='#F3DE8A') +
+           fill='#8CBA80') +
   theme_classic() +
   ylab("No. of genera") +
   xlab("No. of datasets") +
@@ -195,21 +195,21 @@ ggplot(tmp, aes(x = N.Datasets.Including.Taxon, y = cum.N)) +
            y = c(0.97*label.y, 0.3*label.y)+100, 
            label = c(label1, label2), 
            color = "#272838", 
-           size = 3, hjust = 0) +
+           size = 3.45, hjust = 0) +
   annotate(geom = "point",
            x = c(3,10), 
            y = c(label1.x,label2.x)+800,
            color = "#7E7F9A", size = 2) +
   geom_text(aes(label=cum.N), vjust = -0.5, size = 2.6) +
   scale_y_continuous(limits = c(0, max(tmp$cum.N) + 7)) +
-  theme(axis.title = element_text(size = 10)) 
+  theme(axis.title = element_text(size = 11)) 
 
 # Clean up 
 rm(label1.x, label2.x, label1, label2, label.y, tmp)
 ```
 
 
-#### Shared HMDB-identified metabolites
+### Shared HMDB-identified metabolites
 
 ```{r fig.width=6, fig.height=3.2}
 metabolites.per.dataset <- 
@@ -244,7 +244,7 @@ label.y <- max(tmp$cum.N)
 
 ggplot(tmp, aes(x = N.Datasets.Including.Compound, y = cum.N)) +
   geom_bar(stat="identity", color='black', 
-           fill='#73C2BE') +
+           fill='#FDAE6B') +
   theme_classic() +
   ylab("No. of compounds") +
   xlab("No. of datasets") +
@@ -262,13 +262,13 @@ ggplot(tmp, aes(x = N.Datasets.Including.Compound, y = cum.N)) +
            y = c(0.7*label.y, 0.5*label.y)-30, 
            label = c(label1, label2), 
            color = "#272838", 
-           size = 3, hjust = 0) +
+           size = 3.45, hjust = 0) +
   annotate(geom = "point",
            x = c(3,10), y = c(label1.x,label2.x)+100,
            color = "#7E7F9A", size = 2) +
   geom_text(aes(label=cum.N), vjust = -0.5, size = 2.6) +
   scale_y_continuous(limits = c(0, max(tmp$cum.N) + 15)) +
-  theme(axis.title = element_text(size = 10))
+  theme(axis.title = element_text(size = 11))
 
 rm(label1.x, label2.x, label1, label2, label.y, tmp)
 ```

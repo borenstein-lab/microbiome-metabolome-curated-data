@@ -32,3 +32,4 @@ scripts/data_analysis/GLay_clusters.png
 scripts/data_analysis/GLay_clusters_2.png
 scripts/data_analysis/cytoscape_visualization.cys
 scripts/data_organization/utils_old.R
+scripts/data_analysis/.RData
