@@ -43,7 +43,7 @@ DATASET_NAME <- 'FRANZOSA_IBD_2019'
 supp.tmp <- read.xls(METADATA_FILE,
                      header = TRUE,
                      skip = 1,
-                     na.strings = c("0","#N/A"),
+                     na.strings = c("#N/A"),
                      stringsAsFactors = FALSE)
 # Split metadata rows
 metadata <- supp.tmp[1:7,]
@@ -72,20 +72,6 @@ metadata <- metadata %>%
 # --------------------------------
 # Load taxonomic profiles 
 # --------------------------------
-
-# # Created by Metaphlan
-# mtg <- read.xls(TAXONOMY_FILE,
-#                 header = TRUE,
-#                 skip = 1,
-#                 na.strings = c("#N/A"),
-#                 stringsAsFactors=FALSE)
-# names(mtg)[1] <- 'OTU'
-# mtg <- mtg[-(1:8),]
-# 
-# # Convert to numeric
-# for(i in c(2:ncol(mtg))) mtg[,i] <- as.numeric(as.character(mtg[,i]))
-# 
-# # Sanity (abundances sum to ~1): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,0.96,0.97,0.98,0.99,1.01)))
 
 species <- read_delim(TAXONOMY_FILE_SP, "\t", 
                       escape_double = FALSE, 
@@ -230,7 +216,7 @@ mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0069: succite','High.Confidence.A
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_2093: urobilin*','HMDB'] <- 'HMDB0004160'	
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_2093: urobilin*','KEGG'] <- 'C05793'	
 
-# Mark cases of duplicated HMDN/KEGG ID as lower confidence
+# Mark cases of duplicated HMDB/KEGG ID as lower confidence
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
