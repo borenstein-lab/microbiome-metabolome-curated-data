@@ -10,29 +10,30 @@ get.gtdb.mapper <- function() {
                 "d__\\1;p__\\2;c__\\3;o__\\4;f__\\5;g__\\6;s__\\7", x))
   }
   
-  bac120_metadata_r202 <- read_delim("../references/gtdb/bac120_metadata_r202.tsv", 
+  bac_metadata <- read_delim("../references/gtdb/bac120_metadata_r207.tsv", 
                                      delim = "\t", 
                                      escape_double = FALSE, 
                                      trim_ws = TRUE, 
                                      na = c(""," ","NA","none"),
                                      show_col_types = FALSE)
   
-  ar122_metadata_r202 <- read_delim("../references/gtdb/ar122_metadata_r202.tsv", 
+  ar_metadata <- read_delim("../references/gtdb/ar53_metadata_r207.tsv", 
                                      delim = "\t", 
                                      escape_double = FALSE, 
                                      trim_ws = TRUE, 
                                      na = c(""," ","NA","none"),
                                     show_col_types = FALSE)
   
-  bac120_metadata_r202 <- bind_rows(bac120_metadata_r202, ar122_metadata_r202)
+  bac_metadata <- bind_rows(bac_metadata, ar_metadata)
+  rm(ar_metadata)
   
   # Add taxonomy prefixes to silva taxonomy
-  bac120_metadata_r202$ssu_silva_taxonomy <- sapply(bac120_metadata_r202$ssu_silva_taxonomy, 
+  bac_metadata$ssu_silva_taxonomy <- sapply(bac_metadata$ssu_silva_taxonomy, 
                                                     add.prefix.to.silva, 
                                                     USE.NAMES = FALSE)
   
   # Organize table as a map from gtdb to the other databases
-  bac120_metadata_r202 <- bac120_metadata_r202 %>%
+  bac_metadata <- bac_metadata %>%
     select(gtdb_taxonomy, 
            ssu_silva_taxonomy,
            ssu_gg_taxonomy,
@@ -46,7 +47,7 @@ get.gtdb.mapper <- function() {
     mutate(gtdb_genus = gsub(";s__.*$","",gtdb_taxonomy)) %>%
     mutate(ref_genus = gsub(";s__.*$","",ref_taxonomy)) 
   
-  return(bac120_metadata_r202)
+  return(bac_metadata)
 }
 
 map.gtdb.short.to.long <- function(names.to.map, level = "species") {
@@ -58,13 +59,13 @@ map.gtdb.short.to.long <- function(names.to.map, level = "species") {
       select(gtdb_taxonomy) %>% 
       rename(long = gtdb_taxonomy) %>%
       distinct() %>%
-      mutate(short = gsub(".*;s__", "s__", long))
+      mutate(short = gsub(".*;s__", "", long))
   } else if (level == "genera") {
     gtdb.map <- gtdb.map %>% 
       select(gtdb_genus) %>% 
       rename(long = gtdb_genus) %>%
       distinct() %>%
-      mutate(short = gsub(".*;g__", "g__", long))
+      mutate(short = gsub(".*;g__", "", long))
   } else return(NULL)
   
   unmappable <- sum(! names.to.map %in% gtdb.map$short)
