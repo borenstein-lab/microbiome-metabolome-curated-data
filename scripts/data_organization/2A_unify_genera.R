@@ -119,6 +119,8 @@ rm(unclassified.rows, tmp)
 # We copy the new unified tables to the "data/processed_data" 
 #  folder in which final tables will be stored.
 
+dir.create("../data/processed_data", showWarnings = FALSE)
+
 file.copy(data.dirs, 
           "../data/processed_data", 
           recursive = TRUE, 
