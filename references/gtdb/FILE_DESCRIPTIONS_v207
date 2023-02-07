@@ -1,0 +1,123 @@
+Files provided with GTDB R07-RS207. Analogous files are provide for Archaea. Both
+compress and uncompressed files are available in some cases for convenience.
+
+* METHODS
+    Overview of methods used to form the GTDB taxonomy.
+
+* RELEASE_NOTES
+    Overview of changes specific to this release of the GTDB.
+
+* VERSION
+    Version identifier for this release of the GTDB.
+
+* bac120_taxonomy_<release>.tsv
+    GTDB taxonomy for all bacterial genomes assigned to a GTDB species cluster.
+
+* bac120_<release>.tree
+    Bacterial reference tree inferred from the concatenation of 120 proteins and spanning the representative
+    genomes for each bacterial species cluster. This tree is used to curate the GTDB taxonomy. The provided
+    tree is in Newick format, decorated with the GTDB taxonomy, and contains non-parametric bootstrap support
+    values.
+
+* bac120_metadata_<release>.tar.gz
+    Metadata for all bacterial genomes including GTDB and NCBI taxonomies, completeness and
+    contamination estimates, assembly statistics, and genomic properties.
+
+
+* Files in genomic_files_reps are specific to GTDB species representatives:
+    * bac120_marker_genes_reps_<release>.tar.gz
+        Untrimmed and unaligned marker genes used in the concatenated alignment used to infer
+        the bacterial reference tree. Genomes without a marker gene indicate either multiple hits or 
+        no hits were found for that gene. Genes are provided as both nucleotide and amino acid
+        sequences. Trimmed and aligned hits can be found in bac120_msa_marker_genes_reps_<release>.tar.gz.
+
+    * bac120_msa_marker_genes_reps_<release>.tar.gz
+        Trimmed and aligned marker genes for GTDB representative for each of the 120 bacterial proteins.
+        
+    * bac120_msa_reps_<release>.tar.gz
+        Multiple sequence alignment used to infer the bacterial reference tree.
+
+    * bac120_ssu_reps_<release>.tar.gz
+        FASTA file of 16S rRNA gene sequences identified within the set of bacterial representative genomes. The longest 
+        identified 16S rRNA sequence is selected for each representative genomes. The assigned taxonomy reflects the 
+        GTDB classification of the genome. Sequences are identified using nhmmer with the 16S rRNA model (RF00177) from the 
+        RFAM database. Only sequences with a length >=200 bp and an E-value <= 1e-06 are reported. In a small number of cases, 
+        the 16S rRNA sequences are incongruent with this taxonomic assignment as a result of contaminating 16S rRNA sequences.
+
+    * gtdb_proteins_aa_reps_<release>.tar.gz
+        Amino acid FASTA files for all protein-coding gene sequences predicted with Prodigal.
+        
+    * gtdb_proteins_nt_reps_<release>.tar.gz
+        Nucleotide FASTA files for all protein-coding gene sequences predicted with Prodigal.
+        
+    * gtdb_genomes_reps_<release>.tar.gz
+        FASTA files for each GTDB representative genome.
+
+
+* Files in genomic_files_all cover all genomes passing the QC criteria of the GTDB:
+    * bac120_marker_genes_all_<release>.tar.gz
+        Untrimmed and unaligned marker genes for all GTDB genomes. Genomes without a marker gene indicate 
+        either multiple hits or no hits were found for that gene. Genes are provided as both nucleotide 
+        and amino acidsequences. Trimmed and aligned hits can be found in bac120_msa_marker_genes_all_<release>.tar.gz.
+        
+    * bac120_msa_marker_genes_all_<release>.tar.gz
+        Trimmed and aligned marker genes for all GTDB genomes for each of the 120 bacterial proteins.
+        
+    * ssu_all_<release>.tar.gz
+        FASTA file containing 16S rRNA sequences identified across the set of GTDB genomes passing QC. The assigned taxonomy 
+        reflects the GTDB classification of the genome. Sequences are identified using nhmmer with the 16S rRNA model (RF00177) 
+        from the RFAM database. All sequences with a length >=200 bp and an E-value <= 1e-06 are reported.
+
+* Files in auxillary_files:
+    * bac120_<release>.sp_labels.tree
+        Synonymous to the bac120_<release>.tree, except with species labels appended to each genome.
+    
+    * bac120_msa_mask_<release>.txt
+        Mask indicating which columns were trimmed from the 120 bacterial protein concatenated alignment. 
+
+    * bac120_marker_info_<release>.tsv
+        Information about each of the 120 bacterial proteins used to infer the bacterial reference tree. 
+        The order of proteins in this file indicates the order in which they are concatenated in the MSA.
+  
+    * gtdb_<release>.dic
+        List of all taxa with and without rank prefixes in GTDB. This can be used as a dictionary in word
+        processing programs to indicate the correct spelling of GTDB taxa. See:
+        https://www.officetooltips.com/word_2016/tips/how_to_share_the_custom_dictionary_in_word.html
+
+    * gtdb_vs_ncbi_<release>_bacteria.xlsx
+        Correspondence between GTDB and NCBI taxa ordered by degree of polyphyly.
+        
+    * gtdbtk_data.tar.gz
+        Reference data required by the companion tool GTDB-Tk (https://github.com/Ecogenomics/GTDBTk) for classifying 
+        genomes according to the GTDB. This includes the genomic FASTA files for the GTDB reference genomes.
+
+    * hq_mimag_genomes_<release>.tsv
+        List of isolates, MAGs, and SAGs meeting the MIMAG high-quality genome criteria (Bowers et al., Nat Biotechnol, 2017):
+         - estimated completeness >90%
+         - estimated contamination <5%
+         - presence of the 5S, 16S, and 23S rRNA genes with a minimum length of 80 bp for 5S,
+           900 bp for archaeal 16S, 1200 bp for bacterial 16S, and 1900 bp for 23S
+         - at least 18 tRNAs
+         
+         [An updated version of this file was released on October 6, 2020 that implements the above length
+          testing of 5S, 16S, and 23S rRNA genes.]
+         
+    * metadata_field_desc.tsv
+        Description of each field in the above metadata file and indication of the originating source of the metadata.
+
+    * ncbi_vs_gtdb_<release>_bacteria.xlsx
+        Correspondence between NCBI and GTDB taxa ordered by degree of polyphyly.
+
+    * sp_clusters_<release>.tsv
+        Metadata file indicating the representative genome of each GTDB species cluster, the set of 
+        genomes assigned to the species cluster, and the average nucleotide identity radius used to 
+        circumscribe the species cluster.
+
+    * synonyms_<release>.tsv
+        List of species considered synonyms in the GTDB taxonomy.
+
+    * gtdb_taxa_not_in_lit_<release>.xlsx
+        List of GTDB families to phyla with Latin names without prior publication that have been introduced to achieve monophyly and rank normalization.
+
+    * qc_failed.tsv
+        List of genome assemblies failing the internal GTDB QC criteria.
