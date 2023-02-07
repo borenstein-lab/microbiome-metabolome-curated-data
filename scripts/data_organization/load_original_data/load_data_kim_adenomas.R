@@ -25,7 +25,7 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/KIM_ADENOMAS_2020/mBio_Metadata_16S_mapping.csv"
-TAXONOMY_FILE <- "../data/original_data/KIM_ADENOMAS_2020/feature_table_gtdb.tsv"
+TAXONOMY_FILE <- "../data/original_data/KIM_ADENOMAS_2020/feature_table_gtdb_207.tsv"
 METABOLOMICS_FILE <- "../data/original_data/KIM_ADENOMAS_2020/inline-supplementary-material-6.xlsx"
 
 PUBLICATION_NAME <- 'Fecal Metabolomic Signatures in Colorectal Adenoma Patients Are Associated with Gut Microbiota and Early Events of Colorectal Cancer Pathogenesis'

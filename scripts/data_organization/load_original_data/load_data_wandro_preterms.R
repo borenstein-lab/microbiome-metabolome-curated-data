@@ -23,7 +23,7 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 RDATA_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/.RData"
-TAXONOMY_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/feature_table_gtdb.tsv"
+TAXONOMY_FILE <- "../data/original_data/WANDRO_PRETERMS_2018/feature_table_gtdb_207.tsv"
 
 PUBLICATION_NAME <- 'The Microbiome and Metabolome of Preterm Infant Stool Are Personalized and Not Driven by Health Outcomes, Including Necrotizing Enterocolitis and Late-Onset Sepsis'
 DOI <- '10.1128/mSphere.00104-18'

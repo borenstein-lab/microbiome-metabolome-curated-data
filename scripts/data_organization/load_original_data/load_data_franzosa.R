@@ -26,8 +26,8 @@ source("data_organization/gtdb_utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- '../data/original_data/FRANZOSA_IBD_2019/Metobolites.xlsx'  
-TAXONOMY_FILE_SP <- '../data/original_data/FRANZOSA_IBD_2019/kraken/species_level_taxonomy.tsv'
-TAXONOMY_FILE_GE <- '../data/original_data/FRANZOSA_IBD_2019/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_FILE_SP <- '../data/original_data/FRANZOSA_IBD_2019/kraken/kraken_species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/FRANZOSA_IBD_2019/kraken/kraken_genus_level_taxonomy.tsv'
 TAXONOMY_SAMPLE_MAP <- '../data/original_data/FRANZOSA_IBD_2019/kraken/PRJNA400072.txt'
 TAXONOMY_SAMPLE_MAP2 <- '../data/original_data/FRANZOSA_IBD_2019/Microbial_species_relative_abundances.xlsx'
 METABOLOMICS_INFO <- '../data/original_data/FRANZOSA_IBD_2019/Metabolites_metadata.xlsx'

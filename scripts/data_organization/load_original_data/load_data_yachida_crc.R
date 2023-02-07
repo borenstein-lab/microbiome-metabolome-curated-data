@@ -26,9 +26,8 @@ source("data_organization/gtdb_utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S2-1_Metadata.tsv" # I read the metadata table from S2-1 which is the metadata of subjects for which a metagenome sample was taken. 
-# TAXONOMY_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S9_Metaphlan_Profiles.tsv"
-TAXONOMY_FILE_SP <- '../data/original_data/YACHIDA_CRC_2019/kraken/species_level_taxonomy.tsv'
-TAXONOMY_FILE_GE <- '../data/original_data/YACHIDA_CRC_2019/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_FILE_SP <- '../data/original_data/YACHIDA_CRC_2019/kraken/kraken_species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/YACHIDA_CRC_2019/kraken/kraken_genus_level_taxonomy.tsv'
 TAXONOMY_SAMPLE_MAP <- '../data/original_data/YACHIDA_CRC_2019/kraken/PRJDB4176.txt'
 METABOLOMICS_FILE <- "../data/original_data/YACHIDA_CRC_2019/Table_S13_MS_Profiles.tsv"
 
@@ -63,13 +62,7 @@ metadata <- metadata %>%
 # Load taxonomic profiles (species)
 # --------------------------------
 
-# mtg <- read_delim(TAXONOMY_FILE, "\t", 
-#                   escape_double = FALSE, 
-#                   trim_ws = TRUE)
-# names(mtg)[1] <- 'OTU'
-# mtg$OTU <- gsub(" ","_",mtg$OTU)
-# 
-# # Sanity (abundances sum to ~100): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,96,97,98,99,101)))
+# Sanity (abundances sum to ~100): table(cut(colSums(mtg[,2:ncol(mtg)]), breaks = c(0,96,97,98,99,101)))
 
 species <- read_delim(TAXONOMY_FILE_SP, "\t", 
                       escape_double = FALSE, 

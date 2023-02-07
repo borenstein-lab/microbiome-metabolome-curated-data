@@ -26,9 +26,8 @@ source("data_organization/gtdb_utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/iHMP_IBDMDB_2019/hmp2_metadata.csv"
-#TAXONOMY_FILE <- "../data/original_data/iHMP_IBDMDB_2019/taxonomic_profiles.tsv"
-TAXONOMY_FILE_SP <- '../data/original_data/iHMP_IBDMDB_2019/kraken/species_level_taxonomy.tsv'
-TAXONOMY_FILE_GE <- '../data/original_data/iHMP_IBDMDB_2019/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_FILE_SP <- '../data/original_data/iHMP_IBDMDB_2019/kraken/kraken_species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/iHMP_IBDMDB_2019/kraken/kraken_genus_level_taxonomy.tsv'
 TAXONOMY_SAMPLE_MAP <- '../data/original_data/iHMP_IBDMDB_2019/kraken/ena_download.txt'
 METABOLOMICS_FILE <- "../data/original_data/iHMP_IBDMDB_2019/iHMP_metabolomics.csv"
 

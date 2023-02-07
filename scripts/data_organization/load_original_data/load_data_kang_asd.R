@@ -23,7 +23,7 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/KANG_AUTISM_2017/combined.metadata.tsv"
-TAXONOMY_FILE <- "../data/original_data/KANG_AUTISM_2017/feature_table_gtdb.tsv"
+TAXONOMY_FILE <- "../data/original_data/KANG_AUTISM_2017/feature_table_gtdb_207.tsv"
 METABOLOMICS_FILE <- "../data/original_data/KANG_AUTISM_2017/1-s2.0-S1075996417302305-mmc2.xlsx"
 
 PUBLICATION_NAME <- 'Differences in fecal microbial metabolites and microbiota of children with autism spectrum disorders'

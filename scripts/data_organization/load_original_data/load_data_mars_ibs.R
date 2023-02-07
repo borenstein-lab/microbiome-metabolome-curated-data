@@ -26,9 +26,8 @@ source("data_organization/gtdb_utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/MARS_IBS_2020/1-s2.0-S0092867420309983-mmc1.xlsx"
-#TAXONOMY_FILE <- "../data/original_data/MARS_IBS_2020/Supplementary data I Microbiome data tables stool and biopsy - tab 1 only.xlsx"
-TAXONOMY_FILE_SP <- '../data/original_data/MARS_IBS_2020/kraken/species_level_taxonomy.tsv'
-TAXONOMY_FILE_GE <- '../data/original_data/MARS_IBS_2020/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_FILE_SP <- '../data/original_data/MARS_IBS_2020/kraken/kraken_species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/MARS_IBS_2020/kraken/kraken_genus_level_taxonomy.tsv'
 TAXONOMY_SAMPLE_MAP <- '../data/original_data/MARS_IBS_2020/kraken/PRJEB37924.txt'
 METABOLOMICS_FILE_1 <- "../data/original_data/MARS_IBS_2020/Supplementary data II source data NMR metabolomics.xlsx"
 METABOLOMICS_FILE_2 <- "../data/original_data/MARS_IBS_2020/Supplementary data IV source data Tryptophan metabolomics.xlsx"
@@ -91,14 +90,18 @@ tax.map <- read_delim(TAXONOMY_SAMPLE_MAP,
                       col_select = c("run_accession", "submitted_ftp"), 
                       escape_double = FALSE, 
                       trim_ws = TRUE) %>%
+  filter(grepl('Study\\.ID', submitted_ftp)) %>%
   mutate(Sample = gsub(".*Study\\.ID\\.", "", submitted_ftp)) %>%
   mutate(Sample = gsub("\\.S[0-9]*\\.R1\\.001\\.fq\\.gz$","",Sample)) %>%
+  mutate(run_accession = paste0(run_accession, '_Illumina_HiSeq_4000_sequencing')) %>%
   filter(run_accession %in% names(genera))
 
 tax.map.vec <- c("Species", "Genus", tax.map$Sample)
 names(tax.map.vec) <- c("Species", "Genus", tax.map$run_accession)
 
 # Map file names to sample id's
+species <- species %>% select(any_of(names(tax.map.vec)))
+genera <- genera %>% select(any_of(names(tax.map.vec)))
 names(species) <- unname(tax.map.vec[names(species)])
 names(genera) <- unname(tax.map.vec[names(genera)])
 

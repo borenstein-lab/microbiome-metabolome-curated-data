@@ -27,8 +27,8 @@ source("data_organization/gtdb_utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/WANG_ESRD_2020/MetaboLights/s_MTBLS700.txt" # I read the metadata table from S2-1 which is the metadata of subjects for which a metagenome sample was taken. 
-TAXONOMY_FILE_SP <- '../data/original_data/WANG_ESRD_2020/kraken/species_level_taxonomy.tsv'
-TAXONOMY_FILE_GE <- '../data/original_data/WANG_ESRD_2020/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_FILE_SP <- '../data/original_data/WANG_ESRD_2020/kraken/kraken_species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/WANG_ESRD_2020/kraken/kraken_genus_level_taxonomy.tsv'
 TAXONOMY_SAMPLE_MAP <- '../data/original_data/WANG_ESRD_2020/kraken/SraRunTable.txt'
 METABOLOMICS_FILE <- "../data/original_data/WANG_ESRD_2020/MetaboLights/Fecal metabolite analysis.xlsx"
 PUBLICATION_NAME <- 'Aberrant gut microbiota alters host metabolome and impacts renal failure in humans and rodents'

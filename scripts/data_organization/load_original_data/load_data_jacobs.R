@@ -25,7 +25,7 @@ source("data_organization/utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Pediatric_family_cohort_map.txt"
-TAXONOMY_FILE <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/feature_table_gtdb.tsv"
+TAXONOMY_FILE <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/feature_table_gtdb_207.tsv"
 METABOLOMICS_FILE1 <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Metabolites_normalized_POS.txt"
 METABOLOMICS_FILE2 <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Metabolites_normalized_NEG.txt"
 METABOLOMICS_INFO <- "../data/original_data/JACOBS_IBD_FAMILIES_2016/Data file S1.xlsx"

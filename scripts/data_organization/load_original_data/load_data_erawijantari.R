@@ -27,9 +27,8 @@ source("data_organization/gtdb_utils.R")
 
 # For details about the source of each file below see: <COMPLETE>
 METADATA_FILE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/metadata.txt'  
-#TAXONOMY_FILE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/Raw_MetaPlhan2.tsv'
-TAXONOMY_FILE_SP <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/kraken/species_level_taxonomy.tsv'
-TAXONOMY_FILE_GE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/kraken/genus_level_taxonomy.tsv'
+TAXONOMY_FILE_SP <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/kraken/kraken_species_level_taxonomy.tsv'
+TAXONOMY_FILE_GE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/kraken/kraken_genus_level_taxonomy.tsv'
 TAXONOMY_SAMPLE_MAP1 <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/kraken/PRJDB4176.txt'
 TAXONOMY_SAMPLE_MAP2 <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/kraken/PRJDB7378.txt'
 METABOLOMICS_FILE <- '../data/original_data/ERAWIJANTARI_GASTRIC_CANCER_2020/Raw_Metabolome.tsv'
