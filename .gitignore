@@ -18,6 +18,7 @@ data/prelim_data
 data/processed_data/iHMP_IBDMDB_2019/mtb.tsv
 data/processed_data/YACHIDA_CRC_2019/species.tsv
 data/processed_data_V1
+data/processed_data_V2
 
 # Reference DB files
 references/gtdb/bac120_metadata_r202.tsv
@@ -29,9 +30,6 @@ docs/~$*.xlsx
 scripts/.RData
 
 scripts/data_analysis/iPATH_selection.txt
-scripts/data_analysis/GLay_clusters_3.png
-scripts/data_analysis/GLay_clusters.png
-scripts/data_analysis/GLay_clusters_2.png
 scripts/data_analysis/cytoscape_visualization.cys
 scripts/data_organization/utils_old.R
 scripts/data_analysis/.RData
