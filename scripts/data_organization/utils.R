@@ -48,7 +48,9 @@ save.to.files <- function(new.folder,
                           mtb = NULL, 
                           mtb.map = NULL, 
                           genera = NULL, 
-                          species = NULL) {
+                          genera.counts = NULL, 
+                          species = NULL,
+                          species.counts = NULL) {
   full.folder.path <- file.path("../data", parent.folder, new.folder)
   dir.create(full.folder.path, showWarnings = FALSE, recursive = TRUE)
   
@@ -67,6 +69,12 @@ save.to.files <- function(new.folder,
   if (!is.null(species))  write_delim(species, 
                                       file.path(full.folder.path, "species.tsv"),
                                       delim = "\t")
+  if (!is.null(genera.counts))  write_delim(genera.counts, 
+                                      file.path(full.folder.path, "genera.counts.tsv"),
+                                      delim = "\t")
+  if (!is.null(species.counts)) write_delim(species.counts, 
+                                      file.path(full.folder.path, "species.counts.tsv"),
+                                      delim = "\t")
   message("Wrote data to text files")
 }
 
@@ -81,7 +89,9 @@ save.to.rdata <- function(new.folder,
                           mtb = NULL, 
                           mtb.map = NULL, 
                           genera = NULL, 
+                          genera.counts = NULL, 
                           species = NULL,
+                          species.counts = NULL,
                           override.all = FALSE) {
   full.folder.path <- file.path("../data", parent.folder, new.folder)
   dir.create(full.folder.path, showWarnings = FALSE, recursive = TRUE)
@@ -89,7 +99,9 @@ save.to.rdata <- function(new.folder,
   
   if (override.all | ! file.exists(rdata.file.path)) {
     files.to.save <- c("metadata","mtb","mtb.map","genera")
-    if (!is.null(species)) files.to.save <- c(files.to.save, "species")
+    if (!is.null(species))        files.to.save <- c(files.to.save, "species")
+    if (!is.null(genera.counts))  files.to.save <- c(files.to.save, "genera.counts")
+    if (!is.null(species.counts)) files.to.save <- c(files.to.save, "species.counts")
     save(list = files.to.save, file = rdata.file.path)
     message("Wrote data to rdata file")
   } else {
@@ -99,6 +111,8 @@ save.to.rdata <- function(new.folder,
     if (!is.null(mtb.map))  resave(mtb.map, file = rdata.file.path)
     if (!is.null(genera))   resave(genera, file = rdata.file.path)
     if (!is.null(species))  resave(species, file = rdata.file.path)
+    if (!is.null(genera.counts))   resave(genera.counts, file = rdata.file.path)
+    if (!is.null(species.counts))  resave(species.counts, file = rdata.file.path)
     message("Updated rdata file")
   }
 }
@@ -125,6 +139,8 @@ load.all.datasets <- function(parent.folder = "processed_data") {
   all.data$mtb.map <- list()
   all.data$genera <- list()
   all.data$species <- list()
+  all.data$genera.counts <- list()
+  all.data$species.counts <- list()
   
   for (x in data.dirs) {
     # Create a temporary environment to hold all processed tables
@@ -138,6 +154,8 @@ load.all.datasets <- function(parent.folder = "processed_data") {
     all.data$genera[[dataset.name]] <- get('genera', tmp.env) 
     all.data$metadata[[dataset.name]] <- get('metadata', tmp.env)
     if ("species" %in% ls(tmp.env)) all.data$species[[dataset.name]] <- get('species', tmp.env) 
+    if ("genera.counts" %in% ls(tmp.env)) all.data$genera.counts[[dataset.name]] <- get('genera.counts', tmp.env) 
+    if ("species.counts" %in% ls(tmp.env)) all.data$species.counts[[dataset.name]] <- get('species.counts', tmp.env) 
     
     # Clean up
     rm(tmp.env)

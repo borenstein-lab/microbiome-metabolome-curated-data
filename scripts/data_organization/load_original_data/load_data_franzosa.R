@@ -96,7 +96,8 @@ sra.lib.map <- names(tmp)[-1]
 names(sra.lib.map) <- unname(tmp[1,-1])
 
 tax.map <- read_csv(TAXONOMY_SAMPLE_MAP,
-                    col_select = c("Run", "Library Name")) %>%
+                    col_select = c("Run", "Library Name"),
+                    show_col_types = FALSE) %>%
   mutate(Sample = sra.lib.map[`Library Name`]) %>%
   filter(Run %in% names(genera))
 
@@ -238,7 +239,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species, override.all = T)
+
 rm(list = ls())
 

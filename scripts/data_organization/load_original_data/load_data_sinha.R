@@ -36,6 +36,7 @@ DATASET_NAME <- 'SINHA_CRC_2016'
 # --------------------------------
 
 metadata <- read_csv(METADATA_FILE, 
+                     show_col_types = FALSE,
                      col_types = 
                        cols_only(ID = col_character(), 
                                  age = col_integer(), 
@@ -75,7 +76,7 @@ metadata <- metadata %>%
 #  that were detected in at least 13 (10%) of the subjects."
 # We will first reformat the table and then extract only 
 #  genus-level abundances.
-genera <- read_csv(TAXONOMY_FILE)
+genera <- read_csv(TAXONOMY_FILE, show_col_types = FALSE)
 
 # Transpose
 genera <- genera %>% tibble::column_to_rownames("ID")
@@ -185,7 +186,7 @@ genera <- genera %>%
 # Note from paper: "The current analysis was restricted 
 #  to the 530 metabolites that were detected in at least 
 #  118 (90%) of the subjects."
-mtb <- read_csv(METABOLOMICS_FILE)
+mtb <- read_csv(METABOLOMICS_FILE, show_col_types = FALSE)
 mtb.map <- data.frame(Compound = names(mtb)[-1], 
                       stringsAsFactors = FALSE)
 
@@ -486,7 +487,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
+
 rm(list = ls())
 

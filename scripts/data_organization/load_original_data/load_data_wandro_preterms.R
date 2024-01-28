@@ -57,7 +57,7 @@ metadata <- metadata %>%
 # --------------------------------
 
 # Read genus-level abundances from qiime analysis
-genera <- read_delim(TAXONOMY_FILE, 
+genera <- read_delim(TAXONOMY_FILE, show_col_types = FALSE,
                      "\t", escape_double = FALSE, trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 # Sanity: apply(genera[,-1], 2, sum)
@@ -180,7 +180,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
+
 rm(list = ls())
 

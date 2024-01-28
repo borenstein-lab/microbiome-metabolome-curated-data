@@ -14,6 +14,8 @@ datasets <- basename(data.dirs)
 
 curr_genera <- genera; rm(genera)
 curr_species <- species; rm(species)
+curr_genera.counts <- genera.counts; rm(genera.counts)
+curr_species.counts <- species.counts; rm(species.counts)
 curr_mtb <- mtb; rm(mtb)
 has_species <- sapply(datasets, function(x) {x %in% names(curr_species)})
 
@@ -34,16 +36,17 @@ for(dataset in data.dirs) {
   message(paste("Transposing tables of:", basename(dataset)))
   
   genera <- transpose.feat.table(curr_genera[[basename(dataset)]])
+  genera.counts <- transpose.feat.table(curr_genera.counts[[basename(dataset)]])
   mtb <- transpose.feat.table(curr_mtb[[basename(dataset)]])
   
+  species = NULL
+  species.counts = NULL
   if (has_species[basename(dataset)]) {
     species <- transpose.feat.table(curr_species[[basename(dataset)]])
-    save.to.files(basename(dataset), "processed_data", genera = genera, mtb = mtb, species = species)
-    save.to.rdata(basename(dataset), "processed_data", genera = genera, mtb = mtb, species = species)
-    message("Saved transposed genera, species and mtb tables")
-  } else {
-    save.to.files(basename(dataset), "processed_data", genera = genera, mtb = mtb)
-    save.to.rdata(basename(dataset), "processed_data", genera = genera, mtb = mtb)
-    message("Saved transposed genera and mtb tables")
-  }
+    species.counts <- transpose.feat.table(curr_species.counts[[basename(dataset)]])
+  } 
+  
+  save.to.files(basename(dataset), "processed_data", genera = genera, genera.counts = genera.counts, mtb = mtb, species = species, species.counts = species.counts)
+  save.to.rdata(basename(dataset), "processed_data", genera = genera, genera.counts = genera.counts, mtb = mtb, species = species, species.counts = species.counts)
+  message("Saved transposed genera, [species,] and mtb tables")
 }

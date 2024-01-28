@@ -88,7 +88,8 @@ names(species)[1] <- 'Species'
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
                      escape_double = FALSE, 
-                     trim_ws = TRUE)
+                     trim_ws = TRUE,
+                     show_col_types = FALSE)
 names(genera)[1] <- 'Genus'
 
 tax.map <- read_delim(TAXONOMY_SAMPLE_MAP, 
@@ -167,9 +168,9 @@ MA.matches[MA.matches$Query == "HMDB0061710","HMDB"] <- "HMDB0037397"
 MA.matches[MA.matches$Query == "HMDB0061710","MA.Name.Match"] <- "17-Methyloctadecanoic acid"
 
 # Additional manual mappings:
-MA.matches[MA.matches$HMDB == "HMDB0000208","KEGG"] <- "C00026"
-MA.matches[MA.matches$HMDB == "HMDB0000651","KEGG"] <- "C03299"
-MA.matches[MA.matches$HMDB == "HMDB0000688","KEGG"] <- "C20826"
+MA.matches[MA.matches$Query == "HMDB0000208","KEGG"] <- "C00026"
+MA.matches[MA.matches$Query == "HMDB0000651","KEGG"] <- "C03299"
+MA.matches[MA.matches$Query == "HMDB0000688","KEGG"] <- "C20826"
 
 # We now merge the MetaboAnalyst mappings with the main mtb.map table
 # (the final HMDB will be taken from MA.matches$HMDB and not original data, as some HMDB ID's are not updated)
@@ -201,7 +202,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species, override.all = T)
+
 rm(list = ls())
 

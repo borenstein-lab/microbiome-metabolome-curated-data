@@ -41,7 +41,8 @@ DATASET_NAME <- 'YACHIDA_CRC_2019'
 
 metadata <- read_delim(METADATA_FILE, 
                        "\t", 
-                       escape_double = FALSE, 
+                       escape_double = FALSE,
+                       show_col_types = FALSE,
                        trim_ws = TRUE)
 
 # Organize column names & order
@@ -66,18 +67,20 @@ metadata <- metadata %>%
 
 species <- read_delim(TAXONOMY_FILE_SP, "\t", 
                       escape_double = FALSE, 
+                      show_col_types = FALSE,
                       trim_ws = TRUE)
 names(species)[1] <- 'Species'
 names(species) <- gsub("_Illumina.*","",names(species))
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
                      escape_double = FALSE, 
+                     show_col_types = FALSE,
                      trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 names(genera) <- gsub("_Illumina.*","",names(genera))
 
 # Prepare mapping from file names to sample IDs (as in metadata)
-tax.map <- read_csv(TAXONOMY_SAMPLE_MAP, 
+tax.map <- read_csv(TAXONOMY_SAMPLE_MAP, show_col_types = FALSE,
                     col_select = c("Run", "sample_name")) %>% 
   rename(Subject = sample_name)
 
@@ -108,6 +111,7 @@ genera$Genus <- map.gtdb.short.to.long(genera$Genus, level = "genera")
 
 mtb <- read_delim(METABOLOMICS_FILE, 
                   "\t", escape_double = FALSE, 
+                  show_col_types = FALSE,
                   trim_ws = TRUE)
 names(mtb)[1] <- "Compound"
 
@@ -246,6 +250,6 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species, override.all = T)
 rm(list = ls())

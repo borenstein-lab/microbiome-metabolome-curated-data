@@ -49,7 +49,7 @@ metadata <- metadata[,colSums(is.na(metadata)) < nrow(metadata)]
 metadata <- metadata %>% rename(Subject = Donor)
 
 # We merge this with metadata per sample (there are multiple samples per donor), taken from SRA Run Selector.
-SraRunTable <- read_csv(METADATA_FILE2, guess_max = 5000)
+SraRunTable <- read_csv(METADATA_FILE2, guess_max = 5000, show_col_types = FALSE)
 
 # Get only samples from hosts (not isolates), and only WGS ones
 SraRunTable <- SraRunTable %>% filter(!is.na(host_subject_ID)) %>% filter(`Assay Type` == "AMPLICON")
@@ -79,7 +79,7 @@ metadata <- metadata %>%
 # --------------------------------
 
 # Read genus-level abundances from qiime analysis
-genera <- read_delim(TAXONOMY_FILE, 
+genera <- read_delim(TAXONOMY_FILE, show_col_types = FALSE,
                      "\t", escape_double = FALSE, trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
@@ -179,6 +179,6 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
 rm(list = ls())
