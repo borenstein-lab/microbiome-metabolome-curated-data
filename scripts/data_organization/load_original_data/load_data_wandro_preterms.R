@@ -119,6 +119,18 @@ mtb.map <- mtb.map %>%
 
 # Additional mappings for unmapped named metabolites 
 # View(mtb.map %>% filter((is.na(mtb.map$HMDB) | is.na(KEGG)) & grepl("[a-zA-Z]", mtb.map$Compound)))
+mtb.map[mtb.map$Compound == "2-hydroxyglutaric acid","HMDB"] <- 'HMDB0059655' 
+mtb.map[mtb.map$Compound == "4-hydroxymandelic acid","HMDB"] <- 'HMDB0000822' 
+mtb.map[mtb.map$Compound == "4-hydroxymandelic acid","KEGG"] <- 'C11527' 
+mtb.map[mtb.map$Compound == "adenosine-5-monophosphate","HMDB"] <- 'HMDB0000045' 
+mtb.map[mtb.map$Compound == "alanine","HMDB"] <- 'HMDB0000161' 
+mtb.map[mtb.map$Compound == "cystine","HMDB"] <- 'HMDB0000192' 
+mtb.map[mtb.map$Compound == "cystine","KEGG"] <- 'C00491' 
+mtb.map[mtb.map$Compound == "indole-3-lactate","HMDB"] <- 'HMDB0000671' 
+
+
+
+
 mtb.map[mtb.map$Compound == "tocopherol beta NIST","HMDB"] <- 'HMDB0006335'; 
 mtb.map[mtb.map$Compound == "cerotinic aci","KEGG"] <- 'C21931' 
 mtb.map[mtb.map$Compound == "cerotinic aci","HMDB"] <- 'HMDB0002356' 
@@ -149,17 +161,13 @@ mtb.map[mtb.map$Compound == "inositol-4-monophosphate","HMDB"] <- 'HMDB0001313'
 mtb.map$High.Confidence.Annotation[mtb.map$Compound == "isothreitol"] <- FALSE
 mtb.map[mtb.map$Compound == "lyxitol","HMDB"] <- 'HMDB0001851' 
 mtb.map$High.Confidence.Annotation[mtb.map$Compound == "lyxitol"] <- FALSE 
-mtb.map[mtb.map$Compound == "maleimide","HMDB"] <- 'HMDB0254312' 
-mtb.map[mtb.map$Compound == "monomyristin","HMDB"] <- 'HMDB0304951' 
-mtb.map[mtb.map$Compound == "lactobionic acid","HMDB"] <- 'HMDB0253945'
-mtb.map[mtb.map$Compound == "erythrose","HMDB"] <- 'HMDB0002649'
 mtb.map[mtb.map$Compound == "conduritol-beta-epoxide","HMDB"] <- 'HMDB0247281' 
-mtb.map[mtb.map$Compound == "tagatose","KEGG"] <- 'C00795' 
-mtb.map[mtb.map$Compound == "tagatose","HMDB"] <- 'HMDB0003418' 
 mtb.map$High.Confidence.Annotation[mtb.map$Compound == "tagatose"] <- FALSE
 mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE

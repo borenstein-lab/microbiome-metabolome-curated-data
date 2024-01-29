@@ -133,8 +133,21 @@ mtb.map[mtb.map$Compound == "NMMA","HMDB"] <- 'HMDB0029416'
 mtb.map[mtb.map$Compound == "8.11.14-Eicosatrienoic acid","KEGG"] <- 'C03242'
 mtb.map[mtb.map$Compound == "8.11.14-Eicosatrienoic acid","HMDB"] <- 'HMDB0002925'
 mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
+mtb.map[mtb.map$Compound == "2-deoxycytidine	TF18","HMDB"] <- 'HMDB0000014'
+mtb.map[mtb.map$Compound == "2-deoxycytidine	TF18","KEGG"] <- 'C00881'
+mtb.map[mtb.map$Compound == "alanine	TF2","HMDB"] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == "alpha-hydroxybutyrate","KEGG"] <- 'C05984'
+mtb.map[mtb.map$Compound == "alpha-hydroxybutyrate","HMDB"] <- 'HMDB0000008'
+mtb.map[mtb.map$Compound == "beta-hydroxybutyrate","KEGG"] <- 'C01089'
+mtb.map[mtb.map$Compound == "beta-hydroxybutyrate","HMDB"] <- 'HMDB0000357'
+mtb.map[mtb.map$Compound == "carnitine","KEGG"] <- 'C00318'
+mtb.map[mtb.map$Compound == "lithocholate","HMDB"] <- 'HMDB0000761'
+mtb.map[mtb.map$Compound == "lithocholate","KEGG"] <- 'C03990'
+mtb.map[mtb.map$Compound == "Docosapentaenoic acid","KEGG"] <- 'C16513'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE

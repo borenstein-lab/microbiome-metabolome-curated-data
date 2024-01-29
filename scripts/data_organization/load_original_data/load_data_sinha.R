@@ -212,6 +212,19 @@ mtb.map <- merge(mtb.map, MA.matches,
 mtb.map$MA.Name.Match <- NULL
 
 # Manual mappings
+mtb.map[mtb.map$Compound == "_1_2_PROPANEDIOL","HMDB"] <- 'HMDB0001881'
+mtb.map[mtb.map$Compound == "_1_2_PROPANEDIOL","KEGG"] <- 'C02912'
+mtb.map[mtb.map$Compound == "ACETOACETATE","HMDB"] <- 'HMDB0000060'
+mtb.map[mtb.map$Compound == "ACETOACETATE","KEGG"] <- 'C00164'
+mtb.map[mtb.map$Compound == "ALANINE","HMDB"] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == "BENZOATE","KEGG"] <- 'C00180'
+mtb.map[mtb.map$Compound == "CARNITINE","KEGG"] <- 'C00318'
+mtb.map[mtb.map$Compound == "FUMARATE","HMDB"] <- 'HMDB0000134'
+mtb.map[mtb.map$Compound == "FUMARATE","KEGG"] <- 'C00122'
+mtb.map[mtb.map$Compound == "GALACTOSE","KEGG"] <- 'C00984'
+mtb.map[mtb.map$Compound == "GAMMA_GLUTAMYLGLUTAMATE","HMDB"] <- 'HMDB0011737'
+mtb.map[mtb.map$Compound == "GAMMA_GLUTAMYLGLUTAMATE","KEGG"] <- 'C05282'
+mtb.map[mtb.map$Compound == "HEXADECANEDIOATE","HMDB"] <- 'C19615'
 mtb.map[mtb.map$Compound == "_13_METHYLMYRISTIC_ACID","HMDB"] <- 'HMDB0061707'
 mtb.map[mtb.map$Compound == "_15_METHYLPALMITATE","HMDB"] <- 'HMDB0061709'
 mtb.map[mtb.map$Compound == "_2_HYDROXYGLUTARATE","KEGG"] <- 'C02630'
@@ -235,7 +248,6 @@ mtb.map[mtb.map$Compound == "METHYLPHOSPHATE","HMDB"] <- 'HMDB0061711'
 mtb.map[mtb.map$Compound == "LINOLEAMIDE__18_2N6","HMDB"] <- 'HMDB0062656'
 mtb.map[mtb.map$Compound == "DIHYDROFERULIC_ACID","HMDB"] <- 'HMDB0062121'
 mtb.map[mtb.map$Compound == "DIHOMO_LINOLEATE__20_2N6","HMDB"] <- 'HMDB0061864'
-
 mtb.map[mtb.map$Compound == '_3_HYDROXYISOBUTYRATE','HMDB'] <- 'HMDB0000023' 
 mtb.map[mtb.map$Compound == '_3_HYDROXYISOBUTYRATE','KEGG'] <- 'C06001'
 mtb.map[mtb.map$Compound == '_3_HYDROXYISOBUTYRATE','High.Confidence.Annotation'] <- FALSE
@@ -465,6 +477,8 @@ mtb.map[mtb.map$Compound == 'HOMOSTACHYDRINE','KEGG'] <- "C08283"
 # Slightly reorganize mapping table
 mtb.map <- mtb.map %>% select(-Compound.Name) 
 names(mtb.map)[names(mtb.map)=="Match"] <- "Compound.Name"
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])

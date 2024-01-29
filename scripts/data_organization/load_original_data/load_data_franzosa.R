@@ -175,17 +175,13 @@ mtb.map <- mtb.map %>%
 # Verify drop in na annotations after running the below: 
 #  sum(is.na(mtb.map$KEGG)) + sum(is.na(mtb.map$HMDB))
 mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
-mtb.map[mtb.map$Compound == "HILIC-neg_Cluster_0169: 2-hydroxyglutarate","KEGG"] <- 'C02630'
-mtb.map[mtb.map$Compound == "C18-neg_Cluster_0927: alpha-muricholate","KEGG"] <- 'C17647'
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0480: 1-3-7-trimethylurate','HMDB'] <- 'HMDB0002123'	
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0480: 1-3-7-trimethylurate','KEGG'] <- 'C16361'	
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0622: 1,2,3,4-tetrahydro-1-methyl-beta-carboline-3-carboxylic acid','HMDB'] <- 'HMDB0037942'
 mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0393: 12.13-diHOME','HMDB'] <- 'HMDB0004705'	
-mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0393: 12.13-diHOME','KEGG'] <- 'C14829'	
-mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0169: 2-hydroxyglutarate','HMDB'] <- 'HMDB0059655'		
+mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0393: 12.13-diHOME','KEGG'] <- 'C14829'		
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0220: 3-methyladipate-pimelate','HMDB'] <- 'HMDB0000555'		
-mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0220: 3-methyladipate-pimelate','High.Confidence.Annotation'] <- FALSE
-mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0177: 4-hydroxy-3-methylacetophenone','HMDB'] <- 'HMDB0059824'		
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0220: 3-methyladipate-pimelate','High.Confidence.Annotation'] <- FALSE	
 mtb.map[mtb.map$Compound == 'C8-pos_Cluster_0100: 7-hexadecenoic acid methyl ester','HMDB'] <- 'HMDB0061858'		
 mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0394: 9.10-diHOME','HMDB'] <- 'HMDB0004704'		
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0103: acetylalanine','KEGG'] <- 'C01073'	
@@ -195,7 +191,6 @@ mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0090: acetytyrosine','KEGG'] <- 'C0
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0298: dimethyllysine','HMDB'] <- 'HMDB0013287'	
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0298: dimethyllysine','KEGG'] <- 'C05545'
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0298: dimethyllysine','High.Confidence.Annotation'] <- FALSE
-mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0913: ethyl 9-hexadecenoate','HMDB'] <- 'HMDB0059871'		
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0657: geranyl acetoacetate*','HMDB'] <- 'HMDB0038256'		
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0657: geranyl acetoacetate*','High.Confidence.Annotation'] <- FALSE
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0658: geranyl acetoacetate*','HMDB'] <- 'HMDB0038256'		
@@ -208,7 +203,6 @@ mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0521: L-1,2,3,4-tetrahydro-beta-c
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0247: L-phenyllactic acid','HMDB'] <- 'HMDB0000748'	
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0247: L-phenyllactic acid','KEGG'] <- 'C05607'	
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0247: L-phenyllactic acid','High.Confidence.Annotation'] <- FALSE
-mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0082: N-methylproline','HMDB'] <- 'HMDB0094696'		
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0552: pantothete','HMDB'] <- 'HMDB0000210'	
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0552: pantothete','KEGG'] <- 'C00864'	
 mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0069: succite','HMDB'] <- 'HMDB0000254'	
@@ -217,7 +211,22 @@ mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0069: succite','High.Confidence.A
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_2093: urobilin*','HMDB'] <- 'HMDB0004160'	
 mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_2093: urobilin*','KEGG'] <- 'C05793'	
 
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0015: alanine','HMDB'] <- 'HMDB0000161'	
+mtb.map[mtb.map$Compound == 'HILIC-pos_Cluster_0008: alanine','HMDB'] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0034: alpha-hydroxybutyrate','HMDB'] <- 'HMDB0000008'
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_0034: alpha-hydroxybutyrate','KEGG'] <- 'C05984'
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_1126: docosapentaenoate','KEGG'] <- 'C16513'
+mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0863: docosapentaenoic acid','KEGG'] <- 'C16513'
+mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0490: docosapentaenoic acid','KEGG'] <- 'C16513'
+mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0729: docosapentaenoic acid','KEGG'] <- 'C16513'
+mtb.map[mtb.map$Compound == 'C18-neg_Cluster_1324: docosapentaenoic acid','KEGG'] <- 'C16513'
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_1303: lithocholate','HMDB'] <- 'HMDB0000761'
+mtb.map[mtb.map$Compound == 'HILIC-neg_Cluster_1303: lithocholate','KEGG'] <- 'C03990'
+mtb.map[mtb.map$Compound == 'C18-neg_Cluster_0031: phenyllactate','HMDB'] <- 'HMDB0000779'
+
 # Mark cases of duplicated HMDB/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE

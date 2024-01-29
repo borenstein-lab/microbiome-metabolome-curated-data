@@ -265,6 +265,8 @@ mtb.map[mtb.map$Compound.Name == "Taurodeoxycholic acid",'HMDB'] <- 'HMDB0000896
 mtb.map[mtb.map$Compound.Name == "Taurodeoxycholic acid",'KEGG'] <- 'C05463'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
