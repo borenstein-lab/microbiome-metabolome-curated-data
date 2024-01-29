@@ -36,6 +36,7 @@ DATASET_NAME <- 'SINHA_CRC_2016'
 # --------------------------------
 
 metadata <- read_csv(METADATA_FILE, 
+                     show_col_types = FALSE,
                      col_types = 
                        cols_only(ID = col_character(), 
                                  age = col_integer(), 
@@ -75,7 +76,7 @@ metadata <- metadata %>%
 #  that were detected in at least 13 (10%) of the subjects."
 # We will first reformat the table and then extract only 
 #  genus-level abundances.
-genera <- read_csv(TAXONOMY_FILE)
+genera <- read_csv(TAXONOMY_FILE, show_col_types = FALSE)
 
 # Transpose
 genera <- genera %>% tibble::column_to_rownames("ID")
@@ -185,7 +186,7 @@ genera <- genera %>%
 # Note from paper: "The current analysis was restricted 
 #  to the 530 metabolites that were detected in at least 
 #  118 (90%) of the subjects."
-mtb <- read_csv(METABOLOMICS_FILE)
+mtb <- read_csv(METABOLOMICS_FILE, show_col_types = FALSE)
 mtb.map <- data.frame(Compound = names(mtb)[-1], 
                       stringsAsFactors = FALSE)
 
@@ -211,6 +212,19 @@ mtb.map <- merge(mtb.map, MA.matches,
 mtb.map$MA.Name.Match <- NULL
 
 # Manual mappings
+mtb.map[mtb.map$Compound == "_1_2_PROPANEDIOL","HMDB"] <- 'HMDB0001881'
+mtb.map[mtb.map$Compound == "_1_2_PROPANEDIOL","KEGG"] <- 'C02912'
+mtb.map[mtb.map$Compound == "ACETOACETATE","HMDB"] <- 'HMDB0000060'
+mtb.map[mtb.map$Compound == "ACETOACETATE","KEGG"] <- 'C00164'
+mtb.map[mtb.map$Compound == "ALANINE","HMDB"] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == "BENZOATE","KEGG"] <- 'C00180'
+mtb.map[mtb.map$Compound == "CARNITINE","KEGG"] <- 'C00318'
+mtb.map[mtb.map$Compound == "FUMARATE","HMDB"] <- 'HMDB0000134'
+mtb.map[mtb.map$Compound == "FUMARATE","KEGG"] <- 'C00122'
+mtb.map[mtb.map$Compound == "GALACTOSE","KEGG"] <- 'C00984'
+mtb.map[mtb.map$Compound == "GAMMA_GLUTAMYLGLUTAMATE","HMDB"] <- 'HMDB0011737'
+mtb.map[mtb.map$Compound == "GAMMA_GLUTAMYLGLUTAMATE","KEGG"] <- 'C05282'
+mtb.map[mtb.map$Compound == "HEXADECANEDIOATE","HMDB"] <- 'C19615'
 mtb.map[mtb.map$Compound == "_13_METHYLMYRISTIC_ACID","HMDB"] <- 'HMDB0061707'
 mtb.map[mtb.map$Compound == "_15_METHYLPALMITATE","HMDB"] <- 'HMDB0061709'
 mtb.map[mtb.map$Compound == "_2_HYDROXYGLUTARATE","KEGG"] <- 'C02630'
@@ -234,7 +248,6 @@ mtb.map[mtb.map$Compound == "METHYLPHOSPHATE","HMDB"] <- 'HMDB0061711'
 mtb.map[mtb.map$Compound == "LINOLEAMIDE__18_2N6","HMDB"] <- 'HMDB0062656'
 mtb.map[mtb.map$Compound == "DIHYDROFERULIC_ACID","HMDB"] <- 'HMDB0062121'
 mtb.map[mtb.map$Compound == "DIHOMO_LINOLEATE__20_2N6","HMDB"] <- 'HMDB0061864'
-
 mtb.map[mtb.map$Compound == '_3_HYDROXYISOBUTYRATE','HMDB'] <- 'HMDB0000023' 
 mtb.map[mtb.map$Compound == '_3_HYDROXYISOBUTYRATE','KEGG'] <- 'C06001'
 mtb.map[mtb.map$Compound == '_3_HYDROXYISOBUTYRATE','High.Confidence.Annotation'] <- FALSE
@@ -464,6 +477,8 @@ mtb.map[mtb.map$Compound == 'HOMOSTACHYDRINE','KEGG'] <- "C08283"
 # Slightly reorganize mapping table
 mtb.map <- mtb.map %>% select(-Compound.Name) 
 names(mtb.map)[names(mtb.map)=="Match"] <- "Compound.Name"
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
@@ -486,7 +501,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
+
 rm(list = ls())
 

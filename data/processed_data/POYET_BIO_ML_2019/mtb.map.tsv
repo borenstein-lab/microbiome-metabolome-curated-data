@@ -4,13 +4,13 @@ HILIC_POS_1-methylguanosine/2-O-methylguanosine	1-methylguanosine/2-O-methylguan
 HILIC_POS_1-methylhistamine	1-methylhistamine	TRUE	HMDB0000898	C05127
 HILIC_POS_1-methylnicotinamide	1-methylnicotinamide	TRUE	HMDB0000699	C02918
 HILIC_POS_1_2_4-trimethylbenzene	1,2,4-trimethylbenzene	TRUE	HMDB0013733	C14533
-REV_NEG_10-heptadecenoate	10-heptadecenoate	TRUE	NA	NA
-REV_NEG_10-nonadecenoate	10-nonadecenoate	TRUE	NA	NA
+REV_NEG_10-heptadecenoate	10-heptadecenoate	TRUE	HMDB0060038	NA
+REV_NEG_10-nonadecenoate	10-nonadecenoate	TRUE	HMDB0013622	C00174
 REV_NEG_12_13-diHOME	12,13-diHOME	TRUE	HMDB0004705	C14829
 REV_NEG_13-docosenoate	13-docosenoate	TRUE	HMDB0002068	C08316
-REV_NEG_13-HODE	13-HODE	TRUE	HMDB0061708	C14762
+REV_NEG_13-HODE	13-HODE	TRUE	HMDB0004667	C14762
 REV_NEG_16:0 PC(O)	16:0 PC(O)	TRUE	NA	NA
-REV_NEG_17-Methylstearate	17-Methylstearate	TRUE	HMDB0061710	NA
+REV_NEG_17-Methylstearate	17-Methylstearate	TRUE	HMDB0037397	NA
 HILIC_NEG_2-aminoadipate	2-aminoadipate	TRUE	HMDB0000510	C00956
 HILIC_POS_2-deoxyadenosine	2-deoxyadenosine	TRUE	HMDB0000101	C00559
 HILIC_POS_2-deoxycytidine	2-deoxycytidine	TRUE	HMDB0000014	C00881
@@ -22,7 +22,7 @@ REV_NEG_2-hydroxyoctanoate	2-hydroxyoctanoate	TRUE	HMDB0000711	NA
 HILIC_POS_2^-O-methyladenosine/3^-O-methyladenosine	2^-O-methyladenosine/3^-O-methyladenosine	FALSE	NA	NA
 HILIC_NEG_3-4-dihydroxybenzylamine	3-4-dihydroxybenzylamine	TRUE	HMDB0012153	NA
 HILIC_NEG_3-4-dihydroxyphenylglycol	3-4-dihydroxyphenylglycol	TRUE	HMDB0000318	C05576
-HILIC_POS_3-dehydroxycarnitine	3-dehydroxycarnitine	TRUE	HMDB0006831	C05543
+HILIC_POS_3-dehydroxycarnitine	3-dehydroxycarnitine	TRUE	HMDB0001161	C01181
 HILIC_POS_3-hydroxyanthranilic acid	3-hydroxyanthranilic acid	TRUE	HMDB0001476	C00632
 REV_NEG_3-hydroxydecanoate	3-hydroxydecanoate	TRUE	HMDB0002203	NA
 HILIC_NEG_3-hydroxykynurenate	3-hydroxykynurenate	TRUE	HMDB0000732	C02794
@@ -52,8 +52,8 @@ HILIC_NEG_adipate	adipate	TRUE	HMDB0000448	C06104
 HILIC_POS_ADMA	ADMA	TRUE	HMDB0001539	C03626
 REV_NEG_adrenate	adrenate	TRUE	HMDB0002226	C16527
 HILIC_POS_adrenochrome	adrenochrome	TRUE	HMDB0012884	NA
-HILIC_NEG_alanine	alanine	FALSE	HMDB0000161	C00041
-HILIC_POS_alanine	alanine	FALSE	HMDB0000161	C00041
+HILIC_NEG_alanine	alanine	FALSE	HMDB0000161	C01401
+HILIC_POS_alanine	alanine	FALSE	HMDB0000161	C01401
 HILIC_POS_alanyalanine	alanyalanine	TRUE	HMDB0028680	NA
 REV_NEG_alpha-CEHC	alpha-CEHC	TRUE	HMDB0001518	NA
 HILIC_NEG_alpha-glycerophosphate	alpha-glycerophosphate	TRUE	HMDB0000126	C00093
@@ -65,7 +65,7 @@ REV_NEG_alpha-muricholate	alpha-muricholate	TRUE	HMDB0000506	C17647
 HILIC_POS_anserine	anserine	TRUE	HMDB0000194	C01262
 HILIC_POS_anthranilic acid	anthranilic acid	TRUE	HMDB0001123	C00108
 REV_NEG_arachidate	arachidate	TRUE	HMDB0002212	C06425
-REV_NEG_arachidonate	arachidonate	TRUE	HMDB0060102	C00219
+REV_NEG_arachidonate	arachidonate	TRUE	HMDB0001043	C00219
 HILIC_NEG_arginine	arginine	FALSE	HMDB0000517	C00062
 HILIC_POS_arginine	arginine	FALSE	HMDB0000517	C00062
 HILIC_NEG_ascorbate	ascorbate	TRUE	HMDB0000044	C00072
@@ -75,16 +75,16 @@ HILIC_NEG_aspartate	aspartate	FALSE	HMDB0000191	C00049
 HILIC_POS_atenolol	atenolol	TRUE	HMDB0001924	C13235
 HILIC_NEG_azelaic acid	azelaic acid	FALSE	HMDB0000784	C08261
 REV_NEG_azelate	azelate	FALSE	HMDB0000784	C08261
-HILIC_NEG_benzoate	benzoate	TRUE	HMDB0013677	C00180
+HILIC_NEG_benzoate	benzoate	TRUE	HMDB0304270	C00180
 HILIC_POS_beta-alanine	beta-alanine	TRUE	HMDB0000056	C00099
 HILIC_POS_beta-guanidinopropionic acid	beta-guanidinopropionic acid	TRUE	HMDB0013222	C03065
 HILIC_POS_betaine	betaine	TRUE	HMDB0000043	C00719
 HILIC_POS_bilirubin	bilirubin	TRUE	HMDB0000054	C00486
 HILIC_NEG_butyrate	butyrate	TRUE	HMDB0000039	C00246
 HILIC_POS_C10:2 carnitine	C10:2 carnitine	TRUE	NA	NA
-HILIC_POS_C14 carnitine	C14 carnitine	TRUE	NA	NA
+HILIC_POS_C14 carnitine	C14 carnitine	TRUE	HMDB0005066	NA
 REV_POS_C14:1 MAG +NH4	C14:1 MAG +NH4	TRUE	NA	NA
-HILIC_POS_C16 carnitine	C16 carnitine	TRUE	NA	NA
+HILIC_POS_C16 carnitine	C16 carnitine	TRUE	HMDB0000222	C02990
 REV_POS_C16:0 CE	C16:0 CE	TRUE	NA	NA
 REV_POS_C16:0 CE +NH4	C16:0 CE +NH4	TRUE	NA	NA
 REV_POS_C16:0 Ceramide (d18:1)	C16:0 Ceramide (d18:1)	TRUE	NA	NA
@@ -108,13 +108,13 @@ REV_POS_C18:1 CE	C18:1 CE	TRUE	NA	NA
 REV_POS_C18:1 CE +NH4	C18:1 CE +NH4	TRUE	NA	NA
 REV_POS_C18:1 LPC	C18:1 LPC	TRUE	NA	NA
 REV_POS_C18:1 LPE	C18:1 LPE	TRUE	NA	NA
-HILIC_POS_C18:2 carnitine	C18:2 carnitine	TRUE	NA	NA
+HILIC_POS_C18:2 carnitine	C18:2 carnitine	TRUE	HMDB0006469	NA
 REV_POS_C18:2 CE	C18:2 CE	TRUE	NA	NA
 REV_POS_C18:2 CE +NH4	C18:2 CE +NH4	TRUE	NA	NA
 REV_POS_C18:2 LPC	C18:2 LPC	TRUE	NA	NA
 REV_POS_C18:3 CE	C18:3 CE	TRUE	NA	NA
 REV_POS_C18:3 CE +NH4	C18:3 CE +NH4	TRUE	NA	NA
-HILIC_POS_C2 carnitine	C2 carnitine	TRUE	NA	NA
+HILIC_POS_C2 carnitine	C2 carnitine	TRUE	HMDB0000201	C02571
 HILIC_POS_C20 carnitine	C20 carnitine	TRUE	NA	NA
 REV_POS_C20:0 LPE	C20:0 LPE	TRUE	NA	NA
 REV_POS_C20:3 CE	C20:3 CE	TRUE	NA	NA
@@ -252,7 +252,7 @@ REV_POS_C56:5 TAG	C56:5 TAG	TRUE	NA	NA
 REV_POS_C56:5 TAG +NH4	C56:5 TAG +NH4	TRUE	NA	NA
 REV_POS_C56:6 TAG	C56:6 TAG	TRUE	NA	NA
 REV_POS_C56:6 TAG +NH4	C56:6 TAG +NH4	TRUE	NA	NA
-HILIC_POS_C6 carnitine	C6 carnitine	TRUE	NA	NA
+HILIC_POS_C6 carnitine	C6 carnitine	TRUE	HMDB0000756	NA
 HILIC_POS_C9 carnitine	C9 carnitine	TRUE	NA	NA
 HILIC_POS_cadaverine	cadaverine	TRUE	HMDB0002322	C01672
 REV_NEG_caprate	caprate	TRUE	HMDB0000511	C01571
@@ -263,7 +263,7 @@ REV_NEG_carboxyibuprofen	carboxyibuprofen	TRUE	HMDB0060564	NA
 HILIC_POS_carnitine	carnitine	TRUE	HMDB0000062	C00318
 HILIC_POS_carnosine	carnosine	TRUE	HMDB0000033	C00386
 REV_NEG_carnosol	carnosol	TRUE	HMDB0002121	C09069
-HILIC_POS_cellobiose	cellobiose	TRUE	HMDB0000055	C06422
+HILIC_POS_cellobiose	cellobiose	TRUE	HMDB0000055	C00185
 HILIC_POS_cerulenin	cerulenin	TRUE	HMDB0015168	C12058
 REV_NEG_chenodeoxycholate	chenodeoxycholate	TRUE	HMDB0000518	C02528
 HILIC_NEG_chenodeoxycholate/deoxycholate	chenodeoxycholate/deoxycholate	FALSE	NA	NA
@@ -293,10 +293,10 @@ REV_NEG_docosahexaenoate	docosahexaenoate	TRUE	HMDB0002183	C06429
 REV_NEG_docosapentaenoate	docosapentaenoate	TRUE	HMDB0001976	NA
 REV_NEG_dodecanedioate	dodecanedioate	TRUE	HMDB0000623	C02678
 REV_NEG_dodecanoate	dodecanoate	TRUE	HMDB0000638	C02679
-HILIC_POS_DOPA	DOPA	TRUE	HMDB0000609	C00355
-HILIC_POS_ectoine	ectoine	TRUE	METPA0797	C06231
+HILIC_POS_DOPA	DOPA	TRUE	HMDB0000181	C00355
+HILIC_POS_ectoine	ectoine	TRUE	HMDB0240650	C06231
 REV_NEG_eicosadienoate	eicosadienoate	TRUE	HMDB0005060	C16525
-REV_NEG_eicosanedioate	eicosanedioate	TRUE	NA	NA
+REV_NEG_eicosanedioate	eicosanedioate	TRUE	HMDB0242141	NA
 REV_NEG_eicosapentaenoate	eicosapentaenoate	FALSE	HMDB0001999	C06428
 HILIC_NEG_eicosapentaenoate	eicosapentaenoate	FALSE	HMDB0001999	C06428
 REV_NEG_eicosatrienoate	eicosatrienoate	TRUE	HMDB0002925	C03242
@@ -309,8 +309,8 @@ HILIC_POS_GABA/alpha-aminoisobutyric acid	GABA/alpha-aminoisobutyric acid	FALSE	
 REV_NEG_gamma-linolenate	gamma-linolenate	TRUE	HMDB0003073	C06426
 HILIC_NEG_gentisate	gentisate	TRUE	HMDB0000152	C00628
 HILIC_NEG_glucuronate	glucuronate	TRUE	HMDB0000127	C00191
-HILIC_NEG_glutamate	glutamate	FALSE	HMDB0000148	C00025
-HILIC_POS_glutamate	glutamate	FALSE	HMDB0000148	C00025
+HILIC_NEG_glutamate	glutamate	FALSE	HMDB0000148	C00302
+HILIC_POS_glutamate	glutamate	FALSE	HMDB0000148	C00302
 HILIC_POS_glutamine	glutamine	FALSE	HMDB0000641	C00064
 HILIC_NEG_glutamine	glutamine	FALSE	HMDB0000641	C00064
 HILIC_NEG_glycerate	glycerate	TRUE	HMDB0000139	C00258
@@ -328,24 +328,24 @@ HILIC_NEG_guanine	guanine	FALSE	HMDB0000132	C00242
 HILIC_POS_guanosine	guanosine	FALSE	HMDB0000133	C00387
 HILIC_NEG_guanosine	guanosine	FALSE	HMDB0000133	C00387
 REV_NEG_heptadecanoate	heptadecanoate	TRUE	HMDB0002259	NA
-REV_NEG_heptanoate	heptanoate	TRUE	HMDB0000666	C17714
-REV_NEG_hexadecanedioate	hexadecanedioate	TRUE	HMDB0000672	C19615
+REV_NEG_heptanoate	heptanoate	TRUE	HMDB0304376	C17714
+REV_NEG_hexadecanedioate	hexadecanedioate	TRUE	HMDB0304377	C19615
 HILIC_NEG_hexose monophosphate	hexose monophosphate	TRUE	NA	NA
 HILIC_POS_histamine	histamine	TRUE	HMDB0000870	C00388
 HILIC_NEG_histidine	histidine	FALSE	HMDB0000177	C00135
 HILIC_POS_histidine	histidine	FALSE	HMDB0000177	C00135
-HILIC_POS_histidinol	histidinol	TRUE	HMDB0003431	C00860
+HILIC_POS_histidinol	histidinol	TRUE	C00860	NA
 HILIC_POS_homoserine	homoserine	TRUE	HMDB0000719	C00263
 REV_NEG_hydrocinnamate	hydrocinnamate	FALSE	HMDB0000764	C05629
 HILIC_NEG_hydrocinnamate	hydrocinnamate	FALSE	HMDB0000764	C05629
 REV_NEG_hydroxymyristate	hydroxymyristate	TRUE	NA	NA
-HILIC_POS_hydroxyproline	hydroxyproline	TRUE	HMDB0240251	C01015
+HILIC_POS_hydroxyproline	hydroxyproline	TRUE	HMDB0000725	C01157
 REV_NEG_hyodeoxycholate/ursodeoxycholate	hyodeoxycholate/ursodeoxycholate	FALSE	NA	NA
 HILIC_NEG_hypoxanthine	hypoxanthine	FALSE	HMDB0000157	C00262
 HILIC_POS_hypoxanthine	hypoxanthine	FALSE	HMDB0000157	C00262
 HILIC_POS_imidazoleacetic acid	imidazoleacetic acid	TRUE	HMDB0002024	C02835
 HILIC_NEG_indole-3-propionate	indole-3-propionate	TRUE	HMDB0002302	NA
-REV_NEG_indoleacetate	indoleacetate	TRUE	HMDB0000197	C00954
+REV_NEG_indoleacetate	indoleacetate	FALSE	HMDB0000197	C00954
 HILIC_NEG_indolelactate	indolelactate	TRUE	HMDB0000671	C02043
 HILIC_NEG_inositol	inositol	TRUE	HMDB0000211	C00137
 HILIC_POS_isoleucine	isoleucine	TRUE	HMDB0000172	C00407
@@ -388,8 +388,8 @@ HILIC_POS_N-carbamoyl-beta-alanine	N-carbamoyl-beta-alanine	TRUE	HMDB0000026	C02
 REV_POS_N-Oleoylethanolamine	N-Oleoylethanolamine	TRUE	HMDB0002088	NA
 HILIC_POS_N1-acetylspermidine	N1-acetylspermidine	TRUE	HMDB0001276	C00612
 HILIC_POS_N1-acetylspermine	N1-acetylspermine	TRUE	HMDB0001186	C02567
-HILIC_NEG_N6-acetyllysine	N6-acetyllysine	FALSE	HMDB0000206	C02727
-HILIC_POS_N6-acetyllysine	N6-acetyllysine	FALSE	HMDB0000206	C02727
+HILIC_NEG_N6-acetyllysine	N6-acetyllysine	TRUE	HMDB0000206	C02727
+HILIC_POS_N6-acetyllysine	N6-acetyllysine	FALSE	HMDB0000197	C00954
 HILIC_POS_niacinamide	niacinamide	TRUE	HMDB0001406	C00153
 HILIC_POS_nicotinate	nicotinate	FALSE	HMDB0001488	C00253
 HILIC_NEG_nicotinate	nicotinate	FALSE	HMDB0001488	C00253
@@ -415,7 +415,7 @@ HILIC_NEG_phenylacetate	phenylacetate	TRUE	HMDB0000209	C07086
 HILIC_POS_phenylalanine	phenylalanine	FALSE	HMDB0000159	C00079
 HILIC_NEG_phenylalanine	phenylalanine	FALSE	HMDB0000159	C00079
 HILIC_POS_phenylalanine-d8	phenylalanine-d8	TRUE	NA	NA
-REV_NEG_phenyllactate	phenyllactate	TRUE	HMDB0000779	C01479
+REV_NEG_phenyllactate	phenyllactate	TRUE	HMDB0000779	C05607
 HILIC_POS_phosphocholine	phosphocholine	TRUE	HMDB0001565	C00588
 REV_NEG_phytanate	phytanate	TRUE	HMDB0000801	C01607
 HILIC_POS_phytosphingosine	phytosphingosine	TRUE	HMDB0004610	C12144
@@ -443,7 +443,7 @@ HILIC_POS_sarcosine	sarcosine	TRUE	HMDB0000271	C00213
 HILIC_POS_SDMA	SDMA	TRUE	HMDB0003334	NA
 HILIC_NEG_sebacate	sebacate	FALSE	HMDB0000792	C08277
 REV_NEG_sebacate	sebacate	FALSE	HMDB0000792	C08277
-HILIC_POS_serine	serine	TRUE	HMDB0000187	C00716
+HILIC_POS_serine	serine	TRUE	HMDB0000187	C00065
 HILIC_POS_serotonin	serotonin	TRUE	HMDB0000259	C00780
 HILIC_NEG_sorbitol	sorbitol	TRUE	HMDB0000247	C00794
 HILIC_POS_spermidine	spermidine	TRUE	HMDB0001257	C00315

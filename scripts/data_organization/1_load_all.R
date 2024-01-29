@@ -5,6 +5,11 @@
 #  processed data in "data/prelim_data" directory.
 # ----------------------------------------------------------------
 
+library(gdata)
+library(readr)
+library(dplyr)
+library(stringr)
+library(MetaboAnalystR)
 source("data_organization/utils.R")
 
 load.data.scripts <- list.files("data_organization/load_original_data")
@@ -28,9 +33,9 @@ message("Completed data loading")
 
 # Mark duplicated samples in datasets ERAWIJANTARI_GASTRIC_CANCER_2020 & YACHIDA_CRC_2019
 metadata.yach <- read_delim("../data/prelim_data/YACHIDA_CRC_2019/metadata.tsv", 
-                            delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+                            delim = "\t", escape_double = FALSE, trim_ws = TRUE, show_col_types = FALSE)
 metadata.eraw <- read_delim("../data/prelim_data/ERAWIJANTARI_GASTRIC_CANCER_2020/metadata.tsv", 
-                            delim = "\t", escape_double = FALSE, trim_ws = TRUE)
+                            delim = "\t", escape_double = FALSE, trim_ws = TRUE, show_col_types = FALSE)
 shared.subjects <- intersect(gsub("\\..*","",metadata.eraw$Sample),
                              as.character(metadata.yach$Sample))
 metadata.yach$Shared.w.ERAWIJANTARI_2020 <- as.character(metadata.yach$Sample) %in% shared.subjects

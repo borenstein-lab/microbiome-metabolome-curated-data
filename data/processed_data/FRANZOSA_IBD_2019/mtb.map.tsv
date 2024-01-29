@@ -13,7 +13,7 @@ HILIC-neg_Cluster_0169: 2-hydroxyglutarate	HMDB0059655	C02630	TRUE	2-hydroxyglut
 C18-neg_Cluster_0219: 2-hydroxyhexadecanoate	HMDB0031057	NA	TRUE	2-hydroxyhexadecanoate	13.929959	271.228079	11	NA	[M-H]-
 C18-neg_Cluster_0144: 2-hydroxymyristic acid	HMDB0002261	NA	TRUE	2-hydroxymyristic acid	12.518107	243.196061	11	Long-chain fatty acids	[M-H]-
 HILIC-pos_Cluster_0114: 2-hydroxyphenethylamine	HMDB0001065	C02735	TRUE	2-hydroxyphenethylamine	6.220723	138.090932	3	Organonitrogen compounds	[M+H]+
-HILIC-neg_Cluster_0161: 2-methylglutaric acid	HMDB0000422	NA	TRUE	2-methylglutaric acid	7.166747	145.050329	NA	Methyl-branched fatty acids	[M-H]-
+HILIC-neg_Cluster_0161: 2-methylglutaric acid	HMDB0000422	C02930	TRUE	2-methylglutaric acid	7.166747	145.050329	NA	Methyl-branched fatty acids	[M-H]-
 HILIC-neg_Cluster_0220: 3-methyladipate-pimelate	HMDB0000555	NA	FALSE	3-methyladipate-pimelate	7.313638	159.065982	3	Medium-chain fatty acids	[M-H]-
 HILIC-pos_Cluster_0272: 3-methylhistidine	HMDB0000479	C01152	TRUE	3-methylhistidine	9.833021	170.091783	NA	Histidine and derivatives	[M+H]+
 HILIC-pos_Cluster_0254: 3-methylxanthine	HMDB0001886	C16357	TRUE	3-methylxanthine	3.279602	167.055805	NA	Imidazopyrimidines	[M+H]+
@@ -40,8 +40,8 @@ HILIC-neg_Cluster_0120: adenine	HMDB0000034	C00147	TRUE	adenine	2.271317	134.047
 HILIC-pos_Cluster_0447: ADMA	HMDB0001539	C03626	TRUE	ADMA	9.686666	203.149698	2	Arginine and derivatives	[M+H]+
 HILIC-pos_Cluster_0446: ADMA/SDMA*	NA	NA	FALSE	ADMA/SDMA*	9.579272	203.149549	NA	Arginine and derivatives	[M+H]+
 C18-neg_Cluster_0506: adrenic acid	HMDB0002226	C16527	TRUE	adrenic acid	15.061144	331.264136	11	Very long-chain fatty acids	[M-H]-
-HILIC-neg_Cluster_0015: alanine	HMDB0000161	C00041	FALSE	alanine	3.30043	88.040286	NA	Amino acids, peptides, and analogues	[M-H]-
-HILIC-pos_Cluster_0008: alanine	HMDB0000161	C00041	FALSE	alanine	7.798448	90.055267	NA	Amino acids, peptides, and analogues	[M+H]+
+HILIC-neg_Cluster_0015: alanine	HMDB0000161	C01401	FALSE	alanine	3.30043	88.040286	NA	Amino acids, peptides, and analogues	[M-H]-
+HILIC-pos_Cluster_0008: alanine	HMDB0000161	C01401	FALSE	alanine	7.798448	90.055267	NA	Amino acids, peptides, and analogues	[M+H]+
 HILIC-neg_Cluster_0034: alpha-hydroxybutyrate	HMDB0000008	C05984	TRUE	alpha-hydroxybutyrate	3.866533	103.039899	1	NA	[M-H]-
 HILIC-neg_Cluster_0159: alpha-ketoglutarate	HMDB0000208	C00026	TRUE	alpha-ketoglutarate	7.756236	145.014087	NA	Gamma-keto acids and derivatives	[M-H]-
 HILIC-neg_Cluster_0062: alpha-ketoisovalerate	HMDB0000019	C00141	TRUE	alpha-ketoisovalerate	3.52175	115.039921	NA	Keto acids and derivatives	[M-H]-
@@ -55,7 +55,7 @@ C18-neg_Cluster_0354: arachidonic acid	HMDB0001043	C00219	FALSE	arachidonic acid
 C18-neg_Cluster_1131: arachidonic acid	HMDB0001043	C00219	FALSE	arachidonic acid	14.313544	439.207761	13	NA	[Unknown]-
 HILIC-neg_Cluster_0290: arginine	HMDB0000517	C00062	FALSE	arginine	4.262824	173.104141	NA	Amino acids, peptides, and analogues	[M-H]-
 HILIC-pos_Cluster_0295: arginine	HMDB0000517	C00062	FALSE	arginine	9.13588	175.118517	2	Amino acids, peptides, and analogues	[M+H]+
-HILIC-neg_Cluster_0299: ascorbate	NA	C00072	TRUE	ascorbate	9.502579	175.024517	NA	Furanones	[M-H]-
+HILIC-neg_Cluster_0299: ascorbate	HMDB0000044	C00072	TRUE	ascorbate	9.502579	175.024517	NA	Furanones	[M-H]-
 HILIC-pos_Cluster_0099: asparagine	HMDB0000168	C00152	FALSE	asparagine	7.9256	133.06039	NA	Asparagine and derivatives	[M+H]+
 HILIC-neg_Cluster_0112: asparagine	HMDB0000168	C00152	FALSE	asparagine	3.96206	131.046065	NA	Asparagine and derivatives	[M-H]-
 HILIC-neg_Cluster_0117: aspartate	HMDB0000191	C00049	TRUE	aspartate	5.346335	132.030197	NA	Amino acids, peptides, and analogues	[M-H]-
@@ -68,10 +68,10 @@ HILIC-pos_Cluster_0048: betaine	HMDB0000043	C00719	TRUE	betaine	8.945123	118.085
 HILIC-pos_Cluster_2052: bilirubin	HMDB0000054	C00486	TRUE	bilirubin	1.642753	585.267624	NA	NA	[M+H]+
 HILIC-neg_Cluster_0013: butyrate / isobutytare*	NA	NA	FALSE	butyrate / isobutytare*	3.914183	87.045064	NA	Straight chain fatty acids	[M-H]-
 HILIC-pos_Cluster_0151: butyrobetaine	HMDB0001161	C01181	TRUE	butyrobetaine	8.675049	146.116967	NA	Fatty acids and conjugates	[M+H]+
-HILIC-pos_Cluster_1374: C14 carnitine	NA	NA	TRUE	C14 carnitine	6.681222	372.309038	1	Acyl carnitines	[M+H]+
+HILIC-pos_Cluster_1374: C14 carnitine	HMDB0005066	NA	TRUE	C14 carnitine	6.681222	372.309038	1	Acyl carnitines	[M+H]+
 C8-pos_Cluster_1303: C14:0 CE	NA	NA	TRUE	C14:0 CE	11.552452	619.542184	1	Cholesteryl esters	[M+Na]+
 C8-pos_Cluster_1521: C14:0 SM	NA	NA	TRUE	C14:0 SM	7.525761	675.54142	NA	Sphingolipids	[M+H]+
-HILIC-pos_Cluster_1486: C16 carnitine	NA	NA	TRUE	C16 carnitine	6.561967	400.34031	3	Acyl carnitines	[M+H]+
+HILIC-pos_Cluster_1486: C16 carnitine	HMDB0000222	C02990	TRUE	C16 carnitine	6.561967	400.34031	3	Acyl carnitines	[M+H]+
 C8-pos_Cluster_1395: C16:0 CE	NA	NA	TRUE	C16:0 CE	11.973232	647.573818	9	Cholesteryl esters	[M+Na]+
 C8-pos_Cluster_1375: C16:0 CE	NA	NA	TRUE	C16:0 CE	11.968649	642.618861	NA	Cholesteryl esters	[M+NH4]+
 C8-pos_Cluster_1004: C16:0 ceramide (d18:1)	NA	NA	TRUE	C16:0 ceramide (d18:1)	8.197254	538.519883	6	Sphingolipids	[M+H]+
@@ -101,14 +101,14 @@ C8-pos_Cluster_1514: C18:1 CE  	NA	NA	TRUE	C18:1 CE	12.049957	673.58944	9	NA	[M+
 C8-pos_Cluster_0945: C18:1 LPC	NA	NA	TRUE	C18:1 LPC	4.938243	522.355717	NA	1-acyl-sn-glycero-3-phosphocholines	[M+H]+
 HILIC-pos_Cluster_1855: C18:1 LPC plasmalogen*	NA	NA	FALSE	C18:1 LPC plasmalogen*	7.738521	508.374035	22	1-(1Z-alkenyl)-glycero-3-phosphocholines	[M+H]+
 HILIC-pos_Cluster_1893: C18:1 LPC*	NA	NA	FALSE	C18:1 LPC*	7.615695	522.3534	NA	1-acyl-sn-glycero-3-phosphocholines	[M+H]+
-HILIC-pos_Cluster_1580: C18:2 carnitine	NA	NA	TRUE	C18:2 carnitine	6.524092	424.340387	3	Acyl carnitines	[M+H]+
+HILIC-pos_Cluster_1580: C18:2 carnitine	HMDB0006469	NA	TRUE	C18:2 carnitine	6.524092	424.340387	3	Acyl carnitines	[M+H]+
 C8-pos_Cluster_1478: C18:2 CE	NA	NA	TRUE	C18:2 CE	11.716127	666.618408	9	Cholesteryl esters	[M+NH4]+
 C8-pos_Cluster_1504: C18:2 CE*	NA	NA	FALSE	C18:2 CE*	11.726673	671.573482	9	Cholesteryl esters	[M+Na]+
 C8-pos_Cluster_0939: C18:2 LPC	NA	NA	TRUE	C18:2 LPC	4.600409	520.340406	NA	1-acyl-sn-glycero-3-phosphocholines	[M+H]+
 C8-pos_Cluster_1468: C18:3 CE	NA	NA	TRUE	C18:3 CE	11.45202	664.602057	NA	Cholesteryl esters	[M+NH4]+
 C8-pos_Cluster_1494: C18:3 CE*	NA	NA	FALSE	C18:3 CE*	11.453383	669.558808	9	Cholesteryl esters	[M+Na]+
 C8-pos_Cluster_0936: C18:3 LPC	NA	NA	TRUE	C18:3 LPC	4.766593	518.321945	14	1-acyl-sn-glycero-3-phosphocholines	[M+H]+
-HILIC-pos_Cluster_0453: C2 carnitine	NA	NA	TRUE	C2 carnitine	8.585624	204.12232	NA	NA	[M+H]+
+HILIC-pos_Cluster_0453: C2 carnitine	HMDB0000201	C02571	TRUE	C2 carnitine	8.585624	204.12232	NA	NA	[M+H]+
 HILIC-pos_Cluster_1691: C20 carnitine	NA	NA	TRUE	C20 carnitine	6.358002	456.402781	NA	Acyl carnitines	[M+H]+
 C8-pos_Cluster_0915: C20:0 LPE	NA	NA	TRUE	C20:0 LPE	5.028875	510.356003	NA	1-acyl-sn-glycero-3-phosphoethanolamines	[M+H]+
 C8-pos_Cluster_1610: C20:3 CE	NA	NA	TRUE	C20:3 CE	11.82771	692.632743	NA	Cholesteryl esters	[M+NH4]+
@@ -245,7 +245,7 @@ C8-pos_Cluster_2341: C58:7 TAG	NA	NA	TRUE	C58:7 TAG	11.816957	955.767833	NA	Tria
 HILIC-pos_Cluster_0405: caffeine	HMDB0001847	C07481	TRUE	caffeine	2.823607	195.08719	NA	Purines and purine derivatives	[M+H]+
 HILIC-neg_Cluster_0064: caproic acid	HMDB0000535	C01585	TRUE	caproic acid	3.727128	115.076515	2	Medium-chain fatty acids	[M-H]-
 HILIC-neg_Cluster_0156: caprylic acid	HMDB0000482	C06423	TRUE	caprylic acid	3.603307	143.107448	1	Medium-chain fatty acids	[M-H]-
-HILIC-pos_Cluster_0230: carnitine	HMDB0000062	C00318	TRUE	carnitine	8.756221	162.111937	1	Quaternary ammonium salts	[M+H]+
+HILIC-pos_Cluster_0230: carnitine	HMDB0000062	C00487	TRUE	carnitine	8.756221	162.111937	1	Quaternary ammonium salts	[M+H]+
 HILIC-pos_Cluster_0590: carnosine	HMDB0000033	C00386	TRUE	carnosine	9.298983	227.11306	1	Peptidomimetics	[M+H]+
 C18-neg_Cluster_0486: carnosol	HMDB0002121	C09069	TRUE	carnosol	10.794002	329.175684	2	Diterpene lactones	[M-H]-
 C18-neg_Cluster_1292: chenodeoxycholate	HMDB0000518	C02528	FALSE	chenodeoxycholate	10.556944	459.272582	11	Bile acids, alcohols and derivatives	[Unknown]-
@@ -275,7 +275,7 @@ HILIC-pos_Cluster_0306: citrulline	HMDB0000904	C00327	FALSE	citrulline	8.357386	
 HILIC-neg_Cluster_0296: citrulline	HMDB0000904	C00327	FALSE	citrulline	3.641507	174.088119	NA	L-alpha-amino acids	[M-H]-
 HILIC-pos_Cluster_0090: creatine	HMDB0000064	C00300	TRUE	creatine	8.298269	132.07633	2	Alpha amino acids and derivatives	[M+H]+
 HILIC-pos_Cluster_0036: creatinine	HMDB0000562	C00791	TRUE	creatinine	6.423718	114.066154	NA	Amino acids, peptides, and analogues	[M+H]+
-HILIC-neg_Cluster_0677: cystine	HMDB0000192	C00491	TRUE	cystine	6.288915	239.01636	3	L-cysteine-S-conjugates	[M-H]-
+HILIC-neg_Cluster_0677: cystine	HMDB0250712	C01420	TRUE	cystine	6.288915	239.01636	3	L-cysteine-S-conjugates	[M-H]-
 HILIC-pos_Cluster_0032: cytosine	HMDB0000630	C00380	TRUE	cytosine	6.12461	112.050537	NA	NA	[M+H]+
 C18-neg_Cluster_0833: deoxycholic acid	HMDB0000626	C04483	TRUE	deoxycholic acid	10.769622	391.285468	NA	Bile acids, alcohols and derivatives	[M-H]-
 HILIC-pos_Cluster_0734: deoxyinosine	HMDB0000071	C05512	FALSE	deoxyinosine	4.976754	253.092331	NA	Purine nucleosides	[M+H]+
@@ -284,11 +284,11 @@ HILIC-pos_Cluster_0936: diacetylspermine	HMDB0002172	C03413	TRUE	diacetylspermin
 HILIC-neg_Cluster_0199: dihydroxybenzoic acid	NA	NA	TRUE	dihydroxybenzoic acid	4.819288	153.018996	NA	Benzoic acids and derivatives	[M-H]-
 HILIC-pos_Cluster_0298: dimethyllysine	HMDB0013287	C05545	FALSE	dimethyllysine	10.220459	175.143734	2	Alpha amino acids	[M+H]+
 C18-neg_Cluster_0472: docosahexaenoic acid	HMDB0002183	C06429	TRUE	docosahexaenoic acid	14.089371	327.23262	13	NA	[M-H]-
-HILIC-neg_Cluster_1126: docosapentaenoate	HMDB0001976	NA	TRUE	docosapentaenoate	3.185725	329.248268	11	Very long-chain fatty acids	[M-H]-
-C18-neg_Cluster_0863: docosapentaenoic acid	HMDB0006528	C16513	FALSE	docosapentaenoic acid	14.443008	397.235541	11	Very long-chain fatty acids	[M-H+Na-2H]-
-C18-neg_Cluster_0490: docosapentaenoic acid	HMDB0006528	C16513	FALSE	docosapentaenoic acid	14.446319	329.248634	11	Very long-chain fatty acids	[M-H]-
-C18-neg_Cluster_0729: docosapentaenoic acid 	HMDB0006528	C16513	FALSE	docosapentaenoic acid	14.444973	375.253555	5	Very long-chain fatty acids	[M+FA-H]-
-C18-neg_Cluster_1324: docosapentaenoic acid 	HMDB0006528	C16513	FALSE	docosapentaenoic acid	14.441559	465.223168	11	Very long-chain fatty acids	[Unknown]-
+HILIC-neg_Cluster_1126: docosapentaenoate	HMDB0001976	C16513	FALSE	docosapentaenoate	3.185725	329.248268	11	Very long-chain fatty acids	[M-H]-
+C18-neg_Cluster_0863: docosapentaenoic acid	HMDB0001976	C16513	FALSE	docosapentaenoic acid	14.443008	397.235541	11	Very long-chain fatty acids	[M-H+Na-2H]-
+C18-neg_Cluster_0490: docosapentaenoic acid	HMDB0001976	C16513	FALSE	docosapentaenoic acid	14.446319	329.248634	11	Very long-chain fatty acids	[M-H]-
+C18-neg_Cluster_0729: docosapentaenoic acid 	HMDB0001976	NA	FALSE	docosapentaenoic acid	14.444973	375.253555	5	Very long-chain fatty acids	[M+FA-H]-
+C18-neg_Cluster_1324: docosapentaenoic acid 	HMDB0001976	NA	FALSE	docosapentaenoic acid	14.441559	465.223168	11	Very long-chain fatty acids	[Unknown]-
 C18-neg_Cluster_0111: dodecanedioic acid	HMDB0000623	C02678	TRUE	dodecanedioic acid	8.008681	229.143876	1	Medium-chain fatty acids	[M-H]-
 HILIC-neg_Cluster_1002: eicosapentaenoic acid	HMDB0001999	C06428	FALSE	eicosapentaenoic acid	3.237376	301.216907	1	Fatty acids and conjugates	[M-H]-
 C18-neg_Cluster_0351: eicosapentaenoic acid	HMDB0001999	C06428	FALSE	eicosapentaenoic acid	13.624069	301.217166	NA	Fatty acids and conjugates	[M-H]-
@@ -300,13 +300,13 @@ HILIC-neg_Cluster_0122: erythronic acid	HMDB0000613	NA	TRUE	erythronic acid	4.42
 HILIC-pos_Cluster_0913: ethyl 9-hexadecenoate	HMDB0059871	NA	TRUE	ethyl 9-hexadecenoate	1.683218	283.262043	29	Fatty acid esters	[M+H]+
 HILIC-neg_Cluster_0562: ethyl glucuronide	HMDB0010325	NA	TRUE	ethyl glucuronide	4.030186	221.066307	NA	O-glucuronides	[M-H]-
 HILIC-neg_Cluster_0321: fructose/glucose/galactose*	NA	NA	FALSE	fructose/glucose/galactose*	2.156899	179.055912	NA	Hexoses	[M-H]-
-HILIC-neg_Cluster_0237: fucose	HMDB0012327	C02781	TRUE	fucose	1.587833	163.061029	NA	Hexoses	[M-H]-
+HILIC-neg_Cluster_0237: fucose	HMDB0000174	C01019	TRUE	fucose	1.587833	163.061029	NA	Hexoses	[M-H]-
 HILIC-neg_Cluster_0061: fumarate/maleate*	NA	NA	FALSE	fumarate/maleate*	7.325485	115.00351	NA	NA	[M-H]-
 HILIC-pos_Cluster_0657: geranyl acetoacetate*	HMDB0038256	NA	FALSE	geranyl acetoacetate*	1.751914	239.163339	NA	Fatty alcohol esters	[M+H]+
 HILIC-pos_Cluster_0658: geranyl acetoacetate*	HMDB0038256	NA	FALSE	geranyl acetoacetate*	1.89888	239.163255	5	Fatty alcohol esters	[M+H]+
 HILIC-neg_Cluster_0401: glucurote	HMDB0000127	C00191	TRUE	glucurote	5.450615	193.035127	NA	Glucuronic acid derivatives	[M-H]-
-HILIC-neg_Cluster_0166: glutamate	HMDB0000148	C00025	FALSE	glutamate	5.321273	146.045723	NA	Glutamic acid and derivatives	[M-H]-
-HILIC-pos_Cluster_0160: glutamate	HMDB0000148	C00025	FALSE	glutamate	7.613393	148.059769	NA	Amino acids, peptides, and analogues	[M+H]+
+HILIC-neg_Cluster_0166: glutamate	HMDB0000148	C00302	FALSE	glutamate	5.321273	146.045723	NA	Glutamic acid and derivatives	[M-H]-
+HILIC-pos_Cluster_0160: glutamate	HMDB0000148	C00302	FALSE	glutamate	7.613393	148.059769	NA	Amino acids, peptides, and analogues	[M+H]+
 HILIC-neg_Cluster_0162: glutamine	HMDB0000641	C00064	FALSE	glutamine	3.695059	145.06182	NA	L-alpha-amino acids	[M-H]-
 HILIC-pos_Cluster_0156: glutamine	HMDB0000641	C00064	FALSE	glutamine	8.046524	147.075928	NA	L-alpha-amino acids	[M+H]+
 HILIC-neg_Cluster_0036: glycerate	HMDB0000139	C00258	TRUE	glycerate	4.394749	105.019192	NA	Sugar acids and derivatives	[M-H]-
@@ -323,7 +323,7 @@ HILIC-neg_Cluster_0201: histidine	HMDB0000177	C00135	TRUE	histidine	4.037108	154
 HILIC-neg_Cluster_0328: homovanillate	HMDB0000118	C05582	TRUE	homovanillate	4.570257	181.050492	NA	Phenols	[M-H]-
 HILIC-neg_Cluster_0181: hydrocinnamic acid	HMDB0000764	C05629	TRUE	hydrocinnamic acid	3.875114	149.060668	1	NA	[M-H]-
 HILIC-neg_Cluster_0070: hydroxyisovaleric acid	NA	NA	TRUE	hydroxyisovaleric acid	3.714219	117.055643	NA	Hydroxy fatty acids	[M-H]-
-HILIC-pos_Cluster_0089: hydroxyproline	HMDB0240251	C01015	TRUE	hydroxyproline	7.892168	132.065131	NA	NA	[M+H]+
+HILIC-pos_Cluster_0089: hydroxyproline	HMDB0000725	C01157	TRUE	hydroxyproline	7.892168	132.065131	NA	NA	[M+H]+
 C18-neg_Cluster_0830: hyodeoxycholate/ursodeoxycholate*	NA	NA	FALSE	hyodeoxycholate/ursodeoxycholate*	9.249408	391.28509	NA	NA	[M-H]-
 HILIC-neg_Cluster_0123: hypoxanthine	HMDB0000157	C00262	FALSE	hypoxanthine	3.252362	135.031148	NA	Purines and purine derivatives	[M-H]-
 HILIC-pos_Cluster_0108: hypoxanthine	HMDB0000157	C00262	FALSE	hypoxanthine	4.825592	137.045333	NA	Purines and purine derivatives	[M+H]+
@@ -337,7 +337,7 @@ HILIC-pos_Cluster_0383: kynurenic acid	HMDB0000715	C01717	TRUE	kynurenic acid	5.
 HILIC-pos_Cluster_0521: L-1,2,3,4-tetrahydro-beta-carboline-3-carboxylic acid*	HMDB0035665	NA	FALSE	L-1,2,3,4-tetrahydro-beta-carboline-3-carboxylic acid*	6.360789	217.096207	1	Pyridoindoles	[M+H]+
 HILIC-neg_Cluster_0247: L-phenyllactic acid	HMDB0000748	C05607	FALSE	L-phenyllactic acid	3.820866	165.055393	3	Phenylpropanoic acids	[M-H]-
 HILIC-neg_Cluster_0020: lactate	HMDB0000190	C00186	TRUE	lactate	4.030335	89.024276	1	Hydroxy acids and derivatives	[M-H]-
-HILIC-neg_Cluster_1170: lactose	HMDB0041627	C01970	TRUE	lactose	2.609105	341.108598	NA	O-glycosyl compounds	[M-H]-
+HILIC-neg_Cluster_1170: lactose	HMDB0000186	C00243	TRUE	lactose	2.609105	341.108598	NA	O-glycosyl compounds	[M-H]-
 HILIC-pos_Cluster_0091: leucine	HMDB0000687	C00123	FALSE	leucine	6.911032	132.101541	NA	Amino acids, peptides, and analogues	[M+H]+
 HILIC-neg_Cluster_0105: leucine	HMDB0000687	C00123	FALSE	leucine	2.624067	130.087084	NA	Amino acids, peptides, and analogues	[M-H]-
 HILIC-neg_Cluster_0230: levoglucosan	HMDB0000640	NA	TRUE	levoglucosan	7.130819	161.045377	NA	NA	[M-H]-
@@ -349,11 +349,11 @@ HILIC-neg_Cluster_1088: linoleoyl ethanolamide 	HMDB0012252	NA	FALSE	linoleoyl e
 C8-pos_Cluster_0339: linoleoyl ethanolamide 	HMDB0012252	NA	FALSE	linoleoyl ethanolamide	4.773251	346.271831	18	Organonitrogen compounds	[M+Na]+
 C8-pos_Cluster_0264: linoleoyl ethanolamide 	HMDB0012252	NA	FALSE	linoleoyl ethanolamide	4.769408	324.290218	18	Organonitrogen compounds	[M+H]+
 HILIC-pos_Cluster_1148: linoleoyl ethanolamide 	HMDB0012252	NA	FALSE	linoleoyl ethanolamide	1.941643	324.28841	18	Organonitrogen compounds	[M+H]+
-HILIC-neg_Cluster_1303: lithocholate	HMDB0000717	C17658	FALSE	lithocholate	3.949561	375.290195	NA	NA	[M-H]-
-C18-neg_Cluster_0731: lithocholic acid	HMDB0000717	C17658	FALSE	lithocholic acid	12.432525	375.29013	NA	NA	[M-H]-
+HILIC-neg_Cluster_1303: lithocholate	HMDB0000761	C03990	FALSE	lithocholate	3.949561	375.290195	NA	NA	[M-H]-
+C18-neg_Cluster_0731: lithocholic acid	HMDB0000761	C03990	FALSE	lithocholic acid	12.432525	375.29013	NA	NA	[M-H]-
 HILIC-pos_Cluster_0157: lysine	HMDB0000182	C00047	TRUE	lysine	9.37	147.112492	NA	Amino acids, peptides, and analogues	[M+H]+
 HILIC-neg_Cluster_0118: malate	HMDB0000156	C00149	TRUE	malate	7.324073	133.014111	NA	NA	[M-H]-
-HILIC-neg_Cluster_0033: malonate	NA	C00383	TRUE	malonate	7.481365	103.003626	NA	Dicarboxylic acids and derivatives	[M-H]-
+HILIC-neg_Cluster_0033: malonate	HMDB0000691	C00383	TRUE	malonate	7.481365	103.003626	NA	Dicarboxylic acids and derivatives	[M-H]-
 C18-neg_Cluster_1680: maslinic acid	HMDB0002392	C16939	FALSE	maslinic acid	11.823681	517.353113	3	NA	[M+FA-H]-
 C18-neg_Cluster_1385: maslinic acid	HMDB0002392	C16939	FALSE	maslinic acid	11.823927	471.347521	3	NA	[M-H]-
 C18-neg_Cluster_1803: maslinic acid	HMDB0002392	C16939	FALSE	maslinic acid	11.824683	539.33415	2	NA	[Unknown]-
@@ -397,7 +397,7 @@ HILIC-neg_Cluster_0697: pentadecanoate	HMDB0000826	C16537	TRUE	pentadecanoate	3.
 HILIC-neg_Cluster_0125: phenylacetate	HMDB0000209	C07086	TRUE	phenylacetate	3.972693	135.045062	NA	NA	[M-H]-
 HILIC-pos_Cluster_0248: phenylalanine	HMDB0000159	C00079	FALSE	phenylalanine	6.660172	166.085878	NA	Phenylalanine and derivatives	[M+H]+
 HILIC-neg_Cluster_0242: phenylalanine	HMDB0000159	C00079	FALSE	phenylalanine	3.23711	164.071506	NA	Phenylpropanoic acids	[M-H]-
-C18-neg_Cluster_0031: phenyllactate	HMDB0000779	C01479	TRUE	phenyllactate	2.554265	165.054458	NA	Phenylpropanoic acids	[M-H]-
+C18-neg_Cluster_0031: phenyllactate	HMDB0000779	C05607	FALSE	phenyllactate	2.554265	165.054458	NA	Phenylpropanoic acids	[M-H]-
 HILIC-pos_Cluster_1113: phytosphingosine	HMDB0004610	C12144	TRUE	phytosphingosine	5.807391	318.298969	1	Organonitrogen compounds	[M+H]+
 HILIC-pos_Cluster_0081: pipecolic acid	HMDB0000070	C00408	TRUE	pipecolic acid	7.930976	130.086018	2	L-alpha-amino acids	[M+H]+
 HILIC-pos_Cluster_0927: piperine	HMDB0029377	C03882	FALSE	piperine	1.891232	286.142786	NA	NA	[M+H]+
@@ -410,7 +410,7 @@ HILIC-neg_Cluster_0707: pseudouridine	HMDB0000767	C02067	TRUE	pseudouridine	2.33
 HILIC-pos_Cluster_0007: putrescine	HMDB0001414	C00134	TRUE	putrescine	9.291155	89.107655	NA	Amines	[M+H]+
 HILIC-pos_Cluster_0268: pyridoxamine	HMDB0001431	C00534	FALSE	pyridoxamine	9.033352	169.096593	3	Pyridoxamines	[M+H]+
 HILIC-pos_Cluster_0184: pyridoxamine	HMDB0001431	C00534	FALSE	pyridoxamine	9.029533	152.069805	3	Pyridoxamines	[M-OH+H]+
-HILIC-neg_Cluster_0040: pyrocatechol	HMDB0000957	C15571	TRUE	pyrocatechol	1.455358	109.029385	1	Benzenediols	[M-H]-
+HILIC-neg_Cluster_0040: pyrocatechol	HMDB0000957	C00090	TRUE	pyrocatechol	1.455358	109.029385	1	Benzenediols	[M-H]-
 HILIC-pos_Cluster_0079: pyroglutamic acid	HMDB0000267	C01879	TRUE	pyroglutamic acid	8.044523	130.0495	NA	Alpha amino acids and derivatives	[M+H]+
 HILIC-neg_Cluster_0192: ribitol	HMDB0000508	C00474	TRUE	ribitol	1.757746	151.06086	NA	Sugar alcohols	[M-H]-
 HILIC-neg_Cluster_1300: riboflavin	HMDB0000244	C00255	TRUE	riboflavin	1.613945	375.130015	NA	Alloxazines and isoalloxazines	[M-H]-
@@ -418,8 +418,8 @@ HILIC-neg_Cluster_0332: saccharin	HMDB0029723	C12283	TRUE	saccharin	3.810657	181
 HILIC-neg_Cluster_0129: salicylate	HMDB0000840	C07588	TRUE	salicylate	3.955146	137.024184	NA	Benzoic acids and derivatives	[M-H]-
 C18-neg_Cluster_0064: sebacate	HMDB0000792	C08277	FALSE	sebacate	6.184348	201.112299	6	Fatty acids and conjugates	[M-H]-
 HILIC-neg_Cluster_0441: sebacate	HMDB0000792	C08277	FALSE	sebacate	7.092408	201.113094	6	Fatty acids and conjugates	[M-H]-
-HILIC-pos_Cluster_0024: serine	HMDB0000187	C00716	FALSE	serine	7.67572	106.049891	NA	Amino acids, peptides, and analogues	[M+H]+
-HILIC-neg_Cluster_0035: serine	HMDB0000187	C00716	FALSE	serine	4.041081	104.035333	NA	Amino acids, peptides, and analogues	[M-H]-
+HILIC-pos_Cluster_0024: serine	HMDB0000187	C00065	FALSE	serine	7.67572	106.049891	NA	Amino acids, peptides, and analogues	[M+H]+
+HILIC-neg_Cluster_0035: serine	HMDB0000187	C00065	FALSE	serine	4.041081	104.035333	NA	Amino acids, peptides, and analogues	[M-H]-
 HILIC-neg_Cluster_0283: shikimate	HMDB0003070	C00493	TRUE	shikimate	4.737642	173.044913	NA	NA	[M-H]-
 HILIC-neg_Cluster_0331: sorbitol	HMDB0000247	C00794	TRUE	sorbitol	2.01362	181.071617	NA	Sugar alcohols	[M-H]-
 HILIC-pos_Cluster_1017: sphinganine	HMDB0000269	C00836	TRUE	sphinganine	5.7067310000000004	302.303848	NA	Organonitrogen compounds	[M+H]+

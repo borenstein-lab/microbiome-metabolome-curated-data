@@ -35,17 +35,17 @@ rm(tmp.n.row)
 # 2. Transform to relative abund'
 # --------------------------------
 
-species.new <- list()
+species.RA <- list()
 for (dataset in datasets) {
   tmp <- decostand(species[[dataset]][,-1], method = "total", MARGIN = 2)
   tmp$Species <- species[[dataset]]$Species
   tmp <- tmp %>% relocate(Species)
-  species.new[[dataset]] <- tmp
+  species.RA[[dataset]] <- tmp
   # Sanity: print(apply(tmp[,-1], 2, sum))
 }
 
 # Code for a quick indication of whether genus names are consistent:
-# x <- c(); for(dataset in datasets) {x <- c(x, species.new[[dataset]]$Species)}; 
+# x <- c(); for(dataset in datasets) {x <- c(x, species.RA[[dataset]]$Species)}; 
 # x <- data.frame(sp = x) %>% group_by(sp) %>% summarise(N = n()) %>% tidyr::separate(col = "sp", into = c("d","p","c","o","f","g","s"), sep = ";", remove = FALSE)
 
 # --------------------------------
@@ -56,9 +56,8 @@ for (dataset in datasets) {
 
 for (dataset in data.dirs[basename(data.dirs) %in% datasets]) {
   message(paste("Saving:", basename(dataset)))
-  species <- species.new[[basename(dataset)]]
-  save.to.files(basename(dataset), "processed_data", species = species)
-  save.to.rdata(basename(dataset), "processed_data", species = species)
+  save.to.files(basename(dataset), "processed_data", species = species.RA[[basename(dataset)]], species.counts = species[[basename(dataset)]])
+  save.to.rdata(basename(dataset), "processed_data", species = species.RA[[basename(dataset)]], species.counts = species[[basename(dataset)]])
 }
 
 

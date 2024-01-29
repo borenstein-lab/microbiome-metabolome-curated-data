@@ -101,8 +101,14 @@ mtb.map$High.Confidence.Annotation <- TRUE
 
 # Manual fixes
 mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0000187'
+mtb.map[mtb.map$Compound == 'Alanine','HMDB'] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == 'Formate','KEGG'] <- 'C00058'
+mtb.map[mtb.map$Compound == 'Fumarate','HMDB'] <- 'HMDB0000134'
+mtb.map[mtb.map$Compound == 'Fumarate','KEGG'] <- 'C00122'
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
@@ -123,6 +129,7 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
+
 rm(list = ls())

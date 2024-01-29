@@ -34,15 +34,15 @@ for (dataset in datasets) {
 rm(tmp.n.row)
 
 # --------------------------------
-# 2. Transform to relative abund'
+# 2. Transform to relative abund' (RA)
 # --------------------------------
 
-genera.new <- list()
+genera.RA <- list()
 for (dataset in datasets) {
   tmp <- decostand(genera[[dataset]][,-1], method = "total", MARGIN = 2)
   tmp$Genus <- genera[[dataset]]$Genus
   tmp <- tmp %>% relocate(Genus)
-  genera.new[[dataset]] <- tmp
+  genera.RA[[dataset]] <- tmp
   # Sanity: print(apply(tmp, 2, sum))
 }
 
@@ -69,30 +69,41 @@ unclass.tax.strings <- c("d__Bacteria;p__;c__;o__;f__;g__",
                          "d__Bacteria;p__.;c__;o__;f__;g__")
 
 for (dataset in datasets) {
-  tmp <- genera.new[[dataset]]
-  unclassified.rows <- tmp$Genus[tmp$Genus %in% unclass.tax.strings]
+  tmp.RA <- genera.RA[[dataset]]
+  tmp.counts <- genera[[dataset]]
+  unclassified.rows <- tmp.RA$Genus[tmp.RA$Genus %in% unclass.tax.strings]
   
   # After identifying all unclassified entities, 
   #  we regroup/merge them into a new entity named "Unclassified" (summing over values). 
   # Lastly we replace the original rows with the new "Unclassified" row.
   if (length(unclassified.rows) > 0) {
-    tmp <- tmp %>%
+    # RA
+    tmp.RA <- tmp.RA %>%
       mutate(Genus = ifelse(Genus %in% unclassified.rows, 
                             "Unclassified",
                             Genus)) %>%
       group_by(Genus) %>% 
       summarise(across(everything(), sum))
-    genera.new[[dataset]] <- tmp
+    genera.RA[[dataset]] <- tmp.RA
     
-    # Record statistics for later sanity checks
-    tmp <- unlist(tmp[tmp$Genus == "Unclassified",-1])
+    # Counts
+    tmp.counts <- tmp.counts %>%
+      mutate(Genus = ifelse(Genus %in% unclassified.rows, 
+                            "Unclassified",
+                            Genus)) %>%
+      group_by(Genus) %>% 
+      summarise(across(everything(), sum))
+    genera[[dataset]] <- tmp.counts
+    
+    # Record statistics for later sanity checks (RA)
+    tmp.RA <- unlist(tmp.RA[tmp.RA$Genus == "Unclassified",-1])
     debug.unclass.genera.stats <- 
       bind_rows(debug.unclass.genera.stats,
                 data.frame(Dataset = dataset,
                            Num_Rows_Unclassified = length(unclassified.rows),
-                           Rel_abundance__Min = round(min(tmp),2),
-                           Rel_abundance__Max = round(max(tmp),2),
-                           Rel_abundance__Median = round(median(tmp),2)))
+                           Rel_abundance__Min = round(min(tmp.RA),2),
+                           Rel_abundance__Max = round(max(tmp.RA),2),
+                           Rel_abundance__Median = round(median(tmp.RA),2)))
     
   } else {
     # Add stats row (empty)
@@ -104,10 +115,10 @@ for (dataset in datasets) {
 }
 
 # Check out statistics: View(debug.unclass.genera.stats)
-rm(unclassified.rows, tmp)
+rm(unclassified.rows, tmp.RA, tmp.counts)
 
 # Code for a quick indication of whether genus names are consistent:
-# x <- c(); for(dataset in datasets) {x <- c(x, genera.new[[dataset]]$Genus)}; 
+# x <- c(); for(dataset in datasets) {x <- c(x, genera.RA[[dataset]]$Genus)}; 
 # x <- data.frame(genus = x) %>% group_by(genus) %>% summarise(N = n()) %>% tidyr::separate(col = "genus", into = c("d","p","c","o","f","g"), sep = ";", remove = FALSE)
 # Sanity #1 (should return empty): View(x %>% filter(g != "g__") %>% group_by(g) %>% filter(n()>1))
 # Sanity #2 (should return empty): View(x %>% filter(g == "g__" & f != "f__") %>% group_by(f) %>% filter(n()>1))
@@ -128,11 +139,12 @@ file.copy(data.dirs,
 
 for(dataset in data.dirs) {
   message(paste("Saving:", basename(dataset)))
-  genera <- genera.new[[basename(dataset)]]
   save.to.files(basename(dataset), 
                 "processed_data", 
-                genera = genera)
+                genera = genera.RA[[basename(dataset)]],
+                genera.counts = genera[[basename(dataset)]])
   save.to.rdata(basename(dataset), 
                 "processed_data", 
-                genera = genera)
+                genera = genera.RA[[basename(dataset)]],
+                genera.counts = genera[[basename(dataset)]])
 }

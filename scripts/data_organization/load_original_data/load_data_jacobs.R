@@ -139,6 +139,10 @@ mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Serinyl trypt
 mtb.map$HMDB[which(mtb.map$Compound.Name == "Serinyl tryptophan")] <- "HMDB0029050"
 mtb.map$HMDB[which(mtb.map$Compound.Name == "N-acetyl-ornithine")] <- "HMDB0003357"
 mtb.map$KEGG[which(mtb.map$Compound.Name == "N-acetyl-ornithine")] <- "C00437"
+mtb.map$HMDB[which(mtb.map$Compound == "Negative_498.2895_5.6354")] <- "HMDB0000951"
+mtb.map$HMDB[which(mtb.map$Compound == "Negative_498.2867_5.4288")] <- "HMDB0000951"
+mtb.map$KEGG[which(mtb.map$Compound == "Negative_498.2895_5.6354")] <- "C05465"
+mtb.map$KEGG[which(mtb.map$Compound == "Negative_498.2867_5.4288")] <- "C05465"
 
 # Some discrepancy in retention time/m.z...
 mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "7-Ketodeoxycholic acid")] <- FALSE
@@ -148,6 +152,8 @@ mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Taurochenodeo
 mtb.map$High.Confidence.Annotation[which(mtb.map$Compound.Name == "Taurine")] <- FALSE
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
@@ -168,7 +174,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
+
 rm(list = ls())
 

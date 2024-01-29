@@ -157,9 +157,6 @@ mtb.map <- MA.matches %>%
 # Additional mappings (based on searching in kegg/hmdb)
 # View(mtb.map %>% filter(!grepl("unknown", Compound)) %>% filter(is.na(KEGG) | is.na(HMDB)))
 mtb.map[mtb.map$Compound == "Disiloxane, hexamethyl-","HMDB"] <- 'HMDB0033532'
-mtb.map[mtb.map$Compound == "Hexadecanal","KEGG"] <- 'C00517'
-mtb.map[mtb.map$Compound == "Hexadecanal","HMDB"] <- 'HMDB0001551'
-mtb.map[mtb.map$Compound == "Nonanal","HMDB"] <- 'HMDB0059835'
 mtb.map[mtb.map$Compound == "Furan, 2-pentyl-","HMDB"] <- 'HMDB0013824'
 mtb.map[mtb.map$Compound == "Ethanone, 1-(2-aminophenyl)-","HMDB"] <- 'HMDB0032630'
 mtb.map[mtb.map$Compound == "Benzyl methyl ketone","KEGG"] <- 'C15512'
@@ -171,9 +168,6 @@ mtb.map[mtb.map$Compound == "Butanoic acid, 2-methyl-","KEGG"] <- 'C18319'
 mtb.map[mtb.map$Compound == "Butanoic acid, 2-methyl-","HMDB"] <- 'HMDB0002176'
 mtb.map[mtb.map$Compound == "Butanoic acid, 3-methyl-","HMDB"] <- 'HMDB0000718'
 mtb.map[mtb.map$Compound == "Butanoic acid, 3-methyl-","KEGG"] <- 'C08262'
-mtb.map[mtb.map$Compound == "Anethole","HMDB"] <- 'HMDB0030837'
-mtb.map[mtb.map$Compound == "3-Pentanol","HMDB"] <- 'HMDB0303831'
-mtb.map[mtb.map$Compound == "Isobutyl isovalerate","HMDB"] <- 'HMDB0038040'
 mtb.map[mtb.map$Compound == "Methylamine, N,N-dimethyl-","HMDB"] <- 'HMDB0000906'
 mtb.map[mtb.map$Compound == "Methylamine, N,N-dimethyl-","KEGG"] <- 'C00565'
 mtb.map[mtb.map$Compound == "5,9-Undecadien-2-one, 6,10-dimethyl-","HMDB"] <- 'HMDB0031846'
@@ -197,14 +191,11 @@ mtb.map[mtb.map$Compound == "Ethanol, 2-ethoxy-","HMDB"] <- 'HMDB0031213'
 mtb.map[mtb.map$Compound == "Ethanol, 2-ethoxy-","KEGG"] <- 'C14687'
 mtb.map[mtb.map$Compound == "1-Butene, 4-isothiocyanato-","HMDB"] <- 'HMDB0033867'
 mtb.map[mtb.map$Compound == "Benzene, (2-isothiocyanatoethyl)-","HMDB"] <- 'HMDB0038445'
-mtb.map[mtb.map$Compound == "Heptacosane","HMDB"] <- 'HMDB0302068'
 mtb.map[mtb.map$Compound == "Pentadecane, 2,6,10,14-tetramethyl-","HMDB"] <- 'HMDB0034497'
 mtb.map[mtb.map$Compound == "4-Hydroxy-3-hexanone","KEGG"] <- 'C02948'
 mtb.map[mtb.map$Compound == "3-Pentanone, 2-methyl-","HMDB"] <- 'HMDB0005846'
 mtb.map[mtb.map$Compound == "Benzaldehyde, 4-hydroxy-","KEGG"] <- 'C00633'
 mtb.map[mtb.map$Compound == "Benzaldehyde, 4-hydroxy-","HMDB"] <- 'HMDB0011718'
-mtb.map[mtb.map$Compound == "Tributyl phosphate","KEGG"] <- 'C14439'
-mtb.map[mtb.map$Compound == "Tributyl phosphate","HMDB"] <- 'HMDB0259164'
 mtb.map[mtb.map$Compound == "Hexanoic acid, butyl ester","HMDB"] <- 'HMDB0040211'
 mtb.map[mtb.map$Compound == "cis-11-Hexadecenal","HMDB"] <- 'HMDB0243751'
 mtb.map[mtb.map$Compound == "Cyclohexanone, 2,2,6-trimethyl-","HMDB"] <- 'HMDB0033794'
@@ -217,17 +208,20 @@ mtb.map[mtb.map$Compound == "Cyclohexene, 3-(1,5-dimethyl-4-hexenyl)-6-methylene
 mtb.map[mtb.map$Compound == "Cyclohexene, 3-(1,5-dimethyl-4-hexenyl)-6-methylene-, [S-(R*,S*)]-","KEGG"] <- 'C16776'
 mtb.map[mtb.map$Compound == "2(3H)-Furanone, 5-heptyldihydro-","HMDB"] <- 'HMDB0038311'
 mtb.map[mtb.map$Compound == "3(2H)-Thiophenone, dihydro-2-methyl-","HMDB"] <- 'HMDB0038556'
-mtb.map[mtb.map$Compound == "Copaene","HMDB"] <- 'HMDB0061851'
-mtb.map[mtb.map$Compound == "Copaene","KEGG"] <- 'C09639'
 mtb.map[mtb.map$Compound == "Butanoic acid, propyl ester","HMDB"] <- 'HMDB0039618'
 mtb.map[mtb.map$Compound == "S-Methyl 3-methylbutanethioate","HMDB"] <- 'HMDB0039843'
 mtb.map[mtb.map$Compound == "2-Propanol, 1-methoxy-","HMDB"] <- 'HMDB0243915'
 mtb.map[mtb.map$Compound == "1,4-p-Menthadien-7-al","HMDB"] <- 'HMDB0302599'
 mtb.map[mtb.map$Compound == "2-Hexene, 3,5,5-trimethyl-","HMDB"] <- 'HMDB0302638'
 mtb.map[mtb.map$Compound == "trans-2-Dodecen-1-ol","HMDB"] <- 'HMDB0303903'
+mtb.map[mtb.map$Compound == "(1R)-2,6,6-Trimethylbicyclo[3.1.1]hept-2-ene","HMDB"] <- 'C06306'
+mtb.map[mtb.map$Compound == "Dodecane","HMDB"] <- 'HMDB0031444'
+
 
 # Clean mapping table
 mtb.map$MA.Name.Match <- NULL
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 
 # Mark duplicated kegg/hmdb identifiers
 #  table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1]
@@ -249,6 +243,7 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species, override.all = T)
+
 rm(list = ls())

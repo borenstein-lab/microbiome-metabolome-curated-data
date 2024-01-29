@@ -147,7 +147,11 @@ mtb.map <- mtb.map %>%
 
 # Additional manual mappings based on HMDB searches
 # (either by provided KEGG ID or by provided compound name)
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00141','HMDB'] <- 'HMDB0000019'
+mtb.map[mtb.map$Compound.Name == "C01089_3-Hydroxybutyrate",'HMDB'] <- 'HMDB0000011'
+mtb.map[mtb.map$Compound.Name == "C00024_Acetyl CoA",'HMDB'] <- 'HMDB0001206'
+mtb.map[mtb.map$Compound.Name == "C00491_Cystine",'HMDB'] <- 'HMDB0000192'
+mtb.map[mtb.map$Compound.Name == "C00122_Fumarate",'HMDB'] <- 'HMDB0000134'
+mtb.map[mtb.map$Compound.Name == "C02727_N-epsilon-Acetyllysine",'HMDB'] <- 'HMDB0000206'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00099','HMDB'] <- 'HMDB0000056'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00085','HMDB'] <- 'HMDB0000124'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00051','HMDB'] <- 'HMDB0000125'
@@ -157,7 +161,6 @@ mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00199','HMDB'] <- 'HMDB0000618'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00064','HMDB'] <- 'HMDB0000641'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C05824','HMDB'] <- 'HMDB0000731'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00438','HMDB'] <- 'HMDB0000828'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03145','HMDB'] <- 'HMDB0001015'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00354','HMDB'] <- 'HMDB0001058'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C05382','HMDB'] <- 'HMDB0001068'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C01239','HMDB'] <- 'HMDB0001104'
@@ -168,42 +171,25 @@ mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03793','HMDB'] <- 'HMDB0001325'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00103','HMDB'] <- 'HMDB0001586'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00127','HMDB'] <- 'HMDB0003337'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00631','HMDB'] <- 'HMDB0003391'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C01771','HMDB'] <- 'HMDB0010720'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00371','HMDB'] <- 'HMDB0012204'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C02595','HMDB'] <- 'HMDB0029718'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03173','HMDB'] <- 'HMDB0035646'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C08304','HMDB'] <- 'HMDB0035762'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03969','HMDB'] <- 'HMDB0062225'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C02630','HMDB'] <- 'HMDB0059655'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C02129','HMDB'] <- 'HMDB0061881'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03678','HMDB'] <- 'HMDB0061877'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C05341','HMDB'] <- 'HMDB0060442'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C02273','HMDB'] <- 'HMDB0039721'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00092','HMDB'] <- 'HMDB0001401'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C08737','HMDB'] <- 'HMDB0041922'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C01073','HMDB'] <- 'HMDB0061880'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03958','HMDB'] <- 'HMDB0060080'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C03172','HMDB'] <- 'HMDB0038670'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C04501','HMDB'] <- 'HMDB0001367'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C04501',"High.Confidence.Annotation"] <- FALSE
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C02713','HMDB'] <- 'HMDB0060493'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C01044','HMDB'] <- 'HMDB0060495'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C01047','HMDB'] <- 'HMDB0034365'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C02721','HMDB'] <- 'HMDB0094692'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C01046','HMDB'] <- 'HMDB0062660'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C07091','HMDB'] <- 'HMDB0060461'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00813','HMDB'] <- 'HMDB0041833'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C04483','HMDB'] <- 'HMDB0000626'
-mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00842','HMDB'] <- 'HMDB0001328'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00134','HMDB'] <- 'HMDB0001414'
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00134',"High.Confidence.Annotation"] <- FALSE
-mtb.map[mtb.map$Compound.Name == "1-Aminocyclopropane-1-carboxylate","HMDB"] <- 'HMDB0036458'
 mtb.map[mtb.map$Compound.Name == "2',3'-cCMP","HMDB"] <- 'HMDB0011691'
 mtb.map[mtb.map$Compound.Name == "3PG",'HMDB'] <- 'HMDB0000807'
 mtb.map[mtb.map$Compound.Name == "3PG","High.Confidence.Annotation"] <- FALSE
 mtb.map[!is.na(mtb.map$KEGG) & mtb.map$KEGG == 'C00117','HMDB'] <- 'HMDB0001548'
-mtb.map[mtb.map$Compound.Name == "N1,N8-Diacetylspermidine",'HMDB'] <- 'HMDB0041947'
-mtb.map[mtb.map$Compound.Name == "Ophthalmate",'HMDB'] <- 'HMDB0005765'
 
 # Remove unneeded columns
 mtb.map <- mtb.map %>%
@@ -211,6 +197,8 @@ mtb.map <- mtb.map %>%
   select(-Compound.Name, -KEGG.from.MA, -MA.Name.Match)
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
@@ -232,6 +220,6 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species, override.all = T)
 rm(list = ls())

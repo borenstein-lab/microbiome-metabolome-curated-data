@@ -88,7 +88,8 @@ names(species)[1] <- 'Species'
 
 genera <- read_delim(TAXONOMY_FILE_GE, "\t", 
                      escape_double = FALSE, 
-                     trim_ws = TRUE)
+                     trim_ws = TRUE,
+                     show_col_types = FALSE)
 names(genera)[1] <- 'Genus'
 
 tax.map <- read_delim(TAXONOMY_SAMPLE_MAP, 
@@ -166,13 +167,21 @@ MA.matches[MA.matches$Query == "HMDB0041876","MA.Name.Match"] <- "N1,N12-Diacety
 MA.matches[MA.matches$Query == "HMDB0061710","HMDB"] <- "HMDB0037397"
 MA.matches[MA.matches$Query == "HMDB0061710","MA.Name.Match"] <- "17-Methyloctadecanoic acid"
 
+MA.matches[MA.matches$Query == "HMDB0004159","HMDB"] <- "HMDB0004160" 
+MA.matches[MA.matches$Query == "HMDB0004159","KEGG"] <- "C05794"
+MA.matches[MA.matches$Query == "HMDB0004159","MA.Name.Match"] <- "Urobilin"
+MA.matches[MA.matches$Query == "HMDB0004161","HMDB"] <- "HMDB0004160" 
+MA.matches[MA.matches$Query == "HMDB0004161","KEGG"] <- "C05794"
+MA.matches[MA.matches$Query == "HMDB0004161","MA.Name.Match"] <- "Urobilin"
+
 # Additional manual mappings:
-MA.matches[MA.matches$HMDB == "HMDB0000208","KEGG"] <- "C00026"
-MA.matches[MA.matches$HMDB == "HMDB0000651","KEGG"] <- "C03299"
-MA.matches[MA.matches$HMDB == "HMDB0000688","KEGG"] <- "C20826"
+MA.matches[MA.matches$Query == "HMDB0000208","KEGG"] <- "C00026"
+MA.matches[MA.matches$Query == "HMDB0000651","KEGG"] <- "C03299"
+MA.matches[MA.matches$Query == "HMDB0000688","KEGG"] <- "C20826"
+MA.matches[MA.matches$Query == "HMDB0000212","KEGG"] <- "C01074"
 
 # We now merge the MetaboAnalyst mappings with the main mtb.map table
-# (the final HMDB will be taken from MA.matches$HMDB and not original data, as some HMDB ID's are not updated)
+# (the final HMDB will be taken from MA.matches$HMDB and not original data, as some HMDB ID's are not updated in the original table)
 names(mtb.map)[2] <- "Query" 
 mtb.map <- merge(mtb.map, MA.matches, by = "Query", all = T)
 mtb.map <- mtb.map %>%
@@ -180,6 +189,8 @@ mtb.map <- mtb.map %>%
   rename(Compound.Name = MA.Name.Match)
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
@@ -201,7 +212,8 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera, species)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, species = species, override.all = T)
+
 rm(list = ls())
 

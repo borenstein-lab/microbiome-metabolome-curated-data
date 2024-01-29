@@ -2,8 +2,8 @@ Compound	HMDB	KEGG	High.Confidence.Annotation
 Cyclotrisiloxane, hexamethyl-	NA	NA	TRUE
 Benzaldehyde	HMDB0006115	C00261	TRUE
 Cyclopentasiloxane, decamethyl-	NA	NA	TRUE
-Styrene	HMDB0034240	C19506	TRUE
-Phenol	HMDB0000228	C15584	TRUE
+Styrene	HMDB0034240	C07083	TRUE
+Phenol	HMDB0000228	C00146	TRUE
 n-Pentadecanol	HMDB0013299	NA	TRUE
 Toluene	HMDB0034168	C01455	TRUE
 Indole	HMDB0000738	C00463	TRUE
@@ -46,7 +46,7 @@ Hexadecane	HMDB0033792	C14499	TRUE
 Phenol, 4-ethyl-	HMDB0029306	C13637	TRUE
 1H-Pyrrole-2,5-dione, 3-ethyl-4-methyl-	NA	NA	TRUE
 (-)-Menthone	HMDB0035162	C00843	TRUE
-Linalool	NA	NA	TRUE
+Linalool	HMDB0036100	C03985	TRUE
 Nonanal	HMDB0059835	NA	TRUE
 Cyclohexanecarboxylic acid	HMDB0031342	C09822	TRUE
 Ethanone, 1-(2-aminophenyl)-	HMDB0032630	NA	TRUE
@@ -78,7 +78,7 @@ Isopentanol	HMDB0006007	C07328	TRUE
 2-Pentadecanone	HMDB0031081	NA	TRUE
 Pentadecanal	HMDB0031078	C01948	TRUE
 2,3-Butanedione	HMDB0003407	C00741	TRUE
-(1R)-2,6,6-Trimethylbicyclo[3.1.1]hept-2-ene	HMDB0006525	C06306	TRUE
+(1R)-2,6,6-Trimethylbicyclo[3.1.1]hept-2-ene	C06306	C09880	TRUE
 Furan, 2-pentyl-	HMDB0013824	NA	TRUE
 2-Oxohexane	HMDB0005842	NA	TRUE
 1-Nonanol	HMDB0031265	C14696	TRUE
@@ -123,7 +123,7 @@ Octadecanol	HMDB0002350	D01924	TRUE
 1-Tetradecanol	HMDB0011638	NA	TRUE
 1-Heptanol, 3-methyl-	NA	NA	TRUE
 Benzyl methyl ketone	NA	C15512	TRUE
-Benzyl alcohol	HMDB0003119	C03485	TRUE
+Benzyl alcohol	HMDB0003119	C00556	TRUE
 Myrcene	HMDB0038169	C06074	TRUE
 Butanoic acid, 3-methylbutyl ester	HMDB0040221	NA	TRUE
 Dimethyl sulfone	HMDB0004983	C11142	TRUE
@@ -155,7 +155,7 @@ Copaene	HMDB0061851	C09639	TRUE
 2-Methylpropyl butanoate	HMDB0034161	NA	TRUE
 679_unknown	NA	NA	TRUE
 Carbamic acid	HMDB0003551	C01563	TRUE
-(+)-2-Bornanone	HMDB0059838	NA	TRUE
+(+)-2-Bornanone	HMDB0059838	C00808	TRUE
 2-Heptanone	HMDB0003671	C08380	TRUE
 Cyclohexene, 1-methyl-4-(1-methylethylidene)-	HMDB0036994	C06075	TRUE
 Cyclohexanemethanol	NA	NA	TRUE

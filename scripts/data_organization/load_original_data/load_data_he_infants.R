@@ -152,8 +152,18 @@ mtb.map[mtb.map$Compound == "2-Hydroxyisobutyrate","KEGG"] <- "C21297"
 mtb.map[mtb.map$Compound == "3' fucosyl lactose","HMDB"] <- "HMDB0002094" 
 mtb.map[mtb.map$Compound == "6' sialyllactose","HMDB"] <- "HMDB0006569" 
 mtb.map[mtb.map$Compound == "N-Acetylneuraminate","HMDB"] <- "HMDB0000230" 
+mtb.map[mtb.map$Compound == "3-Hydroxybutyrate","HMDB"] <- "HMDB0000011" 
+mtb.map[mtb.map$Compound == "3-Hydroxybutyrate","KEGG"] <- "C01089" 
+mtb.map[mtb.map$Compound == "4-Hydroxybenzoate","HMDB"] <- "HMDB0000500" 
+mtb.map[mtb.map$Compound == "4-Hydroxybenzoate","KEGG"] <- "C00156" 
+mtb.map[mtb.map$Compound == "Alanine","HMDB"] <- "HMDB0000161" 
+mtb.map[mtb.map$Compound == "Allantoin","KEGG"] <- "C01551" 
+mtb.map[mtb.map$Compound == 'Fumarate','HMDB'] <- 'HMDB0000134'
+mtb.map[mtb.map$Compound == 'Fumarate','KEGG'] <- 'C00122'
+mtb.map[mtb.map$Compound == "Indole-3-lactate","HMDB"] <- "HMDB0000671" 
+mtb.map[mtb.map$Compound == "Indole-3-lactate","KEGG"] <- "C02043" 
 
-# Add some manual fixes of sample names (TODO: verify with author + ask why these samples are missing from metadata: "BP.4.1","EF.15.1","EF.51.1","EP.77.4" )
+# Add some manual fixes of sample names (TODO: ask why these samples are missing from metadata: "BP.4.1","EF.15.1","EF.51.1","EP.77.4" )
 names(mtb)[names(mtb) == "EF.3.1"] <- "EF.3.1a"
 names(mtb)[names(mtb) == "BF.9.1"] <- "BF.9.1b"
 names(mtb)[names(mtb) == "EP.51.2"] <- "EP.51.2a"
@@ -161,6 +171,8 @@ names(mtb)[names(mtb) == "BP.4.3"] <- "BP.4.3b"
 names(mtb)[names(mtb) == "BP.40.3"] <- "BF.40.3b"
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
@@ -181,6 +193,7 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
+
 rm(list = ls())

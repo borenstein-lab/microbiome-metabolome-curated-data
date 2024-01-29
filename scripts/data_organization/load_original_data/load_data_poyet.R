@@ -49,7 +49,7 @@ metadata <- metadata[,colSums(is.na(metadata)) < nrow(metadata)]
 metadata <- metadata %>% rename(Subject = Donor)
 
 # We merge this with metadata per sample (there are multiple samples per donor), taken from SRA Run Selector.
-SraRunTable <- read_csv(METADATA_FILE2, guess_max = 5000)
+SraRunTable <- read_csv(METADATA_FILE2, guess_max = 5000, show_col_types = FALSE)
 
 # Get only samples from hosts (not isolates), and only WGS ones
 SraRunTable <- SraRunTable %>% filter(!is.na(host_subject_ID)) %>% filter(`Assay Type` == "AMPLICON")
@@ -79,7 +79,7 @@ metadata <- metadata %>%
 # --------------------------------
 
 # Read genus-level abundances from qiime analysis
-genera <- read_delim(TAXONOMY_FILE, 
+genera <- read_delim(TAXONOMY_FILE, show_col_types = FALSE,
                      "\t", escape_double = FALSE, trim_ws = TRUE)
 names(genera)[1] <- 'Genus'
 
@@ -135,16 +135,30 @@ mtb.map <- mtb.map %>% relocate(Compound)
 
 # Additional mappings
 # View(mtb.map %>% filter(is.na(HMDB)))
+mtb.map[mtb.map$Compound == 'HILIC_POS_2-deoxycytidine','HMDB'] <- 'HMDB0000014'
+mtb.map[mtb.map$Compound == 'HILIC_POS_2-deoxycytidine','KEGG'] <- 'C00881'
+mtb.map[mtb.map$Compound == 'HILIC_POS_alanine','HMDB'] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == 'HILIC_NEG_alanine','HMDB'] <- 'HMDB0000161'
+mtb.map[mtb.map$Compound == 'HILIC_NEG_benzoate','KEGG'] <- 'C00180'
+mtb.map[mtb.map$Compound == 'HILIC_POS_carnitine','KEGG'] <- 'C00318'
+mtb.map[mtb.map$Compound == 'REV_NEG_formylmethionine','HMDB'] <- 'HMDB0001015'
+mtb.map[mtb.map$Compound == 'REV_NEG_formylmethionine','KEGG'] <- 'C03145'
+mtb.map[mtb.map$Compound == 'REV_NEG_hexadecanedioate','KEGG'] <- 'C19615'
+mtb.map[mtb.map$Compound == 'REV_NEG_heptanoate','KEGG'] <- 'C17714'
+mtb.map[mtb.map$Compound == 'HILIC_POS_histidinol','HMDB'] <- 'C00860'
+mtb.map[mtb.map$Compound == 'HILIC_NEG_N6-acetyllysine','HMDB'] <- 'HMDB0000206'
+mtb.map[mtb.map$Compound == 'HILIC_NEG_N6-acetyllysine','KEGG'] <- 'C02727'
+mtb.map[mtb.map$Compound == 'REV_NEG_phenyllactate','HMDB'] <- 'HMDB0000779'
+mtb.map[mtb.map$Compound == 'REV_NEG_taurochenodeoxycholate','KEGG'] <- 'C05465'
+mtb.map[mtb.map$Compound == 'REV_NEG_taurochenodeoxycholate','HMDB'] <- 'HMDB0000951'
 mtb.map[mtb.map$Compound == 'HILIC_NEG_3-4-dihydroxybenzylamine','HMDB'] <- 'HMDB0012153'
 mtb.map[mtb.map$Compound == 'HILIC_NEG_3-4-dihydroxyphenylglycol','HMDB'] <- 'HMDB0000318'
 mtb.map[mtb.map$Compound == 'HILIC_NEG_3-4-dihydroxyphenylglycol','KEGG'] <- 'C05576'                      
 mtb.map[mtb.map$Compound == 'HILIC_NEG_3-hydroxykynurenate','HMDB'] <- 'HMDB0000732'
 mtb.map[mtb.map$Compound == 'HILIC_NEG_3-hydroxykynurenate','KEGG'] <- 'C02794'                           
 mtb.map[mtb.map$Compound == 'REV_NEG_acetytyrosine','HMDB'] <- 'HMDB0000866'
-mtb.map[mtb.map$Compound == 'REV_NEG_acetytyrosine','KEGG'] <- 'C01657'
-mtb.map[mtb.map$Compound == 'HILIC_NEG_ascorbate','HMDB'] <- 'HMDB0000044'                                  
-mtb.map[mtb.map$Compound == 'HILIC_POS_alanyalanine','HMDB'] <- 'HMDB0028680' 
-mtb.map[mtb.map$Compound == 'HILIC_NEG_malonate','HMDB'] <- 'HMDB0000691'                                        
+mtb.map[mtb.map$Compound == 'REV_NEG_acetytyrosine','KEGG'] <- 'C01657'                                 
+mtb.map[mtb.map$Compound == 'HILIC_POS_alanyalanine','HMDB'] <- 'HMDB0028680'                                        
 mtb.map[mtb.map$Compound == 'HILIC_POS_N-a-acetyarginine','HMDB'] <- 'HMDB0004620'                           
 mtb.map[mtb.map$Compound == 'HILIC_POS_N-acetyphenylalanine','HMDB'] <- 'HMDB0000512'
 mtb.map[mtb.map$Compound == 'HILIC_POS_N-acetyphenylalanine','KEGG'] <- 'C03519'                          
@@ -158,6 +172,8 @@ mtb.map[(!is.na(mtb.map$HMDB)) & mtb.map$HMDB == 'HMDB0062263','HMDB'] <- 'HMDB0
 
 # Mark cases of duplicated HMDN/KEGG ID as lower confidence 
 # (These are mostly caused by overlap between MS methods)
+mtb.map$KEGG <- trimws(mtb.map$KEGG)
+mtb.map$HMDB <- trimws(mtb.map$HMDB)
 kegg.dups <- names(table(mtb.map$KEGG)[table(mtb.map$KEGG) > 1])
 hmdb.dups <- names(table(mtb.map$HMDB)[table(mtb.map$HMDB) > 1])
 mtb.map$High.Confidence.Annotation[mtb.map$KEGG %in% kegg.dups] <- FALSE
@@ -179,6 +195,6 @@ metadata <- metadata[metadata$Sample %in% sample.intersect,]
 # Save to files + R objects
 # --------------------------------
 
-save.to.files(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
-save.to.rdata(DATASET_NAME, "prelim_data", metadata, mtb, mtb.map, genera)
+save.to.files(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera)
+save.to.rdata(DATASET_NAME, "prelim_data", metadata = metadata, mtb = mtb, mtb.map = mtb.map, genera = genera, override.all = T)
 rm(list = ls())
