@@ -2,6 +2,8 @@
 # Zip data files that are to large for GitHub
 # -----------------------------------------------------------------
 
+library(zip)
+
 all.data.files <- list.files("../data/processed_data", recursive = T, full.names = T)
 file.sizes <- file.size(all.data.files)/1000
 
@@ -11,6 +13,5 @@ message(paste("Zipping",length(files.to.zip),"files"))
 
 # Zip
 for (f in files.to.zip) {
-  zip(zipfile = paste0(f, ".zip"), 
-      files = f)
+  zip::zip(zipfile = paste0(basename(f), "TEST.zip"), files = basename(f), root = dirname(f))
 }
